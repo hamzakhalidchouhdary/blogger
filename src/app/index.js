@@ -8,4 +8,4 @@ app.listen(PORT, () => {
   console.log(`APP STARTED AT ${PORT}`);
 });
 
-module.export = app;
+module.exports = app;
