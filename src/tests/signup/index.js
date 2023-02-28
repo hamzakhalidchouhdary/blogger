@@ -6,10 +6,10 @@ chai.use(chaiHttp);
 chai.should();
 const request = chai.request;
 
-describe('Root', function() {
-  it('should access root', async function() {
+describe('Signup', function() {
+  it('should create new user', async function() {
     const resp = await request(app)
-      .get('/')
+      .post('/api/v1/signup')
       .send({});
     resp.status.should.equal(200);
   });
