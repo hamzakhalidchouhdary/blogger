@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha ./src/tests/*/**.js --exit"
+    "test": "mocha ./src/tests/*/**.js --exit",
+    "start": "node ./src/app/index.js"
   },
   "author": "hamza khalid chouhdary",
   "license": "ISC",
