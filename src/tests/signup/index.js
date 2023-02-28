@@ -13,4 +13,10 @@ describe('Signup', function() {
       .send({});
     resp.status.should.equal(200);
   });
+  it('should access signup:get route', async function() {
+    const resp = await request(app)
+      .get('/api/v1/signup')
+      .send({});
+    resp.status.should.equal(405);
+  });
 });
