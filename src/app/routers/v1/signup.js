@@ -5,7 +5,7 @@ router.post('/', (req, res) => {
   return;
 })
 
-router.get('/', (req, res) => {
+router.use('/', (req, res) => {
   res.status(405).end();
   return;
 });
