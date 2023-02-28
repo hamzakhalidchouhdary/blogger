@@ -19,4 +19,16 @@ describe('Signup', function() {
       .send({});
     resp.status.should.equal(405);
   });
+  it('should access signup:put route', async function() {
+    const resp = await request(app)
+      .put('/api/v1/signup')
+      .send({});
+    resp.status.should.equal(405);
+  });
+  it('should access signup:delete route', async function() {
+    const resp = await request(app)
+      .delete('/api/v1/signup')
+      .send({});
+    resp.status.should.equal(405);
+  });
 });
