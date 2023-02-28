@@ -1,6 +1,7 @@
 const app = require('../../app/index');
 const chai = require('chai');
 const chaiHttp = require('chai-http');
+const HTTP_STATUS = require('../../app/utils/constants/httpStatus');
 
 chai.use(chaiHttp);
 chai.should();
@@ -11,24 +12,24 @@ describe('Signup', function() {
     const resp = await request(app)
       .post('/api/v1/signup')
       .send({});
-    resp.status.should.equal(200);
+    resp.status.should.equal(HTTP_STATUS.OK);
   });
   it('should access signup:get route', async function() {
     const resp = await request(app)
       .get('/api/v1/signup')
       .send({});
-    resp.status.should.equal(405);
+    resp.status.should.equal(HTTP_STATUS.NOT_ALLOWED);
   });
   it('should access signup:put route', async function() {
     const resp = await request(app)
       .put('/api/v1/signup')
       .send({});
-    resp.status.should.equal(405);
+    resp.status.should.equal(HTTP_STATUS.NOT_ALLOWED);
   });
   it('should access signup:delete route', async function() {
     const resp = await request(app)
       .delete('/api/v1/signup')
       .send({});
-    resp.status.should.equal(405);
+    resp.status.should.equal(HTTP_STATUS.NOT_ALLOWED);
   });
 });
