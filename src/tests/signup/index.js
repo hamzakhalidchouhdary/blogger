@@ -12,7 +12,8 @@ describe('Signup', function() {
     const resp = await request(app)
       .post('/api/v1/signup')
       .send({});
-    resp.status.should.equal(HTTP_STATUS.OK);
+    resp.status.should.equal(HTTP_STATUS.CREATED);
+    resp.body.should.have.key('id');
   });
   it('should access signup:get route', async function() {
     const resp = await request(app)
