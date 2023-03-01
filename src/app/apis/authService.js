@@ -1,3 +1,4 @@
+const ServiceResponse = require("../utils/common/serviceResponse");
 const HTTP_STATUS = require("../utils/constants/httpStatus");
 
 const signupNewUser = function(req, res) {
@@ -5,7 +6,7 @@ const signupNewUser = function(req, res) {
     res.status(HTTP_STATUS.CREATED).json({id: ''});
     return;
   } catch (err) {
-    console.error(err);
+    ServiceResponse.error(res, {msg: ''})
   }
 };
 
