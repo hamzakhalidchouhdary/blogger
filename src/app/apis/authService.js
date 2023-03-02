@@ -10,6 +10,15 @@ const signupNewUser = function(req, res) {
   }
 };
 
+const loginUser = function(req, res) {
+  try{
+    res.status(HTTP_STATUS.OK).json({token: ''});
+  } catch (err) {
+    ServiceResponse.error(res, {msg: ''});
+  };
+};
+
 module.exports = {
-  signupNewUser
+  signupNewUser,
+  loginUser
 }
