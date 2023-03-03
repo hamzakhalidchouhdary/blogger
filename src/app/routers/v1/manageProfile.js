@@ -1,10 +1,10 @@
 const router = require('express').Router();
-const ManageProfileService = {};
+const ManageProfileService = require('../../apis/manageProfileService');
 
-router.post('/', (req, res) => res.status(201).end());
-router.put('/', (req, res) => res.status(200).end());
-router.delete('/', (req, res) => res.status(200).end());
-router.get('/', (req, res) => res.status(200).end());
+router.post('/', ManageProfileService.createProfile);
+router.put('/', ManageProfileService.updateProfile);
+router.delete('/', ManageProfileService.deleteProfile);
+router.get('/', ManageProfileService.getProfile);
 
 
 module.exports = router;
