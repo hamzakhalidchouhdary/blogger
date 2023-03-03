@@ -16,19 +16,19 @@ describe('Manage User', function() {
   });
   it('should allow to update user profile', async function() {
     const resp = await request(app)
-      .put('/api/v1/user/manage/new')
+      .put('/api/v1/user/manage/1')
       .send({});
     resp.status.should.equal(HTTP_STATUS.OK);
   });
   it('should allow to delete user profile', async function() {
     const resp = await request(app)
-      .delete('/api/v1/user/manage/new')
+      .delete('/api/v1/user/manage/1')
       .send({});
     resp.status.should.equal(HTTP_STATUS.OK);
   });
   it('should allow to get user profile', async function() {
     const resp = await request(app)
-      .get('/api/v1/user/manage/new')
+      .get('/api/v1/user/manage/1')
       .send({});
     resp.status.should.equal(HTTP_STATUS.OK);
   });
