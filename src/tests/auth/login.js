@@ -21,18 +21,21 @@ describe('auth', function() {
         .get('/api/v1/auth/login')
         .send({});
       resp.status.should.equal(HTTP_STATUS.NOT_ALLOWED);
+      resp.body.should.empty;
     });
     it('should access login:put route', async function() {
       const resp = await request(app)
         .put('/api/v1/auth/login')
         .send({});
       resp.status.should.equal(HTTP_STATUS.NOT_ALLOWED);
+      resp.body.should.empty;
     });
     it('should access login:delete route', async function() {
       const resp = await request(app)
         .delete('/api/v1/auth/login')
         .send({});
       resp.status.should.equal(HTTP_STATUS.NOT_ALLOWED);
+      resp.body.should.empty;
     });
   });
 });

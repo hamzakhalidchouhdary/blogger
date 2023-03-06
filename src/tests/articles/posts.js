@@ -13,29 +13,34 @@ describe('Article Posts', function() {
       .post('/api/v1/article')
       .send({});
     resp.status.should.equal(HTTP_STATUS.CREATED);
+    resp.body.should.empty;
   });
   it('should allow user to edit a post', async function() {
     const resp = await request(app)
       .put('/api/v1/article')
       .send({});
     resp.status.should.equal(HTTP_STATUS.OK);
+    resp.body.should.empty;
   });
   it('should allow user to delete a post', async function() {
     const resp = await request(app)
       .delete('/api/v1/article')
       .send({});
     resp.status.should.equal(HTTP_STATUS.OK);
+    resp.body.should.empty;
   });
   it('should allow user to fetch all post', async function() {
     const resp = await request(app)
       .get('/api/v1/article')
       .send({});
     resp.status.should.equal(HTTP_STATUS.OK);
+    resp.body.should.empty;
   });
   it('should allow user to fetch post by id', async function() {
     const resp = await request(app)
       .get('/api/v1/article/1')
       .send({});
     resp.status.should.equal(HTTP_STATUS.OK);
+    resp.body.should.empty;
   });
 });
