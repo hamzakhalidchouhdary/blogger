@@ -7,7 +7,7 @@ chai.use(chaiHttp);
 chai.should();
 const request = chai.request;
 
-describe.only('Article Posts', function() {
+describe('Article Posts', function() {
   it('should allow user to create new post', async function() {
     const resp = await request(app)
       .post('/api/v1/article')
