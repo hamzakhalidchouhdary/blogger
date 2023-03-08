@@ -5,7 +5,7 @@
 		"database": "database_development",
 		"host": "127.0.0.1",
 		"dialect": "sqlite",
-		"storage": "../db/database_dev.sqlite",
+		"storage": "./src/db/database_dev.sqlite",
 		"logging": false,
 		"seederStorage": "sequelize"
   },
