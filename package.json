@@ -5,7 +5,15 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha ./src/tests/*/**.js --exit",
-    "start": "node ./src/app/index.js"
+    "start": "node ./src/app/index.js",
+    "db:model:create": "npx sequelize model:generate --name --attributes name:STRING",
+		"db:migrate": "npx sequelize db:migrate",
+		"db:migrate:create": "npx sequelize-cli migration:generate --name",
+		"db:rollback": "npx sequelize db:migrate:undo",
+		"db:rollback:all": "npx sequelize db:migrate:undo:all",
+		"db:clean": "npx sequelize db:drop",
+		"db:seed": "npx sequelize db:seed:all",
+		"db:seed:create": "npx sequelize seed:generate --name"
   },
   "author": "hamza khalid chouhdary",
   "license": "ISC",
