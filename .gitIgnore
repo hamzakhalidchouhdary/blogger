@@ -1,3 +1,4 @@
 node_modules
 .env
 todos.todo
+src/db/database_dev.sqlite
