@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "pretest": "NODE_ENV='test' npm run db:migrate",
-    "test": "mocha ./src/tests/*/**.js --exit",
-    "posttest": "rm ./src/db/database_test.sqlite",
+    "pretest": "NODE_ENV=test npm run db:migrate",
+    "test": "NODE_ENV=test mocha ./src/tests/*/**.js --exit",
+    "posttest": "NODE_ENV=development rm ./src/db/database_test.sqlite",
     "start": "node ./src/app/index.js",
     "db:model:create": "npx sequelize model:generate --name --attributes name:STRING",
 		"db:migrate": "npx sequelize db:migrate",
