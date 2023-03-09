@@ -7,6 +7,22 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       
     }
+    static new(userDetails) {
+      return this.create(
+        userDetails, 
+        { fields: ['firstName', 'lastName', 'hashedPassword', 'username'] }
+      );
+    }
+    static findLatest(limit = 1, where = {}) {
+      return this.findOne({
+        limit,
+        where,
+        order: [ [ 'createdAt', 'DESC' ]]
+      });
+    }
+    instanceMethod() {
+      console.log('This Is Instance Method');
+    }
   }
   User.init({
     firstName: {
