@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING
   }, {
     hooks: {},
-    indexes: {},
+    indexes: [],
     sequelize,
     modelName: 'User',
   });
