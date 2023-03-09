@@ -1,9 +1,12 @@
+const UserModel = require("../models").User;
 const ServiceResponse = require("../utils/common/serviceResponse");
 const HTTP_STATUS = require("../utils/constants/httpStatus");
 
-const signupNewUser = function(req, res) {
+const signupNewUser = async function(req, res) {
   try {
-    res.status(HTTP_STATUS.CREATED).json({id: ''});
+    const { body: userDetails } = req;
+    const newUser = await UserModel.create(userDetails, {fields: ['name']});
+    res.status(HTTP_STATUS.CREATED).json({id: newUser.id});
     return;
   } catch (err) {
     ServiceResponse.error(res, {msg: ''})
