@@ -28,25 +28,34 @@ describe('auth', function() {
       latestUser.name.should.equal(payload.name);
     });
     it('should access signup:get route', async function() {
+      const userCountBefore = await UserModel.count();
       const resp = await request(app)
         .get('/api/v1/auth/signup')
         .send({});
+      const userCountAfter = await UserModel.count();
       resp.status.should.equal(HTTP_STATUS.NOT_ALLOWED);
       resp.body.should.empty;
+      userCountBefore.should.equal(userCountAfter);
     });
     it('should access signup:put route', async function() {
+      const userCountBefore = await UserModel.count();
       const resp = await request(app)
         .put('/api/v1/auth/signup')
         .send({});
+      const userCountAfter = await UserModel.count();
       resp.status.should.equal(HTTP_STATUS.NOT_ALLOWED);
       resp.body.should.empty;
+      userCountBefore.should.equal(userCountAfter);
     });
     it('should access signup:delete route', async function() {
+      const userCountBefore = await UserModel.count();
       const resp = await request(app)
         .delete('/api/v1/auth/signup')
         .send({});
+      const userCountAfter = await UserModel.count();
       resp.status.should.equal(HTTP_STATUS.NOT_ALLOWED);
       resp.body.should.empty;
+      userCountBefore.should.equal(userCountAfter);
     });
   });
 });
