@@ -12,20 +12,21 @@ describe('auth', function() {
   describe('Signup', function() {
     it('should create new user', async function() {
       const payload = {
-        name: 'test user'
+        firstName: 'test',
+        lastName: 'user',
+        username: 'abc12',
+        hashedPassword: '1234'
       };
       const resp = await request(app)
         .post('/api/v1/auth/signup')
         .send(payload);
       resp.status.should.equal(HTTP_STATUS.CREATED);
       resp.body.should.have.key('id');
-      const latestUser = await UserModel.findOne({
-        limit: 1,
-        where: {},
-        order: [ [ 'createdAt', 'DESC' ]]
-      });
+      const latestUser = await UserModel.findLatest();
       resp.body.id.should.equal(latestUser.id);
-      latestUser.name.should.equal(payload.name);
+      latestUser.firstName.should.equal(payload.firstName);
+      latestUser.lastName.should.equal(payload.lastName);
+      latestUser.username.should.equal(payload.username);
     });
     it('should access signup:get route', async function() {
       const userCountBefore = await UserModel.count();
