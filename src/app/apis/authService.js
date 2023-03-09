@@ -5,7 +5,7 @@ const HTTP_STATUS = require("../utils/constants/httpStatus");
 const signupNewUser = async function(req, res) {
   try {
     const { body: userDetails } = req;
-    const newUser = await UserModel.create(userDetails, {fields: ['name']});
+    const newUser = await UserModel.new(userDetails);
     res.status(HTTP_STATUS.CREATED).json({id: newUser.id});
     return;
   } catch (err) {
