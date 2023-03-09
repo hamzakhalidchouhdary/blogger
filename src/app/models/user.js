@@ -7,9 +7,12 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       
     }
-  }User.init({
+  }
+  User.init({
     name: DataTypes.STRING
   }, {
+    hooks: {},
+    indexes: {},
     sequelize,
     modelName: 'User',
   });
