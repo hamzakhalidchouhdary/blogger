@@ -15,7 +15,7 @@
 		"database": "database_test",
 		"host": "127.0.0.1",
 		"dialect": "sqlite",
-		"storage": "../db/database_test.sqlite",
+		"storage": "./src/db/database_dev.sqlite",
 		"logging": false
   },
   "production": {
