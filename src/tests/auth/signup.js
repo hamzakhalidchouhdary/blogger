@@ -135,6 +135,50 @@ describe('auth', function() {
         const userCountAfter = await UserModel.count();
         userCountBefore.should.equal(userCountAfter);
       });
+      it('should not create user if username is empty', async function() {
+        const userCountBefore = await UserModel.count();
+        this.payload.username = '';
+        const resp = await request(app)
+          .post('/api/v1/auth/signup')
+          .send(this.payload);
+        resp.status.should.equal(HTTP_STATUS.INTERNAL_ERROR);
+        const userCountAfter = await UserModel.count();
+        userCountBefore.should.equal(userCountAfter);
+      });
+      it('should not create user if username is null', async function() {
+        const userCountBefore = await UserModel.count();
+        this.payload.username = null;
+        const resp = await request(app)
+          .post('/api/v1/auth/signup')
+          .send(this.payload);
+        resp.status.should.equal(HTTP_STATUS.INTERNAL_ERROR);
+        const userCountAfter = await UserModel.count();
+        userCountBefore.should.equal(userCountAfter);
+      });
+      it('should not create user if username is undefined', async function() {
+        const userCountBefore = await UserModel.count();
+        delete this.payload.username;
+        const resp = await request(app)
+          .post('/api/v1/auth/signup')
+          .send(this.payload);
+        resp.status.should.equal(HTTP_STATUS.INTERNAL_ERROR);
+        const userCountAfter = await UserModel.count();
+        userCountBefore.should.equal(userCountAfter);
+      });
+      it('should not create user if username is duplicate', async function() {
+        this.payload.username = 'abc';
+        const resp1 = await request(app)
+          .post('/api/v1/auth/signup')
+          .send(this.payload);
+        resp1.status.should.equal(HTTP_STATUS.CREATED);
+        const userCountBefore = await UserModel.count();
+        const resp2 = await request(app)
+          .post('/api/v1/auth/signup')
+          .send(this.payload);
+        resp2.status.should.equal(HTTP_STATUS.INTERNAL_ERROR);
+        const userCountAfter = await UserModel.count();
+        userCountBefore.should.equal(userCountAfter);
+      });
     });
     it('should not allow to access signup:get route', async function() {
       const userCountBefore = await UserModel.count();
