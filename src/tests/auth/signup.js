@@ -10,7 +10,7 @@ chai.should();
 const request = chai.request;
 
 describe('auth', function() {
-  describe.only('Signup', function() {
+  describe('Signup', function() {
     it('should create new admin user', async function() {
       
       const payload = {
