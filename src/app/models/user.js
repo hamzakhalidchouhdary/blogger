@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     static new(userDetails) {
       return this.create(
         userDetails, 
-        { fields: ['firstName', 'lastName', 'hashedPassword', 'username'] }
+        { fields: ['firstName', 'lastName', 'hashedPassword', 'username', 'role'] }
       );
     }
     static findLatest(limit = 1, where = {}) {
@@ -60,6 +60,20 @@ module.exports = (sequelize, DataTypes) => {
           this.setDataValue('hashedPassword', value);
         },
         validate: {}
+    },
+    role: {
+      type: DataTypes.ENUM,
+      allowNull: false,
+      values:['admin', 'manager', 'reader'],
+        // set(value) {
+        //   this.setDataValue('role', value.toL);
+        // },
+        validate: {
+          isIn: {
+            msg: 'role must be one of the `Admin` | `Manager` | `Reader`',
+            args: [['admin', 'manager', 'reader']]
+          }
+        }
     }
   }, {
     hooks: {},
