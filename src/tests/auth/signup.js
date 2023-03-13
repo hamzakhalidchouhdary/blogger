@@ -63,6 +63,20 @@ describe('auth', function() {
         latestUser.username.should.equal(this.payload.username);
         latestUser.role.should.equal(this.payload.role);
       });
+      it('should create user with manager role by default', async function() {
+        delete this.payload.role;
+        const resp = await request(app)
+          .post('/api/v1/auth/signup')
+          .send(this.payload);
+        resp.status.should.equal(HTTP_STATUS.CREATED);
+        resp.body.should.have.key('id');
+        const latestUser = await UserModel.findLatest();
+        resp.body.id.should.equal(latestUser.id);
+        latestUser.firstName.should.equal(this.payload.firstName);
+        latestUser.lastName.should.equal(this.payload.lastName);
+        latestUser.username.should.equal(this.payload.username);
+        latestUser.role.should.equal('manager');
+      });
     });
     it('should not allow to access signup:get route', async function() {
       const userCountBefore = await UserModel.count();
