@@ -64,7 +64,7 @@ describe('auth', function() {
         latestUser.role.should.equal(this.payload.role);
       });
     });
-    it('should access signup:get route', async function() {
+    it('should not allow to access signup:get route', async function() {
       const userCountBefore = await UserModel.count();
       const resp = await request(app)
         .get('/api/v1/auth/signup')
@@ -74,7 +74,7 @@ describe('auth', function() {
       resp.body.should.empty;
       userCountBefore.should.equal(userCountAfter);
     });
-    it('should access signup:put route', async function() {
+    it('should not allow to access signup:put route', async function() {
       const userCountBefore = await UserModel.count();
       const resp = await request(app)
         .put('/api/v1/auth/signup')
@@ -84,7 +84,7 @@ describe('auth', function() {
       resp.body.should.empty;
       userCountBefore.should.equal(userCountAfter);
     });
-    it('should access signup:delete route', async function() {
+    it('should not allow to access signup:delete route', async function() {
       const userCountBefore = await UserModel.count();
       const resp = await request(app)
         .delete('/api/v1/auth/signup')
