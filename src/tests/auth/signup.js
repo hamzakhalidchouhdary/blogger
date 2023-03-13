@@ -17,8 +17,7 @@ describe('auth', function() {
           firstName: faker.name.firstName(),
           lastName: faker.name.lastName(),
           username: faker.internet.userName(),
-          hashedPassword: faker.internet.password(),
-          role: ''
+          hashedPassword: faker.internet.password()
         };
       });
       it('should create user with admin role', async function() {
@@ -64,7 +63,6 @@ describe('auth', function() {
         latestUser.role.should.equal(this.payload.role);
       });
       it('should create user with manager role by default', async function() {
-        delete this.payload.role;
         const resp = await request(app)
           .post('/api/v1/auth/signup')
           .send(this.payload);
