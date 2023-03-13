@@ -105,6 +105,36 @@ describe('auth', function() {
         const userCountAfter = await UserModel.count();
         userCountBefore.should.equal(userCountAfter);
       });
+      it('should not create user if last name is empty', async function() {
+        const userCountBefore = await UserModel.count();
+        this.payload.lastName = '';
+        const resp = await request(app)
+          .post('/api/v1/auth/signup')
+          .send(this.payload);
+        resp.status.should.equal(HTTP_STATUS.INTERNAL_ERROR);
+        const userCountAfter = await UserModel.count();
+        userCountBefore.should.equal(userCountAfter);
+      });
+      it('should not create user if last name is null', async function() {
+        const userCountBefore = await UserModel.count();
+        this.payload.lastName = null;
+        const resp = await request(app)
+          .post('/api/v1/auth/signup')
+          .send(this.payload);
+        resp.status.should.equal(HTTP_STATUS.INTERNAL_ERROR);
+        const userCountAfter = await UserModel.count();
+        userCountBefore.should.equal(userCountAfter);
+      });
+      it('should not create user if last name is undefined', async function() {
+        const userCountBefore = await UserModel.count();
+        delete this.payload.lastName;
+        const resp = await request(app)
+          .post('/api/v1/auth/signup')
+          .send(this.payload);
+        resp.status.should.equal(HTTP_STATUS.INTERNAL_ERROR);
+        const userCountAfter = await UserModel.count();
+        userCountBefore.should.equal(userCountAfter);
+      });
     });
     it('should not allow to access signup:get route', async function() {
       const userCountBefore = await UserModel.count();
