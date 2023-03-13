@@ -75,6 +75,36 @@ describe('auth', function() {
         latestUser.username.should.equal(this.payload.username);
         latestUser.role.should.equal('manager');
       });
+      it('should not create user if first is empty', async function() {
+        const userCountBefore = await UserModel.count();
+        this.payload.firstName = '';
+        const resp = await request(app)
+          .post('/api/v1/auth/signup')
+          .send(this.payload);
+        resp.status.should.equal(HTTP_STATUS.INTERNAL_ERROR);
+        const userCountAfter = await UserModel.count();
+        userCountBefore.should.equal(userCountAfter);
+      });
+      it('should not create user if first is null', async function() {
+        const userCountBefore = await UserModel.count();
+        this.payload.firstName = null;
+        const resp = await request(app)
+          .post('/api/v1/auth/signup')
+          .send(this.payload);
+        resp.status.should.equal(HTTP_STATUS.INTERNAL_ERROR);
+        const userCountAfter = await UserModel.count();
+        userCountBefore.should.equal(userCountAfter);
+      });
+      it('should not create user if first is undefined', async function() {
+        const userCountBefore = await UserModel.count();
+        delete this.payload.firstName;
+        const resp = await request(app)
+          .post('/api/v1/auth/signup')
+          .send(this.payload);
+        resp.status.should.equal(HTTP_STATUS.INTERNAL_ERROR);
+        const userCountAfter = await UserModel.count();
+        userCountBefore.should.equal(userCountAfter);
+      });
     });
     it('should not allow to access signup:get route', async function() {
       const userCountBefore = await UserModel.count();
