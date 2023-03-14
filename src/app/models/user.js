@@ -59,7 +59,12 @@ module.exports = (sequelize, DataTypes) => {
         set(value) {
           this.setDataValue('hashedPassword', value);
         },
-        validate: {}
+        validate: {
+          notEmpty: { 
+            msg: 'Must be hashed value',
+          },
+          notNull: { msg: 'username can not be null'}
+        }
     },
     role: {
       type: DataTypes.ENUM,
