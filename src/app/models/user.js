@@ -2,6 +2,7 @@
 const {
   Model
 } = require('sequelize');
+const bcrypt = require('bcrypt');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
@@ -56,9 +57,6 @@ module.exports = (sequelize, DataTypes) => {
     hashedPassword: {
       type: DataTypes.STRING,
       allowNull: false,
-        set(value) {
-          this.setDataValue('hashedPassword', value);
-        },
         validate: {
           notEmpty: { 
             msg: 'Must be hashed value',
@@ -82,7 +80,17 @@ module.exports = (sequelize, DataTypes) => {
         }
     }
   }, {
-    hooks: {},
+    hooks: {
+      beforeCreate: async function(user) {
+        try {
+          const salt = await bcrypt.genSalt(10);
+          const hash = await bcrypt.hash(user.getDataValue('hashedPassword'), 10);
+          user.setDataValue('hashedPassword', hash);
+        } catch (err) {
+          console.error(err);
+        }
+      } 
+    },
     indexes: [],
     sequelize,
     modelName: 'User',
