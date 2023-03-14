@@ -166,7 +166,7 @@ describe('auth', function() {
         const userCountAfter = await UserModel.count();
         userCountBefore.should.equal(userCountAfter);
       });
-      it.only('should not create user if username is invalid', async function() {
+      it('should not create user if username is invalid', async function() {
         const userCountBefore = await UserModel.count();
         this.payload.username = 'abs@70e';
         const resp = await request(app)

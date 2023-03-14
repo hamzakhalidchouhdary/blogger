@@ -59,9 +59,9 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
         validate: {
           notEmpty: { 
-            msg: 'Must be hashed value',
+            msg: 'hashed password can not be empty',
           },
-          notNull: { msg: 'username can not be null'}
+          notNull: { msg: 'hashed password can not be null'}
         }
     },
     role: {
