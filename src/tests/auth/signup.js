@@ -165,6 +165,16 @@ describe('auth', function() {
         const userCountAfter = await UserModel.count();
         userCountBefore.should.equal(userCountAfter);
       });
+      it.only('should not create user if username is invalid', async function() {
+        const userCountBefore = await UserModel.count();
+        this.payload.username = 'abs@70e';
+        const resp = await request(app)
+          .post('/api/v1/auth/signup')
+          .send(this.payload);
+        resp.status.should.equal(HTTP_STATUS.INTERNAL_ERROR);
+        const userCountAfter = await UserModel.count();
+        userCountBefore.should.equal(userCountAfter);
+      });
       it('should not create user if username is duplicate', async function() {
         this.payload.username = 'abc';
         const resp1 = await request(app)
