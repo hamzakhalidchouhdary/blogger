@@ -4,6 +4,7 @@ const chaiHttp = require('chai-http');
 const HTTP_STATUS = require('../../app/utils/constants/httpStatus');
 const UserModel = require('../../app/models').User;
 const { faker } = require('@faker-js/faker');
+const bcrypt = require('bcrypt');
 
 chai.use(chaiHttp);
 chai.should();
@@ -218,6 +219,18 @@ describe('auth', function() {
         resp.status.should.equal(HTTP_STATUS.INTERNAL_ERROR);
         const userCountAfter = await UserModel.count();
         userCountBefore.should.equal(userCountAfter);
+      });
+      it('should save encrypted password', async function() {
+        const resp = await request(app)
+          .post('/api/v1/auth/signup')
+          .send(this.payload);
+        resp.status.should.equal(HTTP_STATUS.CREATED);
+        resp.body.should.have.key('id');
+        const latestUser = await UserModel.findLatest();
+        resp.body.id.should.equal(latestUser.id);
+        latestUser.hashedPassword.should.not.equal(this.payload.hashedPassword);
+        const passwordComparison = await bcrypt.compare(this.payload.hashedPassword, latestUser.hashedPassword);
+        passwordComparison.should.true;
       });
     });
     it('should not allow to access signup:get route', async function() {
