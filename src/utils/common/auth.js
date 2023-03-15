@@ -19,7 +19,8 @@ const compareHashedPassword = async function(plainPassword, hashedPassword) {
 
 const generateJWT = async function(payload) {
   try {
-    return jwt.sign(payload, '12345');
+    const secret = process.env.JWT_SECRET;
+    return jwt.sign(payload, secret);
   } catch (err) {
     throw err;
   }
@@ -27,7 +28,8 @@ const generateJWT = async function(payload) {
 
 const verifyJWT = async function(token) {
   try {
-    return jwt.verify(token, '12345', function(err, payload) {
+    const secret = process.env.JWT_SECRET;
+    return jwt.verify(token, secret, function(err, payload) {
       if (err) throw err;
       return payload;
     });
