@@ -1,4 +1,5 @@
 const UserModel = require("../models").User;
+const { generateJWT } = require("../../utils/common/auth");
 const ServiceResponse = require("../../utils/common/serviceResponse");
 const HTTP_STATUS = require("../../utils/constants/httpStatus");
 
@@ -6,7 +7,8 @@ const signupNewUser = async function(req, res) {
   try {
     const { body: userDetails } = req;
     const newUser = await UserModel.new(userDetails);
-    res.status(HTTP_STATUS.CREATED).json({id: newUser.id});
+    const jwToken = await generateJWT({userId: newUser.id});
+    res.status(HTTP_STATUS.CREATED).json({token: jwToken});
     return;
   } catch (err) {
     ServiceResponse.error(res, {msg: ''})
