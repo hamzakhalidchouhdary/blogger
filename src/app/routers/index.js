@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const HTTP_STATUS = require('../utils/constants/httpStatus');
+const HTTP_STATUS = require('../../utils/constants/httpStatus');
 const version1 = require('./v1/index');
 
 router.use('/api/v1', version1);

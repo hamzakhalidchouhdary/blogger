@@ -1,5 +1,5 @@
-const ServiceResponse = require("../utils/common/serviceResponse");
-const HTTP_STATUS = require("../utils/constants/httpStatus");
+const ServiceResponse = require("../../utils/common/serviceResponse");
+const HTTP_STATUS = require("../../utils/constants/httpStatus");
 
 const createUserProfile = function(req, res) {
   try{

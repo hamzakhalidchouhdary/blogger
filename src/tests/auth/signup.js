@@ -1,7 +1,7 @@
 const app = require('../../app/index');
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const HTTP_STATUS = require('../../app/utils/constants/httpStatus');
+const HTTP_STATUS = require('../../utils/constants/httpStatus');
 const UserModel = require('../../app/models').User;
 const { faker } = require('@faker-js/faker');
 const bcrypt = require('bcrypt');
