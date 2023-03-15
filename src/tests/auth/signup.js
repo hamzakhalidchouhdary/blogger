@@ -5,6 +5,7 @@ const HTTP_STATUS = require('../../utils/constants/httpStatus');
 const UserModel = require('../../app/models').User;
 const { faker } = require('@faker-js/faker');
 const bcrypt = require('bcrypt');
+const { compareHashedPassword } = require('../../utils/common/auth');
 
 chai.use(chaiHttp);
 chai.should();
@@ -229,7 +230,7 @@ describe('auth', function() {
         const latestUser = await UserModel.findLatest();
         resp.body.id.should.equal(latestUser.id);
         latestUser.hashedPassword.should.not.equal(this.payload.hashedPassword);
-        const passwordComparison = await bcrypt.compare(this.payload.hashedPassword, latestUser.hashedPassword);
+        const passwordComparison = await compareHashedPassword(this.payload.hashedPassword, latestUser.hashedPassword);
         passwordComparison.should.true;
       });
     });

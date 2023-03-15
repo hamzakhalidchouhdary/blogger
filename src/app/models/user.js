@@ -3,6 +3,7 @@ const {
   Model
 } = require('sequelize');
 const bcrypt = require('bcrypt');
+const { generateHashedPassword } = require('../../utils/common/auth');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
@@ -82,13 +83,9 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     hooks: {
       beforeCreate: async function(user) {
-        try {
-          const salt = await bcrypt.genSalt(10);
-          const hash = await bcrypt.hash(user.getDataValue('hashedPassword'), 10);
-          user.setDataValue('hashedPassword', hash);
-        } catch (err) {
-          console.error(err);
-        }
+        const plainPassword = user.getDataValue('hashedPassword')
+        const hashedPassword = await generateHashedPassword(plainPassword);
+        user.setDataValue('hashedPassword', hashedPassword)
       } 
     },
     indexes: [],
