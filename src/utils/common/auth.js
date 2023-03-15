@@ -10,7 +10,11 @@ const generateHashedPassword = async function(plainString) {
 }
 
 const compareHashedPassword = async function(plainPassword, hashedPassword) {
-  return bcrypt.compare(plainPassword, hashedPassword);
+  try{
+    return bcrypt.compare(plainPassword, hashedPassword);
+  } catch (err) {
+    throw err;
+  }
 }
 
 const generateJWT = async function(payload) {
