@@ -4,7 +4,7 @@ const generateHashedPassword = async function(plainString) {
   try {
     return bcrypt.hash(plainString, await bcrypt.genSalt(10));
   } catch (err) {
-    console.error(err);
+    throw err;
   }
 }
 
