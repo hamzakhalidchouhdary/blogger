@@ -5,7 +5,7 @@ const HTTP_STATUS = require('../../utils/constants/httpStatus');
 const UserModel = require('../../app/models').User;
 const { faker } = require('@faker-js/faker');
 const bcrypt = require('bcrypt');
-const { compareHashedPassword } = require('../../utils/common/auth');
+const { compareHashedPassword, verifyJWT } = require('../../utils/common/auth');
 
 chai.use(chaiHttp);
 chai.should();
@@ -28,9 +28,10 @@ describe('auth', function() {
           .post('/api/v1/auth/signup')
           .send(this.payload);
         resp.status.should.equal(HTTP_STATUS.CREATED);
-        resp.body.should.have.key('id');
+        resp.body.should.have.key('token');
+        const decodedToken = await verifyJWT(resp.body.token);
         const latestUser = await UserModel.findLatest();
-        resp.body.id.should.equal(latestUser.id);
+        decodedToken.userId.should.equal(latestUser.id);
         latestUser.firstName.should.equal(this.payload.firstName);
         latestUser.lastName.should.equal(this.payload.lastName);
         latestUser.username.should.equal(this.payload.username);
@@ -42,9 +43,10 @@ describe('auth', function() {
           .post('/api/v1/auth/signup')
           .send(this.payload);
         resp.status.should.equal(HTTP_STATUS.CREATED);
-        resp.body.should.have.key('id');
+        resp.body.should.have.key('token');
+        const decodedToken = await verifyJWT(resp.body.token);
         const latestUser = await UserModel.findLatest();
-        resp.body.id.should.equal(latestUser.id);
+        decodedToken.userId.should.equal(latestUser.id);
         latestUser.firstName.should.equal(this.payload.firstName);
         latestUser.lastName.should.equal(this.payload.lastName);
         latestUser.username.should.equal(this.payload.username);
@@ -56,9 +58,10 @@ describe('auth', function() {
           .post('/api/v1/auth/signup')
           .send(this.payload);
         resp.status.should.equal(HTTP_STATUS.CREATED);
-        resp.body.should.have.key('id');
+        resp.body.should.have.key('token');
+        const decodedToken = await verifyJWT(resp.body.token);
         const latestUser = await UserModel.findLatest();
-        resp.body.id.should.equal(latestUser.id);
+        decodedToken.userId.should.equal(latestUser.id);
         latestUser.firstName.should.equal(this.payload.firstName);
         latestUser.lastName.should.equal(this.payload.lastName);
         latestUser.username.should.equal(this.payload.username);
@@ -69,9 +72,10 @@ describe('auth', function() {
           .post('/api/v1/auth/signup')
           .send(this.payload);
         resp.status.should.equal(HTTP_STATUS.CREATED);
-        resp.body.should.have.key('id');
+        resp.body.should.have.key('token');
+        const decodedToken = await verifyJWT(resp.body.token);
         const latestUser = await UserModel.findLatest();
-        resp.body.id.should.equal(latestUser.id);
+        decodedToken.userId.should.equal(latestUser.id);
         latestUser.firstName.should.equal(this.payload.firstName);
         latestUser.lastName.should.equal(this.payload.lastName);
         latestUser.username.should.equal(this.payload.username);
@@ -226,9 +230,7 @@ describe('auth', function() {
           .post('/api/v1/auth/signup')
           .send(this.payload);
         resp.status.should.equal(HTTP_STATUS.CREATED);
-        resp.body.should.have.key('id');
         const latestUser = await UserModel.findLatest();
-        resp.body.id.should.equal(latestUser.id);
         latestUser.hashedPassword.should.not.equal(this.payload.hashedPassword);
         const passwordComparison = await compareHashedPassword(this.payload.hashedPassword, latestUser.hashedPassword);
         passwordComparison.should.true;
