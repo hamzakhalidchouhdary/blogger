@@ -22,6 +22,11 @@ module.exports = (sequelize, DataTypes) => {
         order: [ [ 'createdAt', 'DESC' ]]
       });
     }
+    static findByUsername(username) {
+      return this.findOne({
+        where: {username}
+      });
+    }
     instanceMethod() {
       console.log('This Is Instance Method');
     }
