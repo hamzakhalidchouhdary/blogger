@@ -1,5 +1,5 @@
 const UserModel = require("../models").User;
-const { generateJWT } = require("../../utils/common/auth");
+const { generateJWT, compareHashedPassword } = require("../../utils/common/auth");
 const ServiceResponse = require("../../utils/common/serviceResponse");
 const HTTP_STATUS = require("../../utils/constants/httpStatus");
 
@@ -15,9 +15,14 @@ const signupNewUser = async function(req, res) {
   }
 };
 
-const loginUser = function(req, res) {
+const loginUser = async function(req, res) {
   try{
-    res.status(HTTP_STATUS.OK).json({token: ''});
+    const {username, password} = req.body;
+    const user = await UserModel.findByUsername(username);
+    if (!user || !await compareHashedPassword(password, user.hashedPassword)) 
+      throw ({msg: 'username or password incorrect'});
+    const token = await generateJWT({userId: user.id});
+    res.status(HTTP_STATUS.OK).json({token});
   } catch (err) {
     ServiceResponse.error(res, {msg: ''});
   };
