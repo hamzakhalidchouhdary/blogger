@@ -56,6 +56,16 @@ describe('auth', function() {
       resp.status.should.equal(HTTP_STATUS.INTERNAL_ERROR);
       resp.body.should.empty;
     });
+    it('should not login if password is null', async function() {
+      const resp = await request(app)
+        .post('/api/v1/auth/login')
+        .send({
+          username: 'randomUser',
+          password: null
+        });
+      resp.status.should.equal(HTTP_STATUS.INTERNAL_ERROR);
+      resp.body.should.empty;
+    });
     it('should access login:get route', async function() {
       const resp = await request(app)
         .get('/api/v1/auth/login')
