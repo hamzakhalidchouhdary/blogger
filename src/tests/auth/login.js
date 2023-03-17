@@ -50,7 +50,7 @@ describe('auth', function() {
       const resp = await request(app)
         .post('/api/v1/auth/login')
         .send({
-          username: 'randomUser',
+          username: this.user.username,
           password: ''
         });
       resp.status.should.equal(HTTP_STATUS.INTERNAL_ERROR);
@@ -60,7 +60,7 @@ describe('auth', function() {
       const resp = await request(app)
         .post('/api/v1/auth/login')
         .send({
-          username: 'randomUser',
+          username: this.user.username,
           password: null
         });
       resp.status.should.equal(HTTP_STATUS.INTERNAL_ERROR);
