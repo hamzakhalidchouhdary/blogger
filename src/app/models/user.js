@@ -27,6 +27,11 @@ module.exports = (sequelize, DataTypes) => {
         where: {username}
       });
     }
+    static findById(id) {
+      return this.findOne({
+        where: {id}
+      });
+    }
     instanceMethod() {
       console.log('This Is Instance Method');
     }
