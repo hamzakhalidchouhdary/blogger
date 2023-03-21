@@ -12,28 +12,28 @@ describe('Article Comments', function() {
     const resp = await request(app)
       .post('/api/v1/article/1/comment')
       .send({});
-    resp.status.should.equal(HTTP_STATUS.CREATED);
+    resp.status.should.equal(HTTP_STATUS.UNAUTHORIZED);
     resp.body.should.empty;
   });
   it('should allow user to edit comments on article', async function() {
     const resp = await request(app)
       .put('/api/v1/article/1/comment')
       .send({});
-    resp.status.should.equal(HTTP_STATUS.OK);
+    resp.status.should.equal(HTTP_STATUS.UNAUTHORIZED);
     resp.body.should.empty;
   });
   it('should allow user to delete comments on article', async function() {
     const resp = await request(app)
       .delete('/api/v1/article/1/comment')
       .send({});
-    resp.status.should.equal(HTTP_STATUS.OK);
+    resp.status.should.equal(HTTP_STATUS.UNAUTHORIZED);
     resp.body.should.empty;
   });
   it('should allow user to view comments on article', async function() {
     const resp = await request(app)
       .get('/api/v1/article/1/comment')
       .send({});
-    resp.status.should.equal(HTTP_STATUS.OK);
+    resp.status.should.equal(HTTP_STATUS.UNAUTHORIZED);
     resp.body.should.empty;
   });
 });

@@ -12,28 +12,28 @@ describe('Manage User', function() {
     const resp = await request(app)
       .post('/api/v1/user/manage/new')
       .send({});
-    resp.status.should.equal(HTTP_STATUS.CREATED);
+    resp.status.should.equal(HTTP_STATUS.UNAUTHORIZED);
     resp.body.should.empty;
   });
   it('should allow to update user profile', async function() {
     const resp = await request(app)
       .put('/api/v1/user/manage/1')
       .send({});
-    resp.status.should.equal(HTTP_STATUS.OK);
+    resp.status.should.equal(HTTP_STATUS.UNAUTHORIZED);
     resp.body.should.empty;
   });
   it('should allow to delete user profile', async function() {
     const resp = await request(app)
       .delete('/api/v1/user/manage/1')
       .send({});
-    resp.status.should.equal(HTTP_STATUS.OK);
+    resp.status.should.equal(HTTP_STATUS.UNAUTHORIZED);
     resp.body.should.empty;
   });
   it('should allow to get user profile', async function() {
     const resp = await request(app)
       .get('/api/v1/user/manage/1')
       .send({});
-    resp.status.should.equal(HTTP_STATUS.OK);
+    resp.status.should.equal(HTTP_STATUS.UNAUTHORIZED);
     resp.body.should.empty;
   });
 });

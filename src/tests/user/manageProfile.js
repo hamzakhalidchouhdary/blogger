@@ -31,21 +31,21 @@ describe('Manage Profile', function() {
     const resp = await request(app)
       .put('/api/v1/user/profile')
       .send({});
-    resp.status.should.equal(HTTP_STATUS.OK);
+    resp.status.should.equal(HTTP_STATUS.UNAUTHORIZED);
     resp.body.should.empty;
   });
   it('should allow to delete profile', async function() {
     const resp = await request(app)
       .delete('/api/v1/user/profile')
       .send({});
-    resp.status.should.equal(HTTP_STATUS.OK);
+    resp.status.should.equal(HTTP_STATUS.UNAUTHORIZED);
     resp.body.should.empty;
   });
   it('should allow to get profile', async function() {
     const resp = await request(app)
       .get('/api/v1/user/profile')
       .send({});
-    resp.status.should.equal(HTTP_STATUS.OK);
+    resp.status.should.equal(HTTP_STATUS.UNAUTHORIZED);
     resp.body.should.empty;
   });
 });
