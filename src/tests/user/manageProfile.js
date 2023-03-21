@@ -3,6 +3,7 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const HTTP_STATUS = require('../../utils/constants/httpStatus');
 const UserFixture = require('../fixtures/user');
+const { generateJWT } = require('../../utils/common/auth');
 
 chai.use(chaiHttp);
 chai.should();
@@ -11,13 +12,7 @@ const request = chai.request;
 describe('Manage Profile', function() {
   beforeEach(async function() {
     this.user = await UserFixture.createUser({hashedPassword: '1234'});
-    const resp = await request(app)
-      .post('/api/v1/auth/login')
-      .send({
-        username: this.user.username,
-        password: '1234'
-      });
-    this.token = resp.body.token;
+    this.token = await generateJWT({userId: this.user.id})
   })
   it('should allow to create profile', async function() {
     const resp = await request(app)
