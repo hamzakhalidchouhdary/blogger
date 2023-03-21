@@ -8,7 +8,7 @@ const authorizeUser = async function(req, res, next) {
     const token = req.headers.authorization.split(' ')[1];
     if (!token) throw new Error('token not defined');
     const {userId} = await verifyJWT(token);
-    const user = await UserModule.getUser(userId);
+    req.user = await UserModule.getUser(userId);
     next();
   } catch(err) {
     res.status(HttpStatus.UNAUTHORIZED).end(err.message);
