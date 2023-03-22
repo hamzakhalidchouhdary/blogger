@@ -1,3 +1,5 @@
+const HTTP_STATUS = require("../../../utils/constants/httpStatus");
+
 function User (userDetails = {}) {
 
   Object.call(this, userDetails);
@@ -7,13 +9,13 @@ function User (userDetails = {}) {
   this.username = userDetails.username || '';
   this.role = userDetails.role || '';
   this.createUser = function () {
-    throw new Error('not authorized to create new users')
+    throw Object({message: 'not authorized to create new users', status: HTTP_STATUS.UNAUTHORIZED})
   };
   this.updateUser = function() {
-    throw new Error('not authorized to modify users')
+    throw Object({message: 'not authorized to create new users', status: HTTP_STATUS.UNAUTHORIZED})
   };
   this.deleteUser = function() {
-    throw new Error('not authorized to delete users')
+    throw Object({message: 'not authorized to create new users', status: HTTP_STATUS.UNAUTHORIZED})
   };
   this.createArticle = function() {
     throw new Error('not authorized to create new articles')
