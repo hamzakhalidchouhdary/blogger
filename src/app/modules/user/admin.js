@@ -17,4 +17,4 @@ function Admin(userDetails) {
 Admin.prototype = new User();
 Admin.prototype.role = 'admin';
 
-module.exports = User;
+module.exports = Admin;
