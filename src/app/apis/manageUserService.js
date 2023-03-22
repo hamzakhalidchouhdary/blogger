@@ -3,6 +3,8 @@ const HTTP_STATUS = require("../../utils/constants/httpStatus");
 
 const createUserProfile = function(req, res) {
   try{
+    const {user} = req;
+    user.createUser();
     res.status(HTTP_STATUS.CREATED).end();
     return;
   } catch (err) {
@@ -13,6 +15,8 @@ const createUserProfile = function(req, res) {
 
 const updateUserProfile = function(req, res) {
   try{
+    const {user} = req;
+    user.updateUser();
     res.status(HTTP_STATUS.OK).end();
     return;
   } catch (err) {
@@ -23,6 +27,8 @@ const updateUserProfile = function(req, res) {
 
 const deleteUserProfile = function(req, res) {
   try{
+    const {user} = req;
+    user.deleteUser();
     res.status(HTTP_STATUS.OK).end();
     return;
   } catch (err) {
