@@ -3,7 +3,7 @@ const { generateJWT } = require('../../utils/common/auth');
 
 const UserModel = require('../../app/models').User;
 
-const getUserDetails = function(user) {
+const getUserDetails = function(user = {}) {
   return {
     firstName: user.firstName || faker.name.firstName(),
     lastName: user.lastName || faker.name.lastName(),
