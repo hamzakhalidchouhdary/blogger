@@ -1,4 +1,5 @@
 const { faker } = require('@faker-js/faker');
+const { generateJWT } = require('../../utils/common/auth');
 
 const UserModel = require('../../app/models').User;
 
@@ -17,6 +18,11 @@ const createUser = async function(user) {
   return UserModel.new(userDetails);
 }
 
+const getUserToken = async function(userId) {
+  return generateJWT({userId});
+}
+
 module.exports = {
-  createUser
+  createUser,
+  getUserToken
 }
