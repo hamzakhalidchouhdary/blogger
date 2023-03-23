@@ -1,4 +1,5 @@
 const UserModel = require('../../models/index').User;
+const USER_ROLES = require('../../../utils/constants/userRoles');
 const Admin = require('./admin');
 const Manager = require('./manager');
 const Reader = require('./reader');
@@ -9,13 +10,13 @@ module.exports = {
     const userDetails = await UserModel.findById(userId);
     let user = {};
     switch(userDetails.role) {
-      case 'admin':
+      case USER_ROLES.ADMIN:
         user = new Admin(userDetails);
         break;
-      case 'manager':
+      case USER_ROLES.MANAGER:
         user = new Manager(userDetails);
         break;
-      case 'reader':
+      case USER_ROLES.READER:
         user = new Reader(userDetails);
         break;
       default:
