@@ -1,4 +1,5 @@
 const { verifyJWT } = require("../../../../utils/common/auth");
+const ServiceResponse = require("../../../../utils/common/serviceResponse");
 const HttpStatus = require("../../../../utils/constants/httpStatus");
 const UserModule = require("../../../modules/user");
 
@@ -11,7 +12,7 @@ const authorizeUser = async function(req, res, next) {
     req.user = await UserModule.getUser(userId);
     next();
   } catch(err) {
-    res.status(HttpStatus.UNAUTHORIZED).end(err.message);
+    ServiceResponse.error(res, err);
   }
 }
 

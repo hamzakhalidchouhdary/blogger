@@ -9,6 +9,7 @@ const User = require('./user');
 module.exports = {
   getUser: async function(userId) {
     const userDetails = await UserModel.findById(userId);
+    if(!userDetails) throw Object({message: 'user not found', status: HTTP_STATUS.UNAUTHORIZED})
     let user = {};
     switch(userDetails.role) {
       case USER_ROLES.ADMIN:
