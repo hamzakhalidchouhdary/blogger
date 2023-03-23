@@ -20,7 +20,7 @@ module.exports = {
         user = new Reader(userDetails);
         break;
       default:
-        user = new User(userDetails);
+        user = new Manager(userDetails);
     }
     return user;
   }
