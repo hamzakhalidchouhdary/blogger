@@ -10,7 +10,7 @@ chai.use(chaiHttp);
 chai.should();
 const request = chai.request;
 
-describe.only('Manage User', function() {
+describe('Manage User', function() {
   describe('Admin User Role', function() {
     before(async function(){
       this.user = await UserFixtures.createUser({role: USER_ROLES.ADMIN});
