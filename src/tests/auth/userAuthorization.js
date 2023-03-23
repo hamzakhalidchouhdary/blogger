@@ -8,9 +8,9 @@ chai.use(chaiHttp);
 chai.should();
 const request = chai.request;
 
-describe('Auth', function() {
-  describe('User Authorization', function() {
-    it('should throw error if user not found', async function() {
+describe('Auth', function () {
+  describe('User Authorization', function () {
+    it('should throw error if user not found', async function () {
       const token = await UserFixtures.getUserToken(0);
       const resp = await request(app)
         .get('/api/v1/')

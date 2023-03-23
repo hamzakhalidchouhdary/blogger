@@ -7,11 +7,11 @@ const Reader = require('./reader');
 const User = require('./user');
 
 module.exports = {
-  getUser: async function(userId) {
+  getUser: async function (userId) {
     const userDetails = await UserModel.findById(userId);
-    if(!userDetails) throw Object({message: 'user not found', status: HTTP_STATUS.UNAUTHORIZED})
+    if (!userDetails) throw Object({ message: 'user not found', status: HTTP_STATUS.UNAUTHORIZED })
     let user = {};
-    switch(userDetails.role) {
+    switch (userDetails.role) {
       case USER_ROLES.ADMIN:
         user = new Admin(userDetails);
         break;
@@ -22,7 +22,7 @@ module.exports = {
         user = new Reader(userDetails);
         break;
       default:
-        throw Object({message: 'user role not supported', status: HTTP_STATUS.UNAUTHORIZED})
+        throw Object({ message: 'user role not supported', status: HTTP_STATUS.UNAUTHORIZED })
     }
     return user;
   }

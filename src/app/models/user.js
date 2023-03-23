@@ -7,11 +7,11 @@ const { generateHashedPassword } = require('../../utils/common/auth');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
-      
+
     }
     static new(userDetails) {
       return this.create(
-        userDetails, 
+        userDetails,
         { fields: ['firstName', 'lastName', 'hashedPassword', 'username', 'role'] }
       );
     }
@@ -19,17 +19,17 @@ module.exports = (sequelize, DataTypes) => {
       return this.findOne({
         limit,
         where,
-        order: [ [ 'createdAt', 'DESC' ]]
+        order: [['createdAt', 'DESC']]
       });
     }
     static findByUsername(username) {
       return this.findOne({
-        where: {username}
+        where: { username }
       });
     }
     static findById(id) {
       return this.findOne({
-        where: {id}
+        where: { id }
       });
     }
     instanceMethod() {
@@ -41,16 +41,16 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        isAlpha: { msg: 'Must be alphabetic value'},
-        notNull: { msg: 'first name can not be null'}
+        isAlpha: { msg: 'Must be alphabetic value' },
+        notNull: { msg: 'first name can not be null' }
       }
     },
     lastName: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        isAlpha: { msg: 'Must be alphabetic value'},
-        notNull: { msg: 'last name can not be null'}
+        isAlpha: { msg: 'Must be alphabetic value' },
+        notNull: { msg: 'last name can not be null' }
       }
     },
     username: {
@@ -58,45 +58,45 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       unique: true,
       validate: {
-        is: { 
+        is: {
           msg: 'Must be alphabetic value',
           args: ['^[a-z0-9_\.-]+$', 'i']
         },
-        notNull: { msg: 'username can not be null'}
+        notNull: { msg: 'username can not be null' }
       }
     },
     hashedPassword: {
       type: DataTypes.STRING,
       allowNull: false,
-        validate: {
-          notEmpty: { 
-            msg: 'hashed password can not be empty',
-          },
-          notNull: { msg: 'hashed password can not be null'}
-        }
+      validate: {
+        notEmpty: {
+          msg: 'hashed password can not be empty',
+        },
+        notNull: { msg: 'hashed password can not be null' }
+      }
     },
     role: {
       type: DataTypes.ENUM,
       defaultValue: 'manager',
       allowNull: false,
-      values:['admin', 'manager', 'reader'],
-        // set(value) {
-        //   this.setDataValue('role', value.toL);
-        // },
-        validate: {
-          isIn: {
-            msg: 'role must be one of the `Admin` | `Manager` | `Reader`',
-            args: [['admin', 'manager', 'reader']]
-          }
+      values: ['admin', 'manager', 'reader'],
+      // set(value) {
+      //   this.setDataValue('role', value.toL);
+      // },
+      validate: {
+        isIn: {
+          msg: 'role must be one of the `Admin` | `Manager` | `Reader`',
+          args: [['admin', 'manager', 'reader']]
         }
+      }
     }
   }, {
     hooks: {
-      beforeCreate: async function(user) {
+      beforeCreate: async function (user) {
         const plainPassword = user.getDataValue('hashedPassword')
         const hashedPassword = await generateHashedPassword(plainPassword);
         user.setDataValue('hashedPassword', hashedPassword)
-      } 
+      }
     },
     indexes: [],
     sequelize,

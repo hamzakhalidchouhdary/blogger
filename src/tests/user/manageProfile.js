@@ -9,12 +9,12 @@ chai.use(chaiHttp);
 chai.should();
 const request = chai.request;
 
-describe('Manage Profile', function() {
-  beforeEach(async function() {
-    this.user = await UserFixture.createUser({hashedPassword: '1234'});
-    this.token = await generateJWT({userId: this.user.id})
+describe('Manage Profile', function () {
+  beforeEach(async function () {
+    this.user = await UserFixture.createUser({ hashedPassword: '1234' });
+    this.token = await generateJWT({ userId: this.user.id })
   })
-  it('should allow to create profile', async function() {
+  it('should allow to create profile', async function () {
     const resp = await request(app)
       .post('/api/v1/user/profile')
       .set({ Authorization: `Bearer ${this.token}` })
@@ -22,21 +22,21 @@ describe('Manage Profile', function() {
     resp.status.should.equal(HTTP_STATUS.CREATED);
     resp.body.should.empty;
   });
-  it('should allow to update profile', async function() {
+  it('should allow to update profile', async function () {
     const resp = await request(app)
       .put('/api/v1/user/profile')
       .send({});
     resp.status.should.equal(HTTP_STATUS.UNAUTHORIZED);
     resp.body.should.empty;
   });
-  it('should allow to delete profile', async function() {
+  it('should allow to delete profile', async function () {
     const resp = await request(app)
       .delete('/api/v1/user/profile')
       .send({});
     resp.status.should.equal(HTTP_STATUS.UNAUTHORIZED);
     resp.body.should.empty;
   });
-  it('should allow to get profile', async function() {
+  it('should allow to get profile', async function () {
     const resp = await request(app)
       .get('/api/v1/user/profile')
       .send({});

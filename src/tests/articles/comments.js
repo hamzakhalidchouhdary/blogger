@@ -11,8 +11,8 @@ const request = chai.request;
 
 describe('Article Comments', function () {
   describe('Admin Role', function () {
-    before(async function(){
-      this.user = await UserFixtures.createUser({role: USER_ROLES.ADMIN});
+    before(async function () {
+      this.user = await UserFixtures.createUser({ role: USER_ROLES.ADMIN });
       this.token = await UserFixtures.getUserToken(this.user.id);
     });
     it('should allow admin to add comments on article', async function () {
@@ -49,8 +49,8 @@ describe('Article Comments', function () {
     });
   });
   describe('Manager Role', function () {
-    before(async function(){
-      this.user = await UserFixtures.createUser({role: USER_ROLES.MANAGER});
+    before(async function () {
+      this.user = await UserFixtures.createUser({ role: USER_ROLES.MANAGER });
       this.token = await UserFixtures.getUserToken(this.user.id);
     });
     it('should allow manager to add comments on article', async function () {
@@ -87,8 +87,8 @@ describe('Article Comments', function () {
     });
   });
   describe('Reader Role', function () {
-    before(async function(){
-      this.user = await UserFixtures.createUser({role: USER_ROLES.READER});
+    before(async function () {
+      this.user = await UserFixtures.createUser({ role: USER_ROLES.READER });
       this.token = await UserFixtures.getUserToken(this.user.id);
     });
     it('should allow reader to add comments on article', async function () {

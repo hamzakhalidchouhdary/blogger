@@ -1,9 +1,9 @@
 const ServiceResponse = require("../../utils/common/serviceResponse");
 const HTTP_STATUS = require("../../utils/constants/httpStatus");
 
-const createUserProfile = function(req, res) {
-  try{
-    const {user} = req;
+const createUserProfile = function (req, res) {
+  try {
+    const { user } = req;
     user.createUser();
     res.status(HTTP_STATUS.CREATED).end();
     return;
@@ -13,9 +13,9 @@ const createUserProfile = function(req, res) {
   };
 };
 
-const updateUserProfile = function(req, res) {
-  try{
-    const {user} = req;
+const updateUserProfile = function (req, res) {
+  try {
+    const { user } = req;
     user.updateUser();
     res.status(HTTP_STATUS.OK).end();
     return;
@@ -25,9 +25,9 @@ const updateUserProfile = function(req, res) {
   };
 };
 
-const deleteUserProfile = function(req, res) {
-  try{
-    const {user} = req;
+const deleteUserProfile = function (req, res) {
+  try {
+    const { user } = req;
     user.deleteUser();
     res.status(HTTP_STATUS.OK).end();
     return;
@@ -37,8 +37,8 @@ const deleteUserProfile = function(req, res) {
   };
 };
 
-const getUserProfile = function(req, res) {
-  try{
+const getUserProfile = function (req, res) {
+  try {
     res.status(HTTP_STATUS.OK).end();
     return;
   } catch (err) {

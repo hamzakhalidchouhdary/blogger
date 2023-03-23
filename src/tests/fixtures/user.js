@@ -3,7 +3,7 @@ const { generateJWT } = require('../../utils/common/auth');
 
 const UserModel = require('../../app/models').User;
 
-const getUserDetails = function(user = {}) {
+const getUserDetails = function (user = {}) {
   return {
     firstName: user.firstName || faker.name.firstName(),
     lastName: user.lastName || faker.name.lastName(),
@@ -13,13 +13,13 @@ const getUserDetails = function(user = {}) {
   }
 }
 
-const createUser = async function(user) {
+const createUser = async function (user) {
   const userDetails = getUserDetails(user);
   return UserModel.new(userDetails);
 }
 
-const getUserToken = async function(userId) {
-  return generateJWT({userId});
+const getUserToken = async function (userId) {
+  return generateJWT({ userId });
 }
 
 module.exports = {

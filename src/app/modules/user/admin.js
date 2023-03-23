@@ -4,15 +4,15 @@ function Admin(userDetails) {
   User.call(this, userDetails);
 
   this.createUser = function () {
-    console.log('user created');
+    console.log('user created');ß
   };
-  this.updateUser = function() {
+  this.updateUser = function () {
     console.log('user updated');
   };
-  this.deleteUser = function() {
+  this.deleteUser = function () {
     console.log('user deleted');
   };
-  this.deleteArticle = function() {
+  this.deleteArticle = function () {
     return;
   };
 }

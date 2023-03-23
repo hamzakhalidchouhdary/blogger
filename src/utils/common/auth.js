@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-const generateHashedPassword = async function(plainString) {
+const generateHashedPassword = async function (plainString) {
   try {
     return bcrypt.hash(plainString, await bcrypt.genSalt(10));
   } catch (err) {
@@ -9,15 +9,15 @@ const generateHashedPassword = async function(plainString) {
   }
 }
 
-const compareHashedPassword = async function(plainPassword, hashedPassword) {
-  try{
+const compareHashedPassword = async function (plainPassword, hashedPassword) {
+  try {
     return bcrypt.compare(plainPassword, hashedPassword);
   } catch (err) {
     throw err;
   }
 }
 
-const generateJWT = async function(payload) {
+const generateJWT = async function (payload) {
   try {
     const secret = process.env.JWT_SECRET;
     return jwt.sign(payload, secret);
@@ -26,10 +26,10 @@ const generateJWT = async function(payload) {
   }
 }
 
-const verifyJWT = async function(token) {
+const verifyJWT = async function (token) {
   try {
     const secret = process.env.JWT_SECRET;
-    return jwt.verify(token, secret, function(err, payload) {
+    return jwt.verify(token, secret, function (err, payload) {
       if (err) throw err;
       return payload;
     });
