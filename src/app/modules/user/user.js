@@ -18,13 +18,13 @@ function User (userDetails = {}) {
     throw Object({message: 'not authorized to create new users', status: HTTP_STATUS.UNAUTHORIZED})
   };
   this.createArticle = function() {
-    throw new Error('not authorized to create new articles')
+    return;
   };
   this.updateArticle = function() {
-    throw new Error('not authorized to modify articles')
+    return;
   };
   this.deleteArticle = function() {
-    throw new Error('not authorized to delete articles')
+    throw Object({message: 'not authorized to create new users', status: HTTP_STATUS.UNAUTHORIZED})
   };
   this.createComment = function() {};
   this.updateComment = function() {};

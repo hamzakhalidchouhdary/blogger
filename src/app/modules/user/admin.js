@@ -12,6 +12,9 @@ function Admin(userDetails) {
   this.deleteUser = function() {
     console.log('user deleted');
   };
+  this.deleteArticle = function() {
+    return;
+  };
 }
 
 Admin.prototype = new User();
