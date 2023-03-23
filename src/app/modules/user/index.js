@@ -1,4 +1,5 @@
 const UserModel = require('../../models/index').User;
+const HTTP_STATUS = require('../../../utils/constants/httpStatus');
 const USER_ROLES = require('../../../utils/constants/userRoles');
 const Admin = require('./admin');
 const Manager = require('./manager');
@@ -20,7 +21,7 @@ module.exports = {
         user = new Reader(userDetails);
         break;
       default:
-        user = new Manager(userDetails);
+        throw Object({message: 'user role not supported', status: HTTP_STATUS.UNAUTHORIZED})
     }
     return user;
   }
