@@ -12,7 +12,7 @@ const request = chai.request;
 describe('auth', function() {
   describe('Login', function() {
     before(async function() {
-      this.user = await UserFixture.createUser({username: 'testUser', hashedPassword: '1234'});
+      this.user = await UserFixture.createUser({hashedPassword: '1234'});
     });
     it('should return user token with correct username and password', async function() {
       const resp = await request(app)
