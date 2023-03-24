@@ -40,6 +40,18 @@ describe('Manage User', function () {
       newlyCreatedUser.lastName.should.equal(this.payload.lastName);
       newlyCreatedUser.role.should.equal(USER_ROLES.MANAGER);
     });
+    it('should not allow to create new user profile if firstName is empty', async function () {
+      const userCountBefore = await UserFixtures.getUserCount();
+      this.payload.firstName = '';
+      const resp = await request(app)
+        .post('/api/v1/user/manage/new')
+        .set({ Authorization: `Bearer ${this.token}` })
+        .send(this.payload);
+      resp.status.should.equal(HTTP_STATUS.INTERNAL_ERROR);
+      resp.body.should.be.an('object').that.is.empty;
+      const userCountAfter = await UserFixtures.getUserCount();
+      userCountBefore.should.equal(userCountAfter);
+    });
     it('should allow to update user profile', async function () {
       const resp = await request(app)
         .put('/api/v1/user/manage/1')
