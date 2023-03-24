@@ -26,8 +26,13 @@ const getLatestCreatedUser = async function(userId) {
   return UserModel.findLatest();
 }
 
+const getUserCount = async function() {
+  return UserModel.count();
+}
+
 module.exports = {
   createUser,
   getUserToken,
-  getLatestCreatedUser
+  getLatestCreatedUser,
+  getUserCount
 }
