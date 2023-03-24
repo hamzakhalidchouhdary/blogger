@@ -22,7 +22,12 @@ const getUserToken = async function (userId) {
   return generateJWT({ userId });
 }
 
+const getLatestCreatedUser = async function(userId) {
+  return UserModel.findLatest();
+}
+
 module.exports = {
   createUser,
-  getUserToken
+  getUserToken,
+  getLatestCreatedUser
 }
