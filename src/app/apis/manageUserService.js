@@ -13,11 +13,15 @@ const createUserProfile = async function (req, res) {
   };
 };
 
-const updateUserProfile = function (req, res) {
+const updateUserProfile = async function (req, res) {
   try {
-    const { user } = req;
-    user.updateUser();
-    res.status(HTTP_STATUS.OK).end();
+    const { 
+      user,
+      body: updatedDetails,
+      params: {id: userId} 
+    } = req;
+    await user.updateUser(updatedDetails, userId);
+    res.status(HTTP_STATUS.OK).json({message: 'user updated'});
     return;
   } catch (err) {
     ServiceResponse.error(res, err);

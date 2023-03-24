@@ -15,6 +15,15 @@ module.exports = (sequelize, DataTypes) => {
         { fields: ['firstName', 'lastName', 'hashedPassword', 'username', 'role'] }
       );
     }
+    static modify(userDetails, userId) {
+      return this.update(
+        userDetails,
+        {
+          where: {id: userId},
+          // fields: ['firstName', 'lastName', 'username']
+        }
+      );
+    }
     static findLatest(limit = 1, where = {}) {
       return this.findOne({
         limit,

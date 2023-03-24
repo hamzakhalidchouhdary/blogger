@@ -7,8 +7,8 @@ function Admin(userDetails) {
   this.createUser = async function (_userDetails) {
     return UserModel.new(_userDetails);
   };
-  this.updateUser = function () {
-    console.log('user updated');
+  this.updateUser = async function (_userDetails, userId) {
+    return UserModel.modify(_userDetails, userId);
   };
   this.deleteUser = function () {
     console.log('user deleted');
