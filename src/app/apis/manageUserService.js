@@ -1,11 +1,11 @@
 const ServiceResponse = require("../../utils/common/serviceResponse");
 const HTTP_STATUS = require("../../utils/constants/httpStatus");
 
-const createUserProfile = function (req, res) {
+const createUserProfile = async function (req, res) {
   try {
-    const { user } = req;
-    user.createUser();
-    res.status(HTTP_STATUS.CREATED).end();
+    const { user, body: userDetails = {} } = req;
+    const newUser = await user.createUser(userDetails);
+    res.status(HTTP_STATUS.CREATED).json(newUser);
     return;
   } catch (err) {
     ServiceResponse.error(res, err);

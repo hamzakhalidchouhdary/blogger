@@ -1,10 +1,11 @@
 const User = require('./user');
+const UserModel = require('../../models').User;
 
 function Admin(userDetails) {
   User.call(this, userDetails);
 
-  this.createUser = function () {
-    console.log('user created');ß
+  this.createUser = async function (_userDetails) {
+    return UserModel.new(_userDetails);
   };
   this.updateUser = function () {
     console.log('user updated');
