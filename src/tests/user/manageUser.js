@@ -28,12 +28,17 @@ describe('Manage User', function () {
         .post('/api/v1/user/manage/new')
         .set({ Authorization: `Bearer ${this.token}` })
         .send(this.payload);
+      resp.status.should.equal(HTTP_STATUS.CREATED);
       resp.body.should.be.an('object').that.is.not.empty;
       resp.body.username.should.equal(this.payload.username);
       resp.body.firstName.should.equal(this.payload.firstName);
       resp.body.lastName.should.equal(this.payload.lastName);
       resp.body.role.should.equal(USER_ROLES.MANAGER);
-      resp.status.should.equal(HTTP_STATUS.CREATED);
+      const newlyCreatedUser = await UserFixtures.getLatestCreatedUser();
+      newlyCreatedUser.username.should.equal(this.payload.username);
+      newlyCreatedUser.firstName.should.equal(this.payload.firstName);
+      newlyCreatedUser.lastName.should.equal(this.payload.lastName);
+      newlyCreatedUser.role.should.equal(USER_ROLES.MANAGER);
     });
     it('should allow to update user profile', async function () {
       const resp = await request(app)
