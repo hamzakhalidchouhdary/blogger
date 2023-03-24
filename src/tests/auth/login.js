@@ -33,17 +33,17 @@ describe('auth', function () {
           username: this.user.username,
           password: '12345'
         });
-      resp.status.should.equal(HTTP_STATUS.INTERNAL_ERROR);
+      resp.status.should.equal(HTTP_STATUS.BAD_REQUEST);
       resp.body.should.empty;
     });
-    it('should not login if password is incorrect', async function () {
+    it('should not login if username is incorrect', async function () {
       const resp = await request(app)
         .post('/api/v1/auth/login')
         .send({
           username: 'randomUser',
           password: '1234'
         });
-      resp.status.should.equal(HTTP_STATUS.INTERNAL_ERROR);
+      resp.status.should.equal(HTTP_STATUS.BAD_REQUEST);
       resp.body.should.empty;
     });
     it('should not login if password is empty', async function () {
@@ -53,7 +53,7 @@ describe('auth', function () {
           username: this.user.username,
           password: ''
         });
-      resp.status.should.equal(HTTP_STATUS.INTERNAL_ERROR);
+      resp.status.should.equal(HTTP_STATUS.BAD_REQUEST);
       resp.body.should.empty;
     });
     it('should not login if password is null', async function () {
@@ -63,7 +63,7 @@ describe('auth', function () {
           username: this.user.username,
           password: null
         });
-      resp.status.should.equal(HTTP_STATUS.INTERNAL_ERROR);
+      resp.status.should.equal(HTTP_STATUS.BAD_REQUEST);
       resp.body.should.empty;
     });
     it('should not login if password is undefined', async function () {
@@ -72,7 +72,7 @@ describe('auth', function () {
         .send({
           username: this.user.username
         });
-      resp.status.should.equal(HTTP_STATUS.INTERNAL_ERROR);
+      resp.status.should.equal(HTTP_STATUS.BAD_REQUEST);
       resp.body.should.empty;
     });
     it('should not login if username is empty', async function () {
@@ -82,7 +82,7 @@ describe('auth', function () {
           username: '',
           password: '1234'
         });
-      resp.status.should.equal(HTTP_STATUS.INTERNAL_ERROR);
+      resp.status.should.equal(HTTP_STATUS.BAD_REQUEST);
       resp.body.should.empty;
     });
     it('should not login if username is null', async function () {
@@ -92,7 +92,7 @@ describe('auth', function () {
           username: null,
           password: '1234'
         });
-      resp.status.should.equal(HTTP_STATUS.INTERNAL_ERROR);
+      resp.status.should.equal(HTTP_STATUS.BAD_REQUEST);
       resp.body.should.empty;
     });
     it('should not login if username is undefined', async function () {
@@ -101,7 +101,7 @@ describe('auth', function () {
         .send({
           password: '1234'
         });
-      resp.status.should.equal(HTTP_STATUS.INTERNAL_ERROR);
+      resp.status.should.equal(HTTP_STATUS.BAD_REQUEST);
       resp.body.should.empty;
     });
     it('should access login:get route', async function () {
