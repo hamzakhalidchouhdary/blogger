@@ -16,6 +16,8 @@ describe('Manage User', function () {
     before(async function () {
       this.user = await UserFixtures.createUser({ role: USER_ROLES.ADMIN });
       this.token = await generateJWT({ userId: this.user.id });
+    });
+    beforeEach(function(){
       this.payload = {
         firstName: faker.name.firstName(),
         lastName: faker.name.lastName(),
@@ -52,13 +54,18 @@ describe('Manage User', function () {
       const userCountAfter = await UserFixtures.getUserCount();
       userCountBefore.should.equal(userCountAfter);
     });
-    it('should allow to update user profile', async function () {
+    it('should allow admin to update user profile', async function () {
+      const newFirstName = faker.name.firstName();
+      const user = await UserFixtures.createUser(this.payload);
       const resp = await request(app)
-        .put('/api/v1/user/manage/1')
+        .put(`/api/v1/user/manage/${user.id}`)
         .set({ Authorization: `Bearer ${this.token}` })
-        .send({});
+        .send({firstName: newFirstName});
       resp.status.should.equal(HTTP_STATUS.OK);
-      resp.body.should.empty;
+      const updatedUserDetails = await UserFixtures.findUserById(user.id);
+      updatedUserDetails.firstName.should.equal(newFirstName);
+      updatedUserDetails.lastName.should.equal(this.payload.lastName);
+      updatedUserDetails.username.should.equal(this.payload.username);
     });
     it('should allow to delete user profile', async function () {
       const resp = await request(app)
