@@ -29,10 +29,10 @@ const updateUserProfile = async function (req, res) {
   };
 };
 
-const deleteUserProfile = function (req, res) {
+const deleteUserProfile = async function (req, res) {
   try {
-    const { user } = req;
-    user.deleteUser();
+    const { user, params: {id: userId} } = req;
+    await user.deleteUser(userId);
     res.status(HTTP_STATUS.OK).end();
     return;
   } catch (err) {
