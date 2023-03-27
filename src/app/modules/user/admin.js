@@ -10,8 +10,8 @@ function Admin(userDetails) {
   this.updateUser = async function (_userDetails, userId) {
     return UserModel.modify(_userDetails, userId);
   };
-  this.deleteUser = function () {
-    console.log('user deleted');
+  this.deleteUser = async function (userId) {
+    return UserModel.remove(userId);
   };
   this.deleteArticle = function () {
     return;
