@@ -6,6 +6,7 @@ const UserFixtures = require('../fixtures/user');
 const USER_ROLES = require('../../utils/constants/userRoles');
 const { generateJWT } = require('../../utils/common/auth');
 const { faker } = require('@faker-js/faker');
+const { expect } = require('chai');
 
 chai.use(chaiHttp);
 chai.should();
@@ -68,12 +69,18 @@ describe('Manage User', function () {
       updatedUserDetails.username.should.equal(this.payload.username);
     });
     it('should allow to delete user profile', async function () {
+      const user = await UserFixtures.createUser(this.payload);
+      const userCountBefore = await UserFixtures.getUserCount();
       const resp = await request(app)
-        .delete('/api/v1/user/manage/1')
+        .delete(`/api/v1/user/manage/${user.id}`)
         .set({ Authorization: `Bearer ${this.token}` })
         .send({});
+      const userCountAfter = await UserFixtures.getUserCount();
+      const deletedUser = await UserFixtures.findUserById(user.id);
       resp.status.should.equal(HTTP_STATUS.OK);
       resp.body.should.empty;
+      userCountBefore.should.equal(userCountAfter + 1);
+      expect(deletedUser).to.be.null;
     });
     it('should allow to get user profile', async function () {
       const resp = await request(app)
@@ -106,12 +113,18 @@ describe('Manage User', function () {
       resp.body.should.empty;
     });
     it('should allow to delete user profile', async function () {
+      const user = await UserFixtures.createUser(this.payload);
+      const userCountBefore = await UserFixtures.getUserCount();
       const resp = await request(app)
-        .delete('/api/v1/user/manage/1')
+        .delete(`/api/v1/user/manage/${user.id}`)
         .set({ Authorization: `Bearer ${this.token}` })
         .send({});
+      const userCountAfter = await UserFixtures.getUserCount();
+      const deletedUser = await UserFixtures.findUserById(user.id);
       resp.status.should.equal(HTTP_STATUS.UNAUTHORIZED);
       resp.body.should.empty;
+      userCountBefore.should.equal(userCountAfter);
+      expect(deletedUser).to.be.a('object').that.is.not.empty;
     });
     it('should allow to get user profile', async function () {
       const resp = await request(app)
@@ -144,12 +157,18 @@ describe('Manage User', function () {
       resp.body.should.empty;
     });
     it('should allow to delete user profile', async function () {
+      const user = await UserFixtures.createUser(this.payload);
+      const userCountBefore = await UserFixtures.getUserCount();
       const resp = await request(app)
-        .delete('/api/v1/user/manage/1')
+        .delete(`/api/v1/user/manage/${user.id}`)
         .set({ Authorization: `Bearer ${this.token}` })
         .send({});
+      const userCountAfter = await UserFixtures.getUserCount();
+      const deletedUser = await UserFixtures.findUserById(user.id);
       resp.status.should.equal(HTTP_STATUS.UNAUTHORIZED);
       resp.body.should.empty;
+      userCountBefore.should.equal(userCountAfter);
+      expect(deletedUser).to.be.a('object').that.is.not.empty;
     });
     it('should allow to get user profile', async function () {
       const resp = await request(app)
