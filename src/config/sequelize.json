@@ -16,7 +16,7 @@
 		"host": "127.0.0.1",
 		"dialect": "sqlite",
 		"storage": "./src/db/database_test.sqlite",
-		"logging": false
+		"logging": true
   },
   "production": {
     "username": "root",
