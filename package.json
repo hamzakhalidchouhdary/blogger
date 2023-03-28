@@ -8,7 +8,7 @@
     "test": "NODE_ENV=test mocha ./src/tests/*/**.js --exit",
     "posttest": "NODE_ENV=development rm ./src/db/database_test.sqlite",
     "start": "node ./src/app/index.js",
-    "db:model:create": "npx sequelize model:generate --name --attributes name:STRING",
+    "db:model:create": "npx sequelize model:generate --name $npm_config_name --attributes name:STRING",
     "db:migrate": "npx sequelize db:migrate",
     "db:migrate:create": "npx sequelize-cli migration:generate --name",
     "db:rollback": "npx sequelize db:migrate:undo",
