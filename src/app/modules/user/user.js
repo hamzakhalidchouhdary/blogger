@@ -1,9 +1,11 @@
 const HTTP_STATUS = require("../../../utils/constants/httpStatus");
+const ArticleModel = require('../../models').Article
 
 function User(userDetails = {}) {
 
   Object.call(this, userDetails);
 
+  this.id = userDetails.id || null;
   this.firstName = userDetails.firstName || '';
   this.lastName = userDetails.lastName || '';
   this.username = userDetails.username || '';
@@ -17,8 +19,9 @@ function User(userDetails = {}) {
   this.deleteUser = function () {
     throw Object({ message: 'not authorized to create new users', status: HTTP_STATUS.UNAUTHORIZED })
   };
-  this.createArticle = function () {
-    return;
+  this.createArticle = async function (articleDetails) {
+    articleDetails.createdBy = articleDetails.updatedBy = this.id;
+    return ArticleModel.new(articleDetails)
   };
   this.updateArticle = function () {
     return;
