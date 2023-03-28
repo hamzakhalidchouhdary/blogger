@@ -1,13 +1,14 @@
 const ServiceResponse = require("../../utils/common/serviceResponse");
 const HTTP_STATUS = require("../../utils/constants/httpStatus");
 
-const createPost = function (req, res) {
+const createPost = async function (req, res) {
   try {
-    const { user } = req;
-    user.createArticle();
-    res.status(HTTP_STATUS.CREATED).json({});
+    const { user, body: articleDetails } = req;
+    const newArticle = await user.createArticle(articleDetails);
+    res.status(HTTP_STATUS.CREATED).json(newArticle);
     return;
   } catch (err) {
+    console.log(err);
     ServiceResponse.error(res, err);
   };
 };
