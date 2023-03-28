@@ -4,6 +4,7 @@ const chaiHttp = require('chai-http');
 const HTTP_STATUS = require('../../utils/constants/httpStatus');
 const UserFixtures = require('../fixtures/user');
 const USER_ROLES = require('../../utils/constants/userRoles');
+const ArticleModel = require('../../app/models').Article;
 
 chai.use(chaiHttp);
 chai.should();
@@ -14,14 +15,22 @@ describe('Article Posts', function () {
     before(async function () {
       this.user = await UserFixtures.createUser({ role: USER_ROLES.ADMIN });
       this.token = await UserFixtures.getUserToken(this.user.id);
+      this.payload = {
+        title: 'test article',
+        content: 'this is test article'
+      }
     });
     it('should allow admin to create new post', async function () {
       const resp = await request(app)
         .post('/api/v1/article')
         .set({ Authorization: `Bearer ${this.token}` })
-        .send({});
+        .send(this.payload);
       resp.status.should.equal(HTTP_STATUS.CREATED);
-      resp.body.should.empty;
+      const newArticle = await ArticleModel.findLatest();
+      newArticle.title.should.equal(this.payload.title);
+      newArticle.content.should.equal(this.payload.content);
+      newArticle.createdBy.should.equal(this.user.id);
+      newArticle.updatedBy.should.equal(this.user.id);
     });
     it('should allow admin to edit a post', async function () {
       const resp = await request(app)
