@@ -4,6 +4,8 @@ const chaiHttp = require('chai-http');
 const HTTP_STATUS = require('../../utils/constants/httpStatus');
 const UserFixtures = require('../fixtures/user');
 const USER_ROLES = require('../../utils/constants/userRoles');
+const ArticleFixtures = require('../fixtures/article');
+const { expect } = require('chai');
 const ArticleModel = require('../../app/models').Article;
 
 chai.use(chaiHttp);
@@ -33,12 +35,15 @@ describe('Article Posts', function () {
       newArticle.updatedBy.should.equal(this.user.id);
     });
     it('should allow admin to edit a post', async function () {
+      const newArticle = await ArticleFixtures.createArticle({}, this.user.id);
+      const payload = {title: 'update title'};
       const resp = await request(app)
-        .put('/api/v1/article')
+        .put(`/api/v1/article/${newArticle.id}`)
         .set({ Authorization: `Bearer ${this.token}` })
-        .send({});
+        .send(payload);
       resp.status.should.equal(HTTP_STATUS.OK);
-      resp.body.should.empty;
+      const updatedArticle = await ArticleFixtures.findArticleById(newArticle.id);
+      expect(updatedArticle.title).to.be.equal(payload.title);
     });
     it('should allow admin to delete a post', async function () {
       const resp = await request(app)
