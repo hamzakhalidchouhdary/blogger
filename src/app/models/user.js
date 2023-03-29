@@ -7,7 +7,9 @@ const { generateHashedPassword } = require('../../utils/common/auth');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
-
+      models.User.hasMany(models.Article, {
+        foreignKey: 'createdBy'
+      })
     }
     static new(userDetails) {
       return this.create(

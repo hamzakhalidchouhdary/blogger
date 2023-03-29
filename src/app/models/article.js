@@ -5,7 +5,9 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class Article extends Model {
     static associate(models) {
-      // TODO: Add association here
+      models.Article.belongsTo(models.User, {
+        foreignKey: 'createdBy'
+      })
     }
     static new(articleDetails) {
       return this.create(
