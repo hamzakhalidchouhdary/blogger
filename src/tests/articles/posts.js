@@ -47,7 +47,7 @@ describe('Article Posts', function () {
     });
     it('should allow admin to delete a post', async function () {
       const resp = await request(app)
-        .delete('/api/v1/article')
+        .delete('/api/v1/article/1')
         .set({ Authorization: `Bearer ${this.token}` })
         .send({});
       resp.status.should.equal(HTTP_STATUS.OK);
@@ -85,7 +85,7 @@ describe('Article Posts', function () {
     });
     it('should allow manager to edit a post', async function () {
       const resp = await request(app)
-        .put('/api/v1/article')
+        .put('/api/v1/article/1')
         .set({ Authorization: `Bearer ${this.token}` })
         .send({});
       resp.status.should.equal(HTTP_STATUS.OK);
@@ -93,7 +93,7 @@ describe('Article Posts', function () {
     });
     it('should not allow manager to delete a post', async function () {
       const resp = await request(app)
-        .delete('/api/v1/article')
+        .delete('/api/v1/article/1')
         .set({ Authorization: `Bearer ${this.token}` })
         .send({});
       resp.status.should.equal(HTTP_STATUS.UNAUTHORIZED);
@@ -131,7 +131,7 @@ describe('Article Posts', function () {
     });
     it('should not allow reader to edit a post', async function () {
       const resp = await request(app)
-        .put('/api/v1/article')
+        .put('/api/v1/article/1')
         .set({ Authorization: `Bearer ${this.token}` })
         .send({});
       resp.status.should.equal(HTTP_STATUS.UNAUTHORIZED);
@@ -139,7 +139,7 @@ describe('Article Posts', function () {
     });
     it('should not allow reader to delete a post', async function () {
       const resp = await request(app)
-        .delete('/api/v1/article')
+        .delete('/api/v1/article/1s')
         .set({ Authorization: `Bearer ${this.token}` })
         .send({});
       resp.status.should.equal(HTTP_STATUS.UNAUTHORIZED);
