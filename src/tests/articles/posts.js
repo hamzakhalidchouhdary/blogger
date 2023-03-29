@@ -13,14 +13,16 @@ chai.should();
 const request = chai.request;
 
 describe('Article Posts', function () {
+  before(function() {
+    this.payload = {
+      title: 'test article',
+      content: 'this is test article'
+    }
+  });
   describe('Admin Role', function () {
     before(async function () {
       this.user = await UserFixtures.createUser({ role: USER_ROLES.ADMIN });
       this.token = await UserFixtures.getUserToken(this.user.id);
-      this.payload = {
-        title: 'test article',
-        content: 'this is test article'
-      }
     });
     it('should allow admin to create new post', async function () {
       const resp = await request(app)
@@ -79,9 +81,13 @@ describe('Article Posts', function () {
       const resp = await request(app)
         .post('/api/v1/article')
         .set({ Authorization: `Bearer ${this.token}` })
-        .send({});
+        .send(this.payload);
       resp.status.should.equal(HTTP_STATUS.CREATED);
-      resp.body.should.empty;
+      const newArticle = await ArticleFixtures.getLatestCreatedArticle();
+      expect(newArticle.id).to.be.equal(resp.body.id);
+      expect(newArticle.title).to.be.equal(this.payload.title);
+      expect(newArticle.createdBy).to.be.equal(this.user.id);
+
     });
     it('should allow manager to edit a post', async function () {
       const resp = await request(app)
