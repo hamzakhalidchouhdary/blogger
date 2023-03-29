@@ -3,9 +3,9 @@ const router = require('express').Router();
 const ArticlePostService = require('../../apis/articlePostService');
 
 router.post('/', ArticlePostService.createPost);
-router.put('/', ArticlePostService.updatePost);
+router.put('/:id', ArticlePostService.updatePost);
 router.get('/', ArticlePostService.getPosts);
 router.get('/:id', ArticlePostService.getPost);
-router.delete('/', ArticlePostService.deletePost);
+router.delete('/:id', ArticlePostService.deletePost);
 
 module.exports = router;
