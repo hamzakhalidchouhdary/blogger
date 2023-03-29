@@ -13,11 +13,24 @@ module.exports = (sequelize, DataTypes) => {
         { fields: ['title', 'content', 'createdBy', 'updatedBy'] }
       )
     }
+    static modify(articleDetails, articleId) {
+      return this.update(
+        articleDetails,
+        {
+          where: {id: articleId},
+        }
+      );
+    }
     static findLatest(limit = 1, where = {}) {
       return this.findOne({
         limit,
         where,
         order: [['createdAt', 'DESC']]
+      });
+    }
+    static findById(id) {
+      return this.findOne({
+        where: { id }
       });
     }
   }
