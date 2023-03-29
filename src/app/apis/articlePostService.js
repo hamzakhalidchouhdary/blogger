@@ -13,10 +13,10 @@ const createPost = async function (req, res) {
   };
 };
 
-const updatePost = function (req, res) {
+const updatePost = async function (req, res) {
   try {
-    const { user } = req;
-    user.updateArticle();
+    const { user, body: articleDetails, params: {id: articleId} } = req;
+    await user.updateArticle(articleDetails, articleId);
     res.status(HTTP_STATUS.OK).json({});
     return;
   } catch (err) {
