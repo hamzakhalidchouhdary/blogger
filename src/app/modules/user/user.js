@@ -23,8 +23,9 @@ function User(userDetails = {}) {
     articleDetails.createdBy = articleDetails.updatedBy = this.id;
     return ArticleModel.new(articleDetails)
   };
-  this.updateArticle = function () {
-    return;
+  this.updateArticle = function (articleDetails, articleId) {
+    articleDetails.updatedBy = this.id;
+    return ArticleModel.modify(articleDetails, articleId);
   };
   this.deleteArticle = function () {
     throw Object({ message: 'not authorized to create new users', status: HTTP_STATUS.UNAUTHORIZED })
