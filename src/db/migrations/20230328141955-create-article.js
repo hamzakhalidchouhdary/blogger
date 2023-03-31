@@ -23,19 +23,19 @@ module.exports = {
         type: Sequelize.NUMBER,
         allowNull: false,
         unique: false,
-        // references: {
-        //   model: 'User',
-        //   key: 'id'
-        // }
+        references: {
+          model: 'Users',
+          key: 'id'
+        }
       },
       updatedBy: {
         type: Sequelize.NUMBER,
         allowNull: false,
         unique: false,
-        // references: {
-        //   model: 'User',
-        //   key: 'id'
-        // }
+        references: {
+          model: 'Users',
+          key: 'id'
+        }
       },
       createdAt: {
         allowNull: false,
