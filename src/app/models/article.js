@@ -61,20 +61,12 @@ module.exports = (sequelize, DataTypes) => {
     createdBy: {
       type: DataTypes.NUMBER,
       allowNull: false,
-      unique: false,
-      // references: {
-      //   model: 'User',
-      //   key: 'id'
-      // }
+      unique: false
     },
     updatedBy: {
       type: DataTypes.NUMBER,
       allowNull: false,
-      unique: false,
-      // references: {
-      //   model: 'User',
-      //   key: 'id'
-      // }
+      unique: false
     },
     createdAt: {
       allowNull: false,
