@@ -94,12 +94,16 @@ describe('Article Posts', function () {
 
     });
     it('should allow manager to edit a post', async function () {
+      const newArticle = await ArticleFixtures.createArticle({}, this.user.id);
+      const payload = { title: 'update title' };
       const resp = await request(app)
-        .put('/api/v1/article/1')
+        .put(`/api/v1/article/${newArticle.id}`)
         .set({ Authorization: `Bearer ${this.token}` })
-        .send({});
+        .send(payload);
       resp.status.should.equal(HTTP_STATUS.OK);
-      resp.body.should.empty;
+      const updatedArticle = await ArticleFixtures.findArticleById(newArticle.id);
+      expect(updatedArticle.title).to.be.equal(payload.title);
+      expect(updatedArticle.updatedBy).to.equal(this.user.id);
     });
     it('should not allow manager to delete a post', async function () {
       const resp = await request(app)
