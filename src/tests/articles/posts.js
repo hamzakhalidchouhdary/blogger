@@ -48,11 +48,15 @@ describe('Article Posts', function () {
       expect(updatedArticle.title).to.be.equal(payload.title);
     });
     it('should allow admin to delete a post', async function () {
+      const newArticle = await ArticleFixtures.createArticle({}, this.user.id);
+      const articleCountBefore = await ArticleFixtures.getArticleCount();
       const resp = await request(app)
-        .delete('/api/v1/article/1')
+        .delete(`/api/v1/article/${newArticle.id}`)
         .set({ Authorization: `Bearer ${this.token}` })
         .send({});
       resp.status.should.equal(HTTP_STATUS.OK);
+      const articleCountAfter = await ArticleFixtures.getArticleCount();
+      expect(articleCountBefore).to.equal(articleCountAfter + 1);
       resp.body.should.empty;
     });
     it('should allow admin to fetch all post', async function () {
