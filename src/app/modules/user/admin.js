@@ -1,5 +1,6 @@
 const User = require('./user');
 const UserModel = require('../../models').User;
+const ArticleModel = require('../../models').Article;
 
 function Admin(userDetails) {
   User.call(this, userDetails);
@@ -13,8 +14,8 @@ function Admin(userDetails) {
   this.deleteUser = async function (userId) {
     return UserModel.remove(userId);
   };
-  this.deleteArticle = function () {
-    return;
+  this.deleteArticle = function (articleId) {
+    return ArticleModel.remove(articleId);
   };
 }
 
