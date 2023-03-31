@@ -27,8 +27,13 @@ const findArticleById = async function(id) {
   return ArticleModel.findById(id);
 }
 
+const getArticleCount = async function() {
+  return ArticleModel.count();
+}
+
 module.exports = {
   createArticle,
   getLatestCreatedArticle,
-  findArticleById
+  findArticleById,
+  getArticleCount
 }
