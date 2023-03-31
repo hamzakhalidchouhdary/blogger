@@ -35,6 +35,11 @@ module.exports = (sequelize, DataTypes) => {
         where: { id }
       });
     }
+    static remove(id) {
+      return this.destroy({
+        where: {id}
+      })
+    }
   }
   Article.init({
     id: {
