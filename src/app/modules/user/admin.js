@@ -1,7 +1,7 @@
 const User = require('./user');
 const UserModel = require('../../models').User;
 const ArticleModel = require('../../models').Article;
-const _ = require('lodash4');
+const _ = require('lodash');
 
 function Admin(userDetails) {
   User.call(this, userDetails);

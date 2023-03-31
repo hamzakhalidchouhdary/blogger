@@ -1,6 +1,6 @@
 const HTTP_STATUS = require("../../../utils/constants/httpStatus");
 const ArticleModel = require('../../models').Article
-const _ = require('lodash4');
+const _ = require('lodash');
 
 function User(userDetails = {}) {
 
