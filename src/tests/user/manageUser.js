@@ -18,7 +18,7 @@ describe('Manage User', function () {
       this.user = await UserFixtures.createUser({ role: USER_ROLES.ADMIN });
       this.token = await generateJWT({ userId: this.user.id });
     });
-    beforeEach(function(){
+    beforeEach(function () {
       this.payload = {
         firstName: faker.name.firstName(),
         lastName: faker.name.lastName(),
@@ -61,7 +61,7 @@ describe('Manage User', function () {
       const resp = await request(app)
         .put(`/api/v1/user/manage/${user.id}`)
         .set({ Authorization: `Bearer ${this.token}` })
-        .send({firstName: newFirstName});
+        .send({ firstName: newFirstName });
       resp.status.should.equal(HTTP_STATUS.OK);
       const updatedUserDetails = await UserFixtures.findUserById(user.id);
       updatedUserDetails.firstName.should.equal(newFirstName);

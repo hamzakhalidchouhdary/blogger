@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
       return this.update(
         userDetails,
         {
-          where: {id: userId},
+          where: { id: userId },
           // fields: ['firstName', 'lastName', 'username']
         }
       );

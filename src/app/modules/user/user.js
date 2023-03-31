@@ -21,13 +21,13 @@ function User(userDetails = {}) {
     throw Object({ message: 'not authorized to create new users', status: HTTP_STATUS.UNAUTHORIZED })
   };
   this.createArticle = async function (articleDetails) {
-    if (_.isEmpty(articleDetails)) throw Object({message: 'createArticle: article details can not be empty'});
+    if (_.isEmpty(articleDetails)) throw Object({ message: 'createArticle: article details can not be empty' });
     articleDetails.createdBy = articleDetails.updatedBy = this.id;
     return ArticleModel.new(articleDetails)
   };
   this.updateArticle = function (articleDetails, articleId) {
-    if (_.isEmpty(articleDetails)) throw Object({message: 'updateArticle: article details can not be empty'});
-    if (!articleId) throw Object({message: 'updateArticle: article id is not specified'});
+    if (_.isEmpty(articleDetails)) throw Object({ message: 'updateArticle: article details can not be empty' });
+    if (!articleId) throw Object({ message: 'updateArticle: article id is not specified' });
     articleDetails.updatedBy = this.id;
     return ArticleModel.modify(articleDetails, articleId);
   };

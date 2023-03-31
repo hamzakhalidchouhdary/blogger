@@ -22,15 +22,15 @@ const getUserToken = async function (userId) {
   return generateJWT({ userId });
 }
 
-const getLatestCreatedUser = async function(userId) {
+const getLatestCreatedUser = async function (userId) {
   return UserModel.findLatest();
 }
 
-const findUserById = async function(userId) {
+const findUserById = async function (userId) {
   return UserModel.findById(userId);
 }
 
-const getUserCount = async function() {
+const getUserCount = async function () {
   return UserModel.count();
 }
 

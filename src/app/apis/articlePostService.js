@@ -15,7 +15,7 @@ const createPost = async function (req, res) {
 
 const updatePost = async function (req, res) {
   try {
-    const { user, body: articleDetails, params: {id: articleId} } = req;
+    const { user, body: articleDetails, params: { id: articleId } } = req;
     await user.updateArticle(articleDetails, articleId);
     res.status(HTTP_STATUS.OK).json({});
     return;
@@ -26,7 +26,7 @@ const updatePost = async function (req, res) {
 
 const deletePost = async function (req, res) {
   try {
-    const { user, params: {id: articleId} } = req;
+    const { user, params: { id: articleId } } = req;
     await user.deleteArticle(articleId);
     res.status(HTTP_STATUS.OK).json({});
     return;

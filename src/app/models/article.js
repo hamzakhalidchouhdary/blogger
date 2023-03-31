@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
       return this.update(
         articleDetails,
         {
-          where: {id: articleId},
+          where: { id: articleId },
         }
       );
     }
@@ -37,7 +37,7 @@ module.exports = (sequelize, DataTypes) => {
     }
     static remove(id) {
       return this.destroy({
-        where: {id}
+        where: { id }
       })
     }
   }

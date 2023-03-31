@@ -13,7 +13,7 @@ chai.should();
 const request = chai.request;
 
 describe('Article Posts', function () {
-  before(function() {
+  before(function () {
     this.payload = {
       title: 'test article',
       content: 'this is test article'
@@ -38,7 +38,7 @@ describe('Article Posts', function () {
     });
     it('should allow admin to edit a post', async function () {
       const newArticle = await ArticleFixtures.createArticle({}, this.user.id);
-      const payload = {title: 'update title'};
+      const payload = { title: 'update title' };
       const resp = await request(app)
         .put(`/api/v1/article/${newArticle.id}`)
         .set({ Authorization: `Bearer ${this.token}` })
