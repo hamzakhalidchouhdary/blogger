@@ -1,10 +1,10 @@
 const ServiceResponse = require("../../utils/common/serviceResponse");
 const HTTP_STATUS = require("../../utils/constants/httpStatus");
 
-const createComment = function (req, res) {
+const createComment = async function (req, res) {
   try {
-    const { user } = req;
-    user.createComment();
+    const { user, body: { content: comment }, params: { articleId } } = req;
+    await user.createComment(comment, articleId);
     res.status(HTTP_STATUS.CREATED).json({});
     return;
   } catch (err) {
