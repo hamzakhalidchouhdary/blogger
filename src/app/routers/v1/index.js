@@ -13,6 +13,6 @@ router.use(AuthMiddleware.authorizeUser);
 router.use('/user/manage', manageUser);
 router.use('/user/profile', manageProfile);
 router.use('/article', articles);
-router.use('/article/:id/comment', comment);
+router.use('/article/:articleId/comment', comment);
 
 module.exports = router;
