@@ -1,5 +1,6 @@
 const HTTP_STATUS = require("../../../utils/constants/httpStatus");
 const ArticleModel = require('../../models').Article
+const CommentModel = require('../../models').Comment
 const _ = require('lodash');
 
 function User(userDetails = {}) {
@@ -34,7 +35,12 @@ function User(userDetails = {}) {
   this.deleteArticle = function () {
     throw Object({ message: 'not authorized to create new users', status: HTTP_STATUS.UNAUTHORIZED })
   };
-  this.createComment = function () { };
+  this.createComment = async function (content = '', articleId = null) {
+    if (_.isEmpty(content)) throw Object({ message: 'content can not be empty' });
+    if (_.isEmpty(articleId)) throw Object({ message: 'article id can not be null' });
+    const commentObj = { content, articleId, createdBy: this.id, updatedBy: this.id };
+    return CommentModel.new(commentObj);
+  };
   this.updateComment = function () { };
   this.deleteComment = function () { };
 };
