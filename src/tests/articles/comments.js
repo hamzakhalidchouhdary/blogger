@@ -3,7 +3,10 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const HTTP_STATUS = require('../../utils/constants/httpStatus');
 const UserFixtures = require('../fixtures/user');
+const ArticleFixtures = require('../fixtures/article');
+const CommentFixtures = require('../fixtures/comment');
 const USER_ROLES = require('../../utils/constants/userRoles');
+const { expect } = require('chai');
 
 chai.use(chaiHttp);
 chai.should();
@@ -14,14 +17,21 @@ describe('Article Comments', function () {
     before(async function () {
       this.user = await UserFixtures.createUser({ role: USER_ROLES.ADMIN });
       this.token = await UserFixtures.getUserToken(this.user.id);
+      this.article = await ArticleFixtures.createArticle({}, this.user.id);
     });
     it('should allow admin to add comments on article', async function () {
+      const payload = {
+        content: 'test comment'
+      }
+      const articleCommentCountBefore = await CommentFixtures.getCommentCount(this.article.id);
       const resp = await request(app)
-        .post('/api/v1/article/1/comment')
+        .post(`/api/v1/article/${this.article.id}/comment`)
         .set({ Authorization: `Bearer ${this.token}` })
-        .send({});
+        .send(payload);
       resp.status.should.equal(HTTP_STATUS.CREATED);
-      resp.body.should.empty;
+      const articleCommentCountAfter = await CommentFixtures.getCommentCount(this.article.id);
+      expect(articleCommentCountBefore).to.be.equal(articleCommentCountAfter - 1);
+
     });
     it('should allow admin to edit comments on article', async function () {
       const resp = await request(app)
