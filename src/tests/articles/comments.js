@@ -34,12 +34,15 @@ describe('Article Comments', function () {
 
     });
     it('should allow admin to edit comments on article', async function () {
+      const comment = await CommentFixtures.createComment('', this.article.id, this.user.id);
+      const payload = {content: 'updated comment'};
       const resp = await request(app)
-        .put('/api/v1/article/1/comment')
+        .put(`/api/v1/article/${this.article.id}/comment/${comment.id}`)
         .set({ Authorization: `Bearer ${this.token}` })
-        .send({});
+        .send(payload);
       resp.status.should.equal(HTTP_STATUS.OK);
-      resp.body.should.empty;
+      const updatedComment = await CommentFixtures.getCommentById(comment.id);
+      expect(updatedComment.content).to.equal(payload.content);
     });
     it('should allow admin to delete comments on article', async function () {
       const resp = await request(app)
@@ -78,12 +81,15 @@ describe('Article Comments', function () {
       expect(articleCommentCountBefore).to.be.equal(articleCommentCountAfter - 1);
     });
     it('should allow manager to edit comments on article', async function () {
+      const comment = await CommentFixtures.createComment('', this.article.id, this.user.id);
+      const payload = {content: 'updated comment'};
       const resp = await request(app)
-        .put('/api/v1/article/1/comment')
+        .put(`/api/v1/article/${this.article.id}/comment/${comment.id}`)
         .set({ Authorization: `Bearer ${this.token}` })
-        .send({});
+        .send(payload);
       resp.status.should.equal(HTTP_STATUS.OK);
-      resp.body.should.empty;
+      const updatedComment = await CommentFixtures.getCommentById(comment.id);
+      expect(updatedComment.content).to.equal(payload.content);
     });
     it('should allow manager to delete comments on article', async function () {
       const resp = await request(app)
@@ -122,12 +128,15 @@ describe('Article Comments', function () {
       expect(articleCommentCountBefore).to.be.equal(articleCommentCountAfter - 1);
     });
     it('should allow reader to edit comments on article', async function () {
+      const comment = await CommentFixtures.createComment('', this.article.id, this.user.id);
+      const payload = {content: 'updated comment'};
       const resp = await request(app)
-        .put('/api/v1/article/1/comment')
+        .put(`/api/v1/article/${this.article.id}/comment/${comment.id}`)
         .set({ Authorization: `Bearer ${this.token}` })
-        .send({});
+        .send(payload);
       resp.status.should.equal(HTTP_STATUS.OK);
-      resp.body.should.empty;
+      const updatedComment = await CommentFixtures.getCommentById(comment.id);
+      expect(updatedComment.content).to.equal(payload.content);
     });
     it('should allow reader to delete comments on article', async function () {
       const resp = await request(app)
