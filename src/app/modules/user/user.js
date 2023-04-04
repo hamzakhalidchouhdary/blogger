@@ -41,7 +41,12 @@ function User(userDetails = {}) {
     const commentObj = { content, articleId, createdBy: this.id, updatedBy: this.id };
     return CommentModel.new(commentObj);
   };
-  this.updateComment = function () { };
+  this.updateComment = function (content = '', commentId = null) {
+    if (_.isEmpty(content)) throw Object({ message: 'content can not be empty' });
+    if (_.isNull(commentId)) throw Object({ message: 'comment id can not be null' });
+
+    return CommentModel.modify(content, commentId);
+  };
   this.deleteComment = function () { };
 };
 
