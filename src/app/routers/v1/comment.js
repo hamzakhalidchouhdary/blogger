@@ -3,7 +3,7 @@ const router = require('express').Router({mergeParams: true});
 const ArticleCommentService = require('../../apis/articleCommentService');
 
 router.post('/', ArticleCommentService.createComment);
-router.put('/', ArticleCommentService.updateComment);
+router.put('/:id', ArticleCommentService.updateComment);
 router.get('/', ArticleCommentService.getComment);
 router.delete('/', ArticleCommentService.deleteComment);
 
