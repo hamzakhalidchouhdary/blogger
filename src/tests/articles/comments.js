@@ -62,14 +62,20 @@ describe('Article Comments', function () {
     before(async function () {
       this.user = await UserFixtures.createUser({ role: USER_ROLES.MANAGER });
       this.token = await UserFixtures.getUserToken(this.user.id);
+      this.article = await ArticleFixtures.createArticle({}, this.user.id);
     });
     it('should allow manager to add comments on article', async function () {
+      const payload = {
+        content: 'test comment'
+      }
+      const articleCommentCountBefore = await CommentFixtures.getCommentCount(this.article.id);
       const resp = await request(app)
-        .post('/api/v1/article/1/comment')
+        .post(`/api/v1/article/${this.article.id}/comment`)
         .set({ Authorization: `Bearer ${this.token}` })
-        .send({});
+        .send(payload);
       resp.status.should.equal(HTTP_STATUS.CREATED);
-      resp.body.should.empty;
+      const articleCommentCountAfter = await CommentFixtures.getCommentCount(this.article.id);
+      expect(articleCommentCountBefore).to.be.equal(articleCommentCountAfter - 1);
     });
     it('should allow manager to edit comments on article', async function () {
       const resp = await request(app)
@@ -100,14 +106,20 @@ describe('Article Comments', function () {
     before(async function () {
       this.user = await UserFixtures.createUser({ role: USER_ROLES.READER });
       this.token = await UserFixtures.getUserToken(this.user.id);
+      this.article = await ArticleFixtures.createArticle({}, this.user.id);
     });
     it('should allow reader to add comments on article', async function () {
+      const payload = {
+        content: 'test comment'
+      }
+      const articleCommentCountBefore = await CommentFixtures.getCommentCount(this.article.id);
       const resp = await request(app)
-        .post('/api/v1/article/1/comment')
+        .post(`/api/v1/article/${this.article.id}/comment`)
         .set({ Authorization: `Bearer ${this.token}` })
-        .send({});
+        .send(payload);
       resp.status.should.equal(HTTP_STATUS.CREATED);
-      resp.body.should.empty;
+      const articleCommentCountAfter = await CommentFixtures.getCommentCount(this.article.id);
+      expect(articleCommentCountBefore).to.be.equal(articleCommentCountAfter - 1);
     });
     it('should allow reader to edit comments on article', async function () {
       const resp = await request(app)
