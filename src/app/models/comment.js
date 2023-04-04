@@ -2,6 +2,7 @@
 const {
   Model
 } = require('sequelize');
+const _ = require('lodash');
 module.exports = (sequelize, DataTypes) => {
   class Comment extends Model {
     static associate(models) {
@@ -11,6 +12,16 @@ module.exports = (sequelize, DataTypes) => {
       return this.create(commentDetails, {
         fields: ['content', 'createdBy', 'updatedBy', 'articleId']
       });
+    }
+    static getById(id = null) {
+      if (_.isNull(id)) throw Object({ message: 'comment id is missing' })
+      return this.findOne({ where: { id } });
+    }
+    static modify(content = '', id = null) {
+      if (_.isNull(id)) throw Object({ message: 'comment id is missing' })
+      if (_.isEmpty(content)) throw Object({ message: 'content can not be empty' })
+
+      this.update({ content }, { where: { id } });
     }
   };
   Comment.init({
