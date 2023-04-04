@@ -12,10 +12,10 @@ const createComment = async function (req, res) {
   };
 };
 
-const updateComment = function (req, res) {
+const updateComment = async function (req, res) {
   try {
-    const { user } = req;
-    user.updateComment();
+    const { user, body: { content }, params: { id } } = req;
+    await user.updateComment(content, id);
     res.status(HTTP_STATUS.OK).json({});
     return;
   } catch (err) {
