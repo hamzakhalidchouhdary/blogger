@@ -1,4 +1,5 @@
 'use strict';
+const _ = require('lodash');
 const {
   Model
 } = require('sequelize');
@@ -9,13 +10,18 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'createdBy'
       })
     }
-    static async new(articleDetails) {
+    static async new(articleDetails = {}) {
+      if(!_.isObject(articleDetails)) throw Object({message: 'article is not a object'});
+      if (_.isEmpty(articleDetails)) throw Object({message: 'article details are empty'});
       return this.create(
         articleDetails,
         { fields: ['title', 'content', 'createdBy', 'updatedBy'] }
       )
     }
-    static async modify(articleDetails, articleId) {
+    static async modify(articleDetails = {}, articleId = null) {
+      if (!_.isObject(articleDetails)) throw Object({message: 'article is not a object'})
+      if (_.isEmpty(articleDetails)) throw Object({message: 'article details are empty'});
+      if (!(_.isFinite(articleId) || articleId > 0)) throw Object({message: 'article id is invalid'});
       return this.update(
         articleDetails,
         {
@@ -24,18 +30,22 @@ module.exports = (sequelize, DataTypes) => {
       );
     }
     static async findLatest(limit = 1, where = {}) {
+      if(!(_.isFinite(limit) || limit > 0)) throw Object({message: 'limit is invalid'});
+      if (!_.isObject(where)) throw Object({message: 'where is not a object'});
       return this.findOne({
         limit,
         where,
         order: [['createdAt', 'DESC']]
       });
     }
-    static async findById(id) {
+    static async findById(id = null) {
+      if(!(_.isFinite(id) || id > 0)) throw Object({message: 'id is invalid'});
       return this.findOne({
         where: { id }
       });
     }
-    static async remove(id) {
+    static async remove(id = null) {
+      if(!(_.isFinite(id) || id > 0)) throw Object({message: 'id is invalid'}) 
       return this.destroy({
         where: { id }
       })

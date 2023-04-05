@@ -1,4 +1,5 @@
 'use strict';
+const _ = require('lodash');
 const {
   Model
 } = require('sequelize');
@@ -11,13 +12,18 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'createdBy'
       })
     }
-    static async new(userDetails) {
+    static async new(userDetails = {}) {
+      if(!_.isObject(userDetails)) throw Object({message: 'user details is not a object'});
+      if (_.isEmpty(userDetails)) throw Object({message: 'user details can not be empty'});
       return this.create(
         userDetails,
         { fields: ['firstName', 'lastName', 'hashedPassword', 'username', 'role'] }
       );
     }
-    static async modify(userDetails, userId) {
+    static async modify(userDetails = {}, userId = null) {
+      if(!_.isObject(userDetails)) throw Object({message: 'user details is not a object'});
+      if (_.isEmpty(userDetails)) throw Object({message: 'user details can not be empty'});
+      if (!(_.isFinite(userId) || userId > 0)) throw Object({message: 'user id is invalid'})
       return this.update(
         userDetails,
         {
@@ -27,23 +33,28 @@ module.exports = (sequelize, DataTypes) => {
       );
     }
     static async findLatest(limit = 1, where = {}) {
+      if(!(_.isFinite(limit) || limit > 0)) throw Object({message: 'limit is invalid'});
+      if (!_.isObject(where)) throw Object({message: 'where is not a object'});
       return this.findOne({
         limit,
         where,
         order: [['createdAt', 'DESC']]
       });
     }
-    static async findByUsername(username) {
+    static async findByUsername(username = '') {
+      if(_.isEmpty(username)) throw Object({message: 'user name can not be empty'});
       return this.findOne({
         where: { username }
       });
     }
-    static async findById(id) {
+    static async findById(id = null) {
+      if (!(_.isFinite(id) || id > 0)) throw Object({message: 'user id is invalid'})
       return this.findOne({
         where: { id }
       });
     }
-    static async remove(id) {
+    static async remove(id = null) {
+      if (!(_.isFinite(id) || id > 0)) throw Object({message: 'user id is invalid'})
       return this.destroy({
         where: { id }
       })

@@ -9,18 +9,20 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
 
     }
-    static async new(commentDetails) {
+    static async new(commentDetails = {}) {
+      if(!_.isObject(commentDetails)) throw Object({message: 'comment details is not a object'});
+      if(_.isEmpty(commentDetails)) throw Object({message: 'comment details can not be empty'});
       return this.create(commentDetails, {
         fields: ['content', 'createdBy', 'updatedBy', 'articleId']
       });
     }
     static async getById(id = null) {
-      if (_.isNull(id)) throw Object({ message: 'comment id is missing' })
+      if (!(_.isFinite(id) || id > 0)) throw Object({ message: 'comment id is invalid' })
       return this.findOne({ where: { id } });
     }
     static async modify(content = '', id = null, ownerId = null) {
-      if (_.isNull(id)) throw Object({ message: 'comment id is missing' })
-      if (_.isNull(id)) throw Object({ message: 'owner id is missing' });
+      if (!(_.isFinite(id) || id > 0)) throw Object({ message: 'comment id is invalid' })
+      if (_.isFinite(ownerId) || !(ownerId > 0)) throw Object({ message: 'owner id is invalid' });
       if (_.isEmpty(content)) throw Object({ message: 'content can not be empty' })
 
       const commentDetails = await this.getById(id);
