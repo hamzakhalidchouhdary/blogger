@@ -17,11 +17,12 @@ module.exports = (sequelize, DataTypes) => {
       if (_.isNull(id)) throw Object({ message: 'comment id is missing' })
       return this.findOne({ where: { id } });
     }
-    static modify(content = '', id = null) {
+    static modify(content = '', id = null, ownerId = null) {
       if (_.isNull(id)) throw Object({ message: 'comment id is missing' })
+      if (_.isNull(id)) throw Object({ message: 'owner id is missing' });
       if (_.isEmpty(content)) throw Object({ message: 'content can not be empty' })
 
-      this.update({ content }, { where: { id } });
+      this.update({ content }, { where: { id, updatedBy: ownerId } });
     }
   };
   Comment.init({

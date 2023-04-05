@@ -45,7 +45,7 @@ function User(userDetails = {}) {
     if (_.isEmpty(content)) throw Object({ message: 'content can not be empty' });
     if (_.isNull(commentId)) throw Object({ message: 'comment id can not be null' });
 
-    return CommentModel.modify(content, commentId);
+    return CommentModel.modify(content, commentId, this.id);
   };
   this.deleteComment = function () { };
 };
