@@ -42,7 +42,7 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
     static async findByUsername(username = '') {
-      if(_.isEmpty(username)) throw Object({message: 'user name can not be empty'});
+      if(_.isEmpty(username)) throw Object({message: 'user name can not be empty', status: 400});
       return this.findOne({
         where: { username }
       });

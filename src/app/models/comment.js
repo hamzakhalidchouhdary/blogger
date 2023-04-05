@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     }
     static async modify(content = '', id = null, ownerId = null) {
       if (!(_.isFinite(id) || id > 0)) throw Object({ message: 'comment id is invalid' })
-      if (_.isFinite(ownerId) || !(ownerId > 0)) throw Object({ message: 'owner id is invalid' });
+      if (!(_.isFinite(ownerId) || ownerId > 0)) throw Object({ message: 'owner id is invalid' });
       if (_.isEmpty(content)) throw Object({ message: 'content can not be empty' })
 
       const commentDetails = await this.getById(id);
