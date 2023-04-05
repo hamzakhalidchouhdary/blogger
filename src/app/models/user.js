@@ -11,13 +11,13 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'createdBy'
       })
     }
-    static new(userDetails) {
+    static async new(userDetails) {
       return this.create(
         userDetails,
         { fields: ['firstName', 'lastName', 'hashedPassword', 'username', 'role'] }
       );
     }
-    static modify(userDetails, userId) {
+    static async modify(userDetails, userId) {
       return this.update(
         userDetails,
         {
@@ -26,24 +26,24 @@ module.exports = (sequelize, DataTypes) => {
         }
       );
     }
-    static findLatest(limit = 1, where = {}) {
+    static async findLatest(limit = 1, where = {}) {
       return this.findOne({
         limit,
         where,
         order: [['createdAt', 'DESC']]
       });
     }
-    static findByUsername(username) {
+    static async findByUsername(username) {
       return this.findOne({
         where: { username }
       });
     }
-    static findById(id) {
+    static async findById(id) {
       return this.findOne({
         where: { id }
       });
     }
-    static remove(id) {
+    static async remove(id) {
       return this.destroy({
         where: { id }
       })

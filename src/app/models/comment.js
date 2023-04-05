@@ -9,12 +9,12 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
 
     }
-    static new(commentDetails) {
+    static async new(commentDetails) {
       return this.create(commentDetails, {
         fields: ['content', 'createdBy', 'updatedBy', 'articleId']
       });
     }
-    static getById(id = null) {
+    static async getById(id = null) {
       if (_.isNull(id)) throw Object({ message: 'comment id is missing' })
       return this.findOne({ where: { id } });
     }
