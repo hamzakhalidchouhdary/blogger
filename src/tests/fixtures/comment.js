@@ -7,8 +7,6 @@ const getCommentCount = async function (articleId) {
 };
 
 const createComment = async function (content = '', articleId = null, userId = null) {
-  if (_.isNull(articleId)) throw Object({ message: 'article id is missing' })
-  if (_.isNull(userId)) throw Object({ message: 'user id is missing' })
   if (_.isEmpty(content)) {
     content = faker.random.words(7);
   }
@@ -17,7 +15,6 @@ const createComment = async function (content = '', articleId = null, userId = n
 }
 
 const getCommentById = async function (commentId = null) {
-  if (_.isNull(commentId)) throw Object({ message: 'comment id is missing' })
   return CommentModel.getById(commentId);
 }
 

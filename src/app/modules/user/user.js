@@ -22,13 +22,10 @@ function User(userDetails = {}) {
     throw Object({ message: 'not authorized to create new users', status: HTTP_STATUS.UNAUTHORIZED })
   };
   this.createArticle = async function (articleDetails) {
-    if (_.isEmpty(articleDetails)) throw Object({ message: 'createArticle: article details can not be empty' });
     articleDetails.createdBy = articleDetails.updatedBy = this.id;
     return ArticleModel.new(articleDetails)
   };
   this.updateArticle = function (articleDetails, articleId) {
-    if (_.isEmpty(articleDetails)) throw Object({ message: 'updateArticle: article details can not be empty' });
-    if (!articleId) throw Object({ message: 'updateArticle: article id is not specified' });
     articleDetails.updatedBy = this.id;
     return ArticleModel.modify(articleDetails, articleId);
   };
@@ -36,15 +33,10 @@ function User(userDetails = {}) {
     throw Object({ message: 'not authorized to create new users', status: HTTP_STATUS.UNAUTHORIZED })
   };
   this.createComment = async function (content = '', articleId = null) {
-    if (_.isEmpty(content)) throw Object({ message: 'content can not be empty' });
-    if (_.isEmpty(articleId)) throw Object({ message: 'article id can not be null' });
     const commentObj = { content, articleId, createdBy: this.id, updatedBy: this.id };
     return CommentModel.new(commentObj);
   };
   this.updateComment = function (content = '', commentId = null) {
-    if (_.isEmpty(content)) throw Object({ message: 'content can not be empty' });
-    if (_.isNull(commentId)) throw Object({ message: 'comment id can not be null' });
-
     return CommentModel.modify(content, commentId, this.id);
   };
   this.deleteComment = function () { };
