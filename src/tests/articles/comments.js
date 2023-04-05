@@ -44,6 +44,18 @@ describe('Article Comments', function () {
       const updatedComment = await CommentFixtures.getCommentById(comment.id);
       expect(updatedComment.content).to.equal(payload.content);
     });
+    it('should not allow admin to edit other user`s comments on article', async function () {
+      const tempUser = await UserFixtures.createUser();
+      const comment = await CommentFixtures.createComment('', this.article.id, tempUser.id);
+      const payload = {content: 'updated comment'};
+      const resp = await request(app)
+        .put(`/api/v1/article/${this.article.id}/comment/${comment.id}`)
+        .set({ Authorization: `Bearer ${this.token}` })
+        .send(payload);
+      resp.status.should.equal(HTTP_STATUS.NOT_ALLOWED);
+      const updatedComment = await CommentFixtures.getCommentById(comment.id);
+      expect(updatedComment.content).to.equal(comment.content);
+    });
     it('should allow admin to delete comments on article', async function () {
       const resp = await request(app)
         .delete('/api/v1/article/1/comment')
@@ -91,6 +103,18 @@ describe('Article Comments', function () {
       const updatedComment = await CommentFixtures.getCommentById(comment.id);
       expect(updatedComment.content).to.equal(payload.content);
     });
+    it('should not allow manager to edit other user`s comments on article', async function () {
+      const tempUser = await UserFixtures.createUser();
+      const comment = await CommentFixtures.createComment('', this.article.id, tempUser.id);
+      const payload = {content: 'updated comment'};
+      const resp = await request(app)
+        .put(`/api/v1/article/${this.article.id}/comment/${comment.id}`)
+        .set({ Authorization: `Bearer ${this.token}` })
+        .send(payload);
+      resp.status.should.equal(HTTP_STATUS.NOT_ALLOWED);
+      const updatedComment = await CommentFixtures.getCommentById(comment.id);
+      expect(updatedComment.content).to.equal(comment.content);
+    });
     it('should allow manager to delete comments on article', async function () {
       const resp = await request(app)
         .delete('/api/v1/article/1/comment')
@@ -137,6 +161,18 @@ describe('Article Comments', function () {
       resp.status.should.equal(HTTP_STATUS.OK);
       const updatedComment = await CommentFixtures.getCommentById(comment.id);
       expect(updatedComment.content).to.equal(payload.content);
+    });
+    it('should not allow reader to edit other user`s comments on article', async function () {
+      const tempUser = await UserFixtures.createUser();
+      const comment = await CommentFixtures.createComment('', this.article.id, tempUser.id);
+      const payload = {content: 'updated comment'};
+      const resp = await request(app)
+        .put(`/api/v1/article/${this.article.id}/comment/${comment.id}`)
+        .set({ Authorization: `Bearer ${this.token}` })
+        .send(payload);
+      resp.status.should.equal(HTTP_STATUS.NOT_ALLOWED);
+      const updatedComment = await CommentFixtures.getCommentById(comment.id);
+      expect(updatedComment.content).to.equal(comment.content);
     });
     it('should allow reader to delete comments on article', async function () {
       const resp = await request(app)
