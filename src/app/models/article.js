@@ -3,6 +3,7 @@ const _ = require('lodash');
 const {
   Model
 } = require('sequelize');
+const ERROR_TEXT = require('../../utils/constants/responseText');
 module.exports = (sequelize, DataTypes) => {
   class Article extends Model {
     static associate(models) {
@@ -11,17 +12,17 @@ module.exports = (sequelize, DataTypes) => {
       })
     }
     static async new(articleDetails = {}) {
-      if(!_.isObject(articleDetails)) throw Object({message: 'article is not a object'});
-      if (_.isEmpty(articleDetails)) throw Object({message: 'article details are empty'});
+      if (!_.isObject(articleDetails)) throw Object({ message: ERROR_TEXT.NOT_OBJECT });
+      if (_.isEmpty(articleDetails)) throw Object({ message: ERROR_TEXT.EMPTY });
       return this.create(
         articleDetails,
         { fields: ['title', 'content', 'createdBy', 'updatedBy'] }
       )
     }
     static async modify(articleDetails = {}, articleId = null) {
-      if (!_.isObject(articleDetails)) throw Object({message: 'article is not a object'})
-      if (_.isEmpty(articleDetails)) throw Object({message: 'article details are empty'});
-      if (!(_.isFinite(articleId) || articleId > 0)) throw Object({message: 'article id is invalid'});
+      if (!_.isObject(articleDetails)) throw Object({ message: ERROR_TEXT.NOT_OBJECT })
+      if (_.isEmpty(articleDetails)) throw Object({ message: ERROR_TEXT.EMPTY });
+      if (!(_.isFinite(articleId) || articleId > 0)) throw Object({ message: ERROR_TEXT.INVALID_NUM });
       return this.update(
         articleDetails,
         {
@@ -30,8 +31,8 @@ module.exports = (sequelize, DataTypes) => {
       );
     }
     static async findLatest(limit = 1, where = {}) {
-      if(!(_.isFinite(limit) || limit > 0)) throw Object({message: 'limit is invalid'});
-      if (!_.isObject(where)) throw Object({message: 'where is not a object'});
+      if (!(_.isFinite(limit) || limit > 0)) throw Object({ message: ERROR_TEXT.INVALID_NUM });
+      if (!_.isObject(where)) throw Object({ message: ERROR_TEXT.NOT_OBJECT });
       return this.findOne({
         limit,
         where,
@@ -39,13 +40,13 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
     static async findById(id = null) {
-      if(!(_.isFinite(id) || id > 0)) throw Object({message: 'id is invalid'});
+      if (!(_.isFinite(id) || id > 0)) throw Object({ message: ERROR_TEXT.INVALID_NUM });
       return this.findOne({
         where: { id }
       });
     }
     static async remove(id = null) {
-      if(!(_.isFinite(id) || id > 0)) throw Object({message: 'id is invalid'}) 
+      if (!(_.isFinite(id) || id > 0)) throw Object({ message: ERROR_TEXT.INVALID_NUM })
       return this.destroy({
         where: { id }
       })

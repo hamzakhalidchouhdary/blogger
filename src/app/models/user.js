@@ -5,6 +5,7 @@ const {
 } = require('sequelize');
 const bcrypt = require('bcrypt');
 const { generateHashedPassword } = require('../../utils/common/auth');
+const ERROR_TEXT = require('../../utils/constants/responseText');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
@@ -13,17 +14,17 @@ module.exports = (sequelize, DataTypes) => {
       })
     }
     static async new(userDetails = {}) {
-      if(!_.isObject(userDetails)) throw Object({message: 'user details is not a object'});
-      if (_.isEmpty(userDetails)) throw Object({message: 'user details can not be empty'});
+      if (!_.isObject(userDetails)) throw Object({ message: ERROR_TEXT.NOT_OBJECT });
+      if (_.isEmpty(userDetails)) throw Object({ message: ERROR_TEXT.EMPTY });
       return this.create(
         userDetails,
         { fields: ['firstName', 'lastName', 'hashedPassword', 'username', 'role'] }
       );
     }
     static async modify(userDetails = {}, userId = null) {
-      if(!_.isObject(userDetails)) throw Object({message: 'user details is not a object'});
-      if (_.isEmpty(userDetails)) throw Object({message: 'user details can not be empty'});
-      if (!(_.isFinite(userId) || userId > 0)) throw Object({message: 'user id is invalid'})
+      if (!_.isObject(userDetails)) throw Object({ message: ERROR_TEXT.NOT_OBJECT });
+      if (_.isEmpty(userDetails)) throw Object({ message: ERROR_TEXT.EMPTY });
+      if (!(_.isFinite(userId) || userId > 0)) throw Object({ message: ERROR_TEXT.INVALID_NUM })
       return this.update(
         userDetails,
         {
@@ -33,8 +34,8 @@ module.exports = (sequelize, DataTypes) => {
       );
     }
     static async findLatest(limit = 1, where = {}) {
-      if(!(_.isFinite(limit) || limit > 0)) throw Object({message: 'limit is invalid'});
-      if (!_.isObject(where)) throw Object({message: 'where is not a object'});
+      if (!(_.isFinite(limit) || limit > 0)) throw Object({ message: ERROR_TEXT.INVALID_NUM });
+      if (!_.isObject(where)) throw Object({ message: ERROR_TEXT.NOT_OBJECT });
       return this.findOne({
         limit,
         where,
@@ -42,19 +43,19 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
     static async findByUsername(username = '') {
-      if(_.isEmpty(username)) throw Object({message: 'user name can not be empty', status: 400});
+      if (_.isEmpty(username)) throw Object({ message: ERROR_TEXT.EMPTY, status: 400 });
       return this.findOne({
         where: { username }
       });
     }
     static async findById(id = null) {
-      if (!(_.isFinite(id) || id > 0)) throw Object({message: 'user id is invalid'})
+      if (!(_.isFinite(id) || id > 0)) throw Object({ message: ERROR_TEXT.INVALID_NUM })
       return this.findOne({
         where: { id }
       });
     }
     static async remove(id = null) {
-      if (!(_.isFinite(id) || id > 0)) throw Object({message: 'user id is invalid'})
+      if (!(_.isFinite(id) || id > 0)) throw Object({ message: ERROR_TEXT.INVALID_NUM })
       return this.destroy({
         where: { id }
       })
