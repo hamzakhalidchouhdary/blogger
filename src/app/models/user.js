@@ -5,7 +5,7 @@ const {
 } = require('sequelize');
 const bcrypt = require('bcrypt');
 const { generateHashedPassword } = require('../../utils/common/auth');
-const ERROR_TEXT = require('../../utils/constants/responseText');
+const ERROR_TEXT = require('../../utils/constants/errorText');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {

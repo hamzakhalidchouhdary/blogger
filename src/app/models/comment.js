@@ -4,7 +4,7 @@ const {
 } = require('sequelize');
 const _ = require('lodash');
 const HTTP_STATUS = require('../../utils/constants/httpStatus');
-const ERROR_TEXT = require('../../utils/constants/responseText');
+const ERROR_TEXT = require('../../utils/constants/errorText');
 module.exports = (sequelize, DataTypes) => {
   class Comment extends Model {
     static associate(models) {

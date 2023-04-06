@@ -3,7 +3,7 @@ const _ = require('lodash');
 const {
   Model
 } = require('sequelize');
-const ERROR_TEXT = require('../../utils/constants/responseText');
+const ERROR_TEXT = require('../../utils/constants/errorText');
 module.exports = (sequelize, DataTypes) => {
   class Article extends Model {
     static associate(models) {
