@@ -23,10 +23,10 @@ const updateComment = async function (req, res) {
   };
 };
 
-const deleteComment = function (req, res) {
+const deleteComment = async function (req, res) {
   try {
-    const { user } = req;
-    user.deleteComment();
+    const { user, params: {id: commentId} } = req;
+    await user.deleteComment(commentId);
     res.status(HTTP_STATUS.OK).json({});
     return;
   } catch (err) {
