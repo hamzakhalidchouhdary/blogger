@@ -39,7 +39,9 @@ function User(userDetails = {}) {
   this.updateComment = function (content = '', commentId = null) {
     return CommentModel.modify(content, commentId, this.id);
   };
-  this.deleteComment = function () { };
+  this.deleteComment = async function (commentId = null) { 
+    return CommentModel.remove(commentId, this.id);
+  };
 };
 
 User.prototype = new Object();
