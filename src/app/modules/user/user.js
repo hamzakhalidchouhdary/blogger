@@ -37,7 +37,9 @@ function User(userDetails = {}) {
     const commentObj = { content, articleId, createdBy: this.id, updatedBy: this.id };
     return CommentModel.new(commentObj);
   };
-  this.updateComment = function (content = '', commentId = null) {
+  this.updateComment = async function (content = '', commentId = null) {
+    const commentDetails = await CommentModel.getById(commentId);
+    if(commentDetails.createdBy != this.id) throw Object({message: ERROR_TEXT.NOT_A_OWNER, status: HTTP_STATUS.NOT_ALLOWED})
     return CommentModel.modify(content, commentId, this.id);
   };
   this.deleteComment = async function (commentId = null) { 

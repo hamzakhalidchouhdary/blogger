@@ -25,11 +25,7 @@ module.exports = (sequelize, DataTypes) => {
       if (!(_.isFinite(id) || id > 0)) throw Object({ message: ERROR_TEXT.INVALID_NUM })
       if (!(_.isFinite(ownerId) || ownerId > 0)) throw Object({ message: ERROR_TEXT.INVALID_NUM });
       if (_.isEmpty(content)) throw Object({ message: ERROR_TEXT.EMPTY })
-
-      const commentDetails = await this.getById(id);
-      if (commentDetails.createdBy != ownerId) {
-        throw Object({ message: 'can not modify others user comments', status: HTTP_STATUS.NOT_ALLOWED });
-      }
+      
       this.update({ content }, { where: { id, updatedBy: ownerId } });
     }
     static async remove(id, createdBy) {
