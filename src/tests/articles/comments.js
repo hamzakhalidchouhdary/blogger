@@ -78,7 +78,7 @@ describe('Article Comments', function () {
         .delete(`/api/v1/article/${this.article}/comment/${comment.id}`)
         .set({ Authorization: `Bearer ${this.token}` })
         .send({});
-      resp.status.should.equal(HTTP_STATUS.OK);
+      resp.status.should.equal(HTTP_STATUS.NOT_ALLOWED);
       const commentCountAfter = await CommentFixtures.getCommentCount(this.article.id);
       const deletedComment = await CommentFixtures.getCommentById(comment.id);
       expect(commentCountAfter).to.equal(commentCountBefore);
@@ -158,7 +158,7 @@ describe('Article Comments', function () {
         .delete(`/api/v1/article/${this.article}/comment/${comment.id}`)
         .set({ Authorization: `Bearer ${this.token}` })
         .send({});
-      resp.status.should.equal(HTTP_STATUS.OK);
+      resp.status.should.equal(HTTP_STATUS.NOT_ALLOWED);
       const commentCountAfter = await CommentFixtures.getCommentCount(this.article.id);
       const deletedComment = await CommentFixtures.getCommentById(comment.id);
       expect(commentCountAfter).to.equal(commentCountBefore);
@@ -238,7 +238,7 @@ describe('Article Comments', function () {
       .delete(`/api/v1/article/${this.article}/comment/${comment.id}`)
       .set({ Authorization: `Bearer ${this.token}` })
       .send({});
-      resp.status.should.equal(HTTP_STATUS.OK);
+      resp.status.should.equal(HTTP_STATUS.NOT_ALLOWED);
       const commentCountAfter = await CommentFixtures.getCommentCount(this.article.id);
       const deletedComment = await CommentFixtures.getCommentById(comment.id);
       expect(commentCountAfter).to.equal(commentCountBefore);
