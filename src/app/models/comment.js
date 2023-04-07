@@ -32,6 +32,13 @@ module.exports = (sequelize, DataTypes) => {
       }
       this.update({ content }, { where: { id, updatedBy: ownerId } });
     }
+    static async remove(id, createdBy) {
+      return this.destroy({
+        where: {
+          id, createdBy
+        }
+      });
+    }
   };
   Comment.init({
     content: {
