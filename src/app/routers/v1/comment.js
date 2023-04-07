@@ -5,6 +5,6 @@ const ArticleCommentService = require('../../apis/articleCommentService');
 router.post('/', ArticleCommentService.createComment);
 router.put('/:id', ArticleCommentService.updateComment);
 router.get('/', ArticleCommentService.getComment);
-router.delete('/', ArticleCommentService.deleteComment);
+router.delete('/:id', ArticleCommentService.deleteComment);
 
 module.exports = router;
