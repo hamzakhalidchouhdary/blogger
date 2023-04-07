@@ -13,6 +13,11 @@ function User(userDetails = {}) {
   this.lastName = userDetails.lastName || '';
   this.username = userDetails.username || '';
   this.role = userDetails.role || '';
+
+  const isCommentOwner = async (commentId) => {
+    const commentDetails = await CommentModel.getById(commentId);
+    return commentDetails.createdBy == this.id
+  }
   this.createUser = function () {
     throw Object({ message: 'not authorized to create new users', status: HTTP_STATUS.UNAUTHORIZED })
   };
@@ -38,13 +43,13 @@ function User(userDetails = {}) {
     return CommentModel.new(commentObj);
   };
   this.updateComment = async function (content = '', commentId = null) {
-    const commentDetails = await CommentModel.getById(commentId);
-    if(commentDetails.createdBy != this.id) throw Object({message: ERROR_TEXT.NOT_A_OWNER, status: HTTP_STATUS.NOT_ALLOWED})
+    if(!(await isCommentOwner(commentId))) throw Object({message: ERROR_TEXT.NOT_A_OWNER, status: HTTP_STATUS.NOT_ALLOWED})
+
     return CommentModel.modify(content, commentId, this.id);
   };
   this.deleteComment = async function (commentId = null) { 
-    const commentDetails = await CommentModel.getById(commentId);
-    if(commentDetails.createdBy != this.id) throw Object({message: ERROR_TEXT.NOT_A_OWNER, status: HTTP_STATUS.NOT_ALLOWED})
+    if(!(await isCommentOwner(commentId)))throw Object({message: ERROR_TEXT.NOT_A_OWNER, status: HTTP_STATUS.NOT_ALLOWED})
+
     return CommentModel.remove(commentId, this.id);
   };
 };
