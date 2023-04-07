@@ -57,11 +57,32 @@ describe('Article Comments', function () {
       expect(updatedComment.content).to.equal(comment.content);
     });
     it('should allow admin to delete comments on article', async function () {
+      const comment = await CommentFixtures.createComment('', this.article.id, this.user.id);
+      const commentCountBefore = await CommentFixtures.getCommentCount(this.article.id);
       const resp = await request(app)
-        .delete('/api/v1/article/1/comment')
+        .delete(`/api/v1/article/${this.article}/comment/${comment.id}`)
         .set({ Authorization: `Bearer ${this.token}` })
         .send({});
       resp.status.should.equal(HTTP_STATUS.OK);
+      const commentCountAfter = await CommentFixtures.getCommentCount(this.article.id);
+      const deletedComment = await CommentFixtures.getCommentById(comment.id);
+      expect(commentCountAfter).to.equal(commentCountBefore - 1);
+      expect(deletedComment).to.be.null;
+      resp.body.should.empty;
+    });
+    it('should not allow admin to delete comments of other user', async function () {
+      const commentOwner = await UserFixtures.createUser({});
+      const comment = await CommentFixtures.createComment('', this.article.id, commentOwner.id);
+      const commentCountBefore = await CommentFixtures.getCommentCount(this.article.id);
+      const resp = await request(app)
+        .delete(`/api/v1/article/${this.article}/comment/${comment.id}`)
+        .set({ Authorization: `Bearer ${this.token}` })
+        .send({});
+      resp.status.should.equal(HTTP_STATUS.OK);
+      const commentCountAfter = await CommentFixtures.getCommentCount(this.article.id);
+      const deletedComment = await CommentFixtures.getCommentById(comment.id);
+      expect(commentCountAfter).to.equal(commentCountBefore);
+      expect(deletedComment).to.be.a('object');
       resp.body.should.empty;
     });
     it('should allow admin to view comments on article', async function () {
@@ -116,11 +137,32 @@ describe('Article Comments', function () {
       expect(updatedComment.content).to.equal(comment.content);
     });
     it('should allow manager to delete comments on article', async function () {
+      const comment = await CommentFixtures.createComment('', this.article.id, this.user.id);
+      const commentCountBefore = await CommentFixtures.getCommentCount(this.article.id);
       const resp = await request(app)
-        .delete('/api/v1/article/1/comment')
+        .delete(`/api/v1/article/${this.article}/comment/${comment.id}`)
         .set({ Authorization: `Bearer ${this.token}` })
         .send({});
       resp.status.should.equal(HTTP_STATUS.OK);
+      const commentCountAfter = await CommentFixtures.getCommentCount(this.article.id);
+      const deletedComment = await CommentFixtures.getCommentById(comment.id);
+      expect(commentCountAfter).to.equal(commentCountBefore - 1);
+      expect(deletedComment).to.be.null;
+      resp.body.should.empty;
+    });
+    it('should not allow manager to delete comments of other user', async function () {
+      const commentOwner = await UserFixtures.createUser({});
+      const comment = await CommentFixtures.createComment('', this.article.id, commentOwner.id);
+      const commentCountBefore = await CommentFixtures.getCommentCount(this.article.id);
+      const resp = await request(app)
+        .delete(`/api/v1/article/${this.article}/comment/${comment.id}`)
+        .set({ Authorization: `Bearer ${this.token}` })
+        .send({});
+      resp.status.should.equal(HTTP_STATUS.OK);
+      const commentCountAfter = await CommentFixtures.getCommentCount(this.article.id);
+      const deletedComment = await CommentFixtures.getCommentById(comment.id);
+      expect(commentCountAfter).to.equal(commentCountBefore);
+      expect(deletedComment).to.be.a('object');
       resp.body.should.empty;
     });
     it('should allow manager to view comments on article', async function () {
@@ -175,11 +217,32 @@ describe('Article Comments', function () {
       expect(updatedComment.content).to.equal(comment.content);
     });
     it('should allow reader to delete comments on article', async function () {
+      const comment = await CommentFixtures.createComment('', this.article.id, this.user.id);
+      const commentCountBefore = await CommentFixtures.getCommentCount(this.article.id);
       const resp = await request(app)
-        .delete('/api/v1/article/1/comment')
-        .set({ Authorization: `Bearer ${this.token}` })
-        .send({});
+      .delete(`/api/v1/article/${this.article}/comment/${comment.id}`)
+      .set({ Authorization: `Bearer ${this.token}` })
+      .send({});
       resp.status.should.equal(HTTP_STATUS.OK);
+      const commentCountAfter = await CommentFixtures.getCommentCount(this.article.id);
+      const deletedComment = await CommentFixtures.getCommentById(comment.id);
+      expect(commentCountAfter).to.equal(commentCountBefore - 1);
+      expect(deletedComment).to.be.null;
+      resp.body.should.empty;
+    });
+    it('should not allow reader to delete comments of other user', async function () {
+      const commentOwner = await UserFixtures.createUser({});
+      const comment = await CommentFixtures.createComment('', this.article.id, commentOwner.id);
+      const commentCountBefore = await CommentFixtures.getCommentCount(this.article.id);
+      const resp = await request(app)
+      .delete(`/api/v1/article/${this.article}/comment/${comment.id}`)
+      .set({ Authorization: `Bearer ${this.token}` })
+      .send({});
+      resp.status.should.equal(HTTP_STATUS.OK);
+      const commentCountAfter = await CommentFixtures.getCommentCount(this.article.id);
+      const deletedComment = await CommentFixtures.getCommentById(comment.id);
+      expect(commentCountAfter).to.equal(commentCountBefore);
+      expect(deletedComment).to.be.a('object');
       resp.body.should.empty;
     });
     it('should allow reader to view comments on article', async function () {
