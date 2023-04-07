@@ -2,6 +2,7 @@ const HTTP_STATUS = require("../../../utils/constants/httpStatus");
 const ArticleModel = require('../../models').Article
 const CommentModel = require('../../models').Comment
 const _ = require('lodash');
+const ERROR_TEXT = require("../../../utils/constants/errorText");
 
 function User(userDetails = {}) {
 
@@ -40,6 +41,8 @@ function User(userDetails = {}) {
     return CommentModel.modify(content, commentId, this.id);
   };
   this.deleteComment = async function (commentId = null) { 
+    const commentDetails = await CommentModel.getById(commentId);
+    if(commentDetails.createdBy != this.id) throw Object({message: ERROR_TEXT.NOT_A_OWNER, status: HTTP_STATUS.NOT_ALLOWED})
     return CommentModel.remove(commentId, this.id);
   };
 };
