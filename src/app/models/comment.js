@@ -37,6 +37,9 @@ module.exports = (sequelize, DataTypes) => {
         },
       });
     }
+    static async getAllByArticleId(articleId) {
+      return this.findAll({ where: { articleId } });
+    }
   }
   Comment.init(
     {
