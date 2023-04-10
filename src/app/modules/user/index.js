@@ -1,15 +1,19 @@
-const UserModel = require('../../models/index').User;
-const HTTP_STATUS = require('../../../utils/constants/httpStatus');
-const USER_ROLES = require('../../../utils/constants/userRoles');
-const Admin = require('./admin');
-const Manager = require('./manager');
-const Reader = require('./reader');
-const User = require('./user');
+const UserModel = require("../../models/index").User;
+const HTTP_STATUS = require("../../../utils/constants/httpStatus");
+const USER_ROLES = require("../../../utils/constants/userRoles");
+const Admin = require("./admin");
+const Manager = require("./manager");
+const Reader = require("./reader");
+const User = require("./user");
 
 module.exports = {
   getUser: async function (userId) {
     const userDetails = await UserModel.findById(userId);
-    if (!userDetails) throw Object({ message: 'user not found', status: HTTP_STATUS.UNAUTHORIZED })
+    if (!userDetails)
+      throw Object({
+        message: "user not found",
+        status: HTTP_STATUS.UNAUTHORIZED,
+      });
     let user = {};
     switch (userDetails.role) {
       case USER_ROLES.ADMIN:
@@ -22,8 +26,11 @@ module.exports = {
         user = new Reader(userDetails);
         break;
       default:
-        throw Object({ message: 'user role not supported', status: HTTP_STATUS.UNAUTHORIZED })
+        throw Object({
+          message: "user role not supported",
+          status: HTTP_STATUS.UNAUTHORIZED,
+        });
     }
     return user;
-  }
-}
+  },
+};

@@ -1,5 +1,5 @@
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const generateHashedPassword = async function (plainString) {
   try {
@@ -7,7 +7,7 @@ const generateHashedPassword = async function (plainString) {
   } catch (err) {
     throw err;
   }
-}
+};
 
 const compareHashedPassword = async function (plainPassword, hashedPassword) {
   try {
@@ -15,7 +15,7 @@ const compareHashedPassword = async function (plainPassword, hashedPassword) {
   } catch (err) {
     throw err;
   }
-}
+};
 
 const generateJWT = async function (payload) {
   try {
@@ -24,7 +24,7 @@ const generateJWT = async function (payload) {
   } catch (err) {
     throw err;
   }
-}
+};
 
 const verifyJWT = async function (token) {
   try {
@@ -36,11 +36,11 @@ const verifyJWT = async function (token) {
   } catch (err) {
     throw err;
   }
-}
+};
 
 module.exports = {
   generateHashedPassword,
   compareHashedPassword,
   generateJWT,
-  verifyJWT
-}
+  verifyJWT,
+};

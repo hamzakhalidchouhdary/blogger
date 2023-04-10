@@ -3,35 +3,46 @@ const HTTP_STATUS = require("../../utils/constants/httpStatus");
 
 const createComment = async function (req, res) {
   try {
-    const { user, body: { content: comment }, params: { articleId } } = req;
+    const {
+      user,
+      body: { content: comment },
+      params: { articleId },
+    } = req;
     await user.createComment(comment, articleId);
     res.status(HTTP_STATUS.CREATED).json({});
     return;
   } catch (err) {
     ServiceResponse.error(res, err);
-  };
+  }
 };
 
 const updateComment = async function (req, res) {
   try {
-    const { user, body: { content }, params: { id } } = req;
+    const {
+      user,
+      body: { content },
+      params: { id },
+    } = req;
     await user.updateComment(content, id);
     res.status(HTTP_STATUS.OK).json({});
     return;
   } catch (err) {
     ServiceResponse.error(res, err);
-  };
+  }
 };
 
 const deleteComment = async function (req, res) {
   try {
-    const { user, params: {id: commentId} } = req;
+    const {
+      user,
+      params: { id: commentId },
+    } = req;
     await user.deleteComment(commentId);
     res.status(HTTP_STATUS.OK).json({});
     return;
   } catch (err) {
     ServiceResponse.error(res, err);
-  };
+  }
 };
 
 const getComment = function (req, res) {
@@ -41,12 +52,12 @@ const getComment = function (req, res) {
     return;
   } catch (err) {
     ServiceResponse.error(res, err);
-  };
+  }
 };
 
 module.exports = {
   createComment,
   updateComment,
   deleteComment,
-  getComment
+  getComment,
 };

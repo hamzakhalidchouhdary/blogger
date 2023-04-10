@@ -10,29 +10,36 @@ const createPost = async function (req, res) {
   } catch (err) {
     console.log(err);
     ServiceResponse.error(res, err);
-  };
+  }
 };
 
 const updatePost = async function (req, res) {
   try {
-    const { user, body: articleDetails, params: { id: articleId } } = req;
+    const {
+      user,
+      body: articleDetails,
+      params: { id: articleId },
+    } = req;
     await user.updateArticle(articleDetails, articleId);
     res.status(HTTP_STATUS.OK).json({});
     return;
   } catch (err) {
     ServiceResponse.error(res, err);
-  };
+  }
 };
 
 const deletePost = async function (req, res) {
   try {
-    const { user, params: { id: articleId } } = req;
+    const {
+      user,
+      params: { id: articleId },
+    } = req;
     await user.deleteArticle(articleId);
     res.status(HTTP_STATUS.OK).json({});
     return;
   } catch (err) {
     ServiceResponse.error(res, err);
-  };
+  }
 };
 
 const getPosts = function (req, res) {
@@ -42,7 +49,7 @@ const getPosts = function (req, res) {
     return;
   } catch (err) {
     ServiceResponse.error(res, err);
-  };
+  }
 };
 
 const getPost = function (req, res) {
@@ -52,7 +59,7 @@ const getPost = function (req, res) {
     return;
   } catch (err) {
     ServiceResponse.error(res, err);
-  };
+  }
 };
 
 module.exports = {
@@ -60,5 +67,5 @@ module.exports = {
   updatePost,
   deletePost,
   getPost,
-  getPosts
+  getPosts,
 };

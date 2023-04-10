@@ -1,134 +1,138 @@
-'use strict';
-const _ = require('lodash');
-const {
-  Model
-} = require('sequelize');
-const bcrypt = require('bcrypt');
-const { generateHashedPassword } = require('../../utils/common/auth');
-const ERROR_TEXT = require('../../utils/constants/errorText');
+"use strict";
+const _ = require("lodash");
+const { Model } = require("sequelize");
+const bcrypt = require("bcrypt");
+const { generateHashedPassword } = require("../../utils/common/auth");
+const ERROR_TEXT = require("../../utils/constants/errorText");
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
       models.User.hasMany(models.Article, {
-        foreignKey: 'createdBy'
-      })
+        foreignKey: "createdBy",
+      });
     }
     static async new(userDetails = {}) {
-      if (!_.isObject(userDetails)) throw Object({ message: ERROR_TEXT.NOT_OBJECT });
+      if (!_.isObject(userDetails))
+        throw Object({ message: ERROR_TEXT.NOT_OBJECT });
       if (_.isEmpty(userDetails)) throw Object({ message: ERROR_TEXT.EMPTY });
-      return this.create(
-        userDetails,
-        { fields: ['firstName', 'lastName', 'hashedPassword', 'username', 'role'] }
-      );
+      return this.create(userDetails, {
+        fields: ["firstName", "lastName", "hashedPassword", "username", "role"],
+      });
     }
     static async modify(userDetails = {}, userId = null) {
-      if (!_.isObject(userDetails)) throw Object({ message: ERROR_TEXT.NOT_OBJECT });
+      if (!_.isObject(userDetails))
+        throw Object({ message: ERROR_TEXT.NOT_OBJECT });
       if (_.isEmpty(userDetails)) throw Object({ message: ERROR_TEXT.EMPTY });
-      if (!(_.isFinite(userId) || userId > 0)) throw Object({ message: ERROR_TEXT.INVALID_NUM })
-      return this.update(
-        userDetails,
-        {
-          where: { id: userId },
-          // fields: ['firstName', 'lastName', 'username']
-        }
-      );
+      if (!(_.isFinite(userId) || userId > 0))
+        throw Object({ message: ERROR_TEXT.INVALID_NUM });
+      return this.update(userDetails, {
+        where: { id: userId },
+        // fields: ['firstName', 'lastName', 'username']
+      });
     }
     static async findLatest(limit = 1, where = {}) {
-      if (!(_.isFinite(limit) || limit > 0)) throw Object({ message: ERROR_TEXT.INVALID_NUM });
+      if (!(_.isFinite(limit) || limit > 0))
+        throw Object({ message: ERROR_TEXT.INVALID_NUM });
       if (!_.isObject(where)) throw Object({ message: ERROR_TEXT.NOT_OBJECT });
       return this.findOne({
         limit,
         where,
-        order: [['createdAt', 'DESC']]
+        order: [["createdAt", "DESC"]],
       });
     }
-    static async findByUsername(username = '') {
-      if (_.isEmpty(username)) throw Object({ message: ERROR_TEXT.EMPTY, status: 400 });
+    static async findByUsername(username = "") {
+      if (_.isEmpty(username))
+        throw Object({ message: ERROR_TEXT.EMPTY, status: 400 });
       return this.findOne({
-        where: { username }
+        where: { username },
       });
     }
     static async findById(id = null) {
-      if (!(_.isFinite(id) || id > 0)) throw Object({ message: ERROR_TEXT.INVALID_NUM })
+      if (!(_.isFinite(id) || id > 0))
+        throw Object({ message: ERROR_TEXT.INVALID_NUM });
       return this.findOne({
-        where: { id }
+        where: { id },
       });
     }
     static async remove(id = null) {
-      if (!(_.isFinite(id) || id > 0)) throw Object({ message: ERROR_TEXT.INVALID_NUM })
+      if (!(_.isFinite(id) || id > 0))
+        throw Object({ message: ERROR_TEXT.INVALID_NUM });
       return this.destroy({
-        where: { id }
-      })
+        where: { id },
+      });
     }
     instanceMethod() {
-      console.log('This Is Instance Method');
+      console.log("This Is Instance Method");
     }
   }
-  User.init({
-    firstName: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        isAlpha: { msg: 'Must be alphabetic value' },
-        notNull: { msg: 'first name can not be null' }
-      }
-    },
-    lastName: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        isAlpha: { msg: 'Must be alphabetic value' },
-        notNull: { msg: 'last name can not be null' }
-      }
-    },
-    username: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-      validate: {
-        is: {
-          msg: 'Must be alphabetic value',
-          args: ['^[a-z0-9_\.-]+$', 'i']
+  User.init(
+    {
+      firstName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          isAlpha: { msg: "Must be alphabetic value" },
+          notNull: { msg: "first name can not be null" },
         },
-        notNull: { msg: 'username can not be null' }
-      }
-    },
-    hashedPassword: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: {
-          msg: 'hashed password can not be empty',
+      },
+      lastName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          isAlpha: { msg: "Must be alphabetic value" },
+          notNull: { msg: "last name can not be null" },
         },
-        notNull: { msg: 'hashed password can not be null' }
-      }
+      },
+      username: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+        validate: {
+          is: {
+            msg: "Must be alphabetic value",
+            args: ["^[a-z0-9_.-]+$", "i"],
+          },
+          notNull: { msg: "username can not be null" },
+        },
+      },
+      hashedPassword: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: {
+            msg: "hashed password can not be empty",
+          },
+          notNull: { msg: "hashed password can not be null" },
+        },
+      },
+      role: {
+        type: DataTypes.ENUM,
+        defaultValue: "manager",
+        allowNull: false,
+        values: ["admin", "manager", "reader"],
+        // set(value) {
+        //   this.setDataValue('role', value.toL);
+        // },
+        validate: {
+          isIn: {
+            msg: "role must be one of the `Admin` | `Manager` | `Reader`",
+            args: [["admin", "manager", "reader"]],
+          },
+        },
+      },
     },
-    role: {
-      type: DataTypes.ENUM,
-      defaultValue: 'manager',
-      allowNull: false,
-      values: ['admin', 'manager', 'reader'],
-      // set(value) {
-      //   this.setDataValue('role', value.toL);
-      // },
-      validate: {
-        isIn: {
-          msg: 'role must be one of the `Admin` | `Manager` | `Reader`',
-          args: [['admin', 'manager', 'reader']]
-        }
-      }
+    {
+      hooks: {
+        beforeCreate: async function (user) {
+          const plainPassword = user.getDataValue("hashedPassword");
+          const hashedPassword = await generateHashedPassword(plainPassword);
+          user.setDataValue("hashedPassword", hashedPassword);
+        },
+      },
+      indexes: [],
+      sequelize,
+      modelName: "User",
     }
-  }, {
-    hooks: {
-      beforeCreate: async function (user) {
-        const plainPassword = user.getDataValue('hashedPassword')
-        const hashedPassword = await generateHashedPassword(plainPassword);
-        user.setDataValue('hashedPassword', hashedPassword)
-      }
-    },
-    indexes: [],
-    sequelize,
-    modelName: 'User',
-  });
+  );
   return User;
 };

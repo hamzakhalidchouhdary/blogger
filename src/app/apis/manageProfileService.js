@@ -8,7 +8,7 @@ const createProfile = function (req, res) {
   } catch (err) {
     ServiceResponse.error(res, err);
     return;
-  };
+  }
 };
 
 const updateProfile = function (req, res) {
@@ -18,7 +18,7 @@ const updateProfile = function (req, res) {
   } catch (err) {
     ServiceResponse.error(res, err);
     return;
-  };
+  }
 };
 
 const deleteProfile = function (req, res) {
@@ -28,7 +28,7 @@ const deleteProfile = function (req, res) {
   } catch (err) {
     ServiceResponse.error(res, err);
     return;
-  };
+  }
 };
 
 const getProfile = function (req, res) {
@@ -38,12 +38,12 @@ const getProfile = function (req, res) {
   } catch (err) {
     ServiceResponse.error(res, err);
     return;
-  };
+  }
 };
 
 module.exports = {
   createProfile,
   updateProfile,
   deleteProfile,
-  getProfile
+  getProfile,
 };

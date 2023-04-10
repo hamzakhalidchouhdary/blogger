@@ -10,7 +10,7 @@ const createUserProfile = async function (req, res) {
   } catch (err) {
     ServiceResponse.error(res, err);
     return;
-  };
+  }
 };
 
 const updateUserProfile = async function (req, res) {
@@ -18,27 +18,30 @@ const updateUserProfile = async function (req, res) {
     const {
       user,
       body: updatedDetails,
-      params: { id: userId }
+      params: { id: userId },
     } = req;
     await user.updateUser(updatedDetails, userId);
-    res.status(HTTP_STATUS.OK).json({ message: 'user updated' });
+    res.status(HTTP_STATUS.OK).json({ message: "user updated" });
     return;
   } catch (err) {
     ServiceResponse.error(res, err);
     return;
-  };
+  }
 };
 
 const deleteUserProfile = async function (req, res) {
   try {
-    const { user, params: { id: userId } } = req;
+    const {
+      user,
+      params: { id: userId },
+    } = req;
     await user.deleteUser(userId);
     res.status(HTTP_STATUS.OK).end();
     return;
   } catch (err) {
     ServiceResponse.error(res, err);
     return;
-  };
+  }
 };
 
 const getUserProfile = function (req, res) {
@@ -48,12 +51,12 @@ const getUserProfile = function (req, res) {
   } catch (err) {
     ServiceResponse.error(res, err);
     return;
-  };
+  }
 };
 
 module.exports = {
   createUserProfile,
   updateUserProfile,
   deleteUserProfile,
-  getUserProfile
+  getUserProfile,
 };

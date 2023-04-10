@@ -1,7 +1,7 @@
-const User = require('./user');
-const UserModel = require('../../models').User;
-const ArticleModel = require('../../models').Article;
-const _ = require('lodash');
+const User = require("./user");
+const UserModel = require("../../models").User;
+const ArticleModel = require("../../models").Article;
+const _ = require("lodash");
 
 function Admin(userDetails) {
   User.call(this, userDetails);
@@ -21,6 +21,6 @@ function Admin(userDetails) {
 }
 
 Admin.prototype = new User();
-Admin.prototype.role = 'admin';
+Admin.prototype.role = "admin";
 
 module.exports = Admin;
