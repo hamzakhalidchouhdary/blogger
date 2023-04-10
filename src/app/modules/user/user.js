@@ -76,6 +76,9 @@ function User(userDetails = {}) {
 
     return CommentModel.remove(commentId, this.id);
   };
+  this.viewArticleComments = async function (articleId) {
+    return CommentModel.getAllByArticleId(articleId);
+  };
 }
 
 User.prototype = new Object();
