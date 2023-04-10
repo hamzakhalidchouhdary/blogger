@@ -55,9 +55,25 @@ const getComment = function (req, res) {
   }
 };
 
+const getCommentList = async function (req, res) {
+  try {
+    const {
+      user,
+      params: { articleId },
+    } = req;
+    const comments = await user.viewArticleComments(articleId);
+    res.status(HTTP_STATUS.OK).json(comments);
+    return;
+  } catch (err) {
+    console.log(err);
+    ServiceResponse.error(res, err);
+  }
+};
+
 module.exports = {
   createComment,
   updateComment,
   deleteComment,
   getComment,
+  getCommentList,
 };
