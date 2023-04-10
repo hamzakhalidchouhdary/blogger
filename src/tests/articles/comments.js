@@ -17,6 +17,8 @@ describe("Article Comments", function () {
     before(async function () {
       this.user = await UserFixtures.createUser({ role: USER_ROLES.ADMIN });
       this.token = await UserFixtures.getUserToken(this.user.id);
+    });
+    beforeEach(async function () {
       this.article = await ArticleFixtures.createArticle({}, this.user.id);
     });
     it("should allow admin to add comments on article", async function () {
@@ -143,6 +145,8 @@ describe("Article Comments", function () {
     before(async function () {
       this.user = await UserFixtures.createUser({ role: USER_ROLES.MANAGER });
       this.token = await UserFixtures.getUserToken(this.user.id);
+    });
+    beforeEach(async function () {
       this.article = await ArticleFixtures.createArticle({}, this.user.id);
     });
     it("should allow manager to add comments on article", async function () {
@@ -269,6 +273,8 @@ describe("Article Comments", function () {
     before(async function () {
       this.user = await UserFixtures.createUser({ role: USER_ROLES.READER });
       this.token = await UserFixtures.getUserToken(this.user.id);
+    });
+    beforeEach(async function () {
       this.article = await ArticleFixtures.createArticle({}, this.user.id);
     });
     it("should allow reader to add comments on article", async function () {
