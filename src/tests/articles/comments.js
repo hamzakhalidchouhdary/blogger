@@ -114,13 +114,29 @@ describe("Article Comments", function () {
       expect(deletedComment).to.be.a("object");
       resp.body.should.empty;
     });
-    it("should allow admin to view comments on article", async function () {
+    it("should allow admin to view all comments on article", async function () {
+      const tempUser1 = await UserFixtures.createUser({
+        role: USER_ROLES.MANAGER,
+      });
+      const tempUser2 = await UserFixtures.createUser({
+        role: USER_ROLES.MANAGER,
+      });
+      const tempUser3 = await UserFixtures.createUser({
+        role: USER_ROLES.MANAGER,
+      });
+
+      await CommentFixtures.createComment("", this.article.id, tempUser1.id);
+      await CommentFixtures.createComment("", this.article.id, tempUser2.id);
+      await CommentFixtures.createComment("", this.article.id, tempUser3.id);
+      await CommentFixtures.createComment("", this.article.id, this.user.id);
+
       const resp = await request(app)
-        .get("/api/v1/article/1/comment")
+        .get(`/api/v1/article/${this.article.id}/comment/list`)
         .set({ Authorization: `Bearer ${this.token}` })
         .send({});
       resp.status.should.equal(HTTP_STATUS.OK);
-      resp.body.should.empty;
+      resp.body.should.be.an("array");
+      expect(resp.body).to.have.lengthOf(4);
     });
   });
   describe("Manager Role", function () {
@@ -224,13 +240,29 @@ describe("Article Comments", function () {
       expect(deletedComment).to.be.a("object");
       resp.body.should.empty;
     });
-    it("should allow manager to view comments on article", async function () {
+    it("should allow manager to view all comments on article", async function () {
+      const tempUser1 = await UserFixtures.createUser({
+        role: USER_ROLES.MANAGER,
+      });
+      const tempUser2 = await UserFixtures.createUser({
+        role: USER_ROLES.MANAGER,
+      });
+      const tempUser3 = await UserFixtures.createUser({
+        role: USER_ROLES.MANAGER,
+      });
+
+      await CommentFixtures.createComment("", this.article.id, tempUser1.id);
+      await CommentFixtures.createComment("", this.article.id, tempUser2.id);
+      await CommentFixtures.createComment("", this.article.id, tempUser3.id);
+      await CommentFixtures.createComment("", this.article.id, this.user.id);
+
       const resp = await request(app)
-        .get("/api/v1/article/1/comment")
+        .get(`/api/v1/article/${this.article.id}/comment/list`)
         .set({ Authorization: `Bearer ${this.token}` })
         .send({});
       resp.status.should.equal(HTTP_STATUS.OK);
-      resp.body.should.empty;
+      resp.body.should.be.an("array");
+      expect(resp.body).to.have.lengthOf(4);
     });
   });
   describe("Reader Role", function () {
@@ -334,13 +366,29 @@ describe("Article Comments", function () {
       expect(deletedComment).to.be.a("object");
       resp.body.should.empty;
     });
-    it("should allow reader to view comments on article", async function () {
+    it("should allow reader to view all comments on article", async function () {
+      const tempUser1 = await UserFixtures.createUser({
+        role: USER_ROLES.MANAGER,
+      });
+      const tempUser2 = await UserFixtures.createUser({
+        role: USER_ROLES.MANAGER,
+      });
+      const tempUser3 = await UserFixtures.createUser({
+        role: USER_ROLES.MANAGER,
+      });
+
+      await CommentFixtures.createComment("", this.article.id, tempUser1.id);
+      await CommentFixtures.createComment("", this.article.id, tempUser2.id);
+      await CommentFixtures.createComment("", this.article.id, tempUser3.id);
+      await CommentFixtures.createComment("", this.article.id, this.user.id);
+
       const resp = await request(app)
-        .get("/api/v1/article/1/comment")
+        .get(`/api/v1/article/${this.article.id}/comment/list`)
         .set({ Authorization: `Bearer ${this.token}` })
         .send({});
       resp.status.should.equal(HTTP_STATUS.OK);
-      resp.body.should.empty;
+      resp.body.should.be.an("array");
+      expect(resp.body).to.have.lengthOf(4);
     });
   });
 });
