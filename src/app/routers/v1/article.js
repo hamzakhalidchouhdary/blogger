@@ -4,7 +4,7 @@ const ArticlePostService = require("../../apis/articlePostService");
 
 router.post("/", ArticlePostService.createPost);
 router.put("/:id", ArticlePostService.updatePost);
-router.get("/", ArticlePostService.getPosts);
+router.get("/list", ArticlePostService.getPosts);
 router.get("/:id", ArticlePostService.getPost);
 router.delete("/:id", ArticlePostService.deletePost);
 
