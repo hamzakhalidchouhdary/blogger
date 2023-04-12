@@ -90,7 +90,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           is: {
             msg: "Must be alphabetic value",
-            args: ["^[a-z0-9_.-]+$", "i"],
+            args: [/^[a-z0-9_.-]+$/gim],
           },
           notNull: { msg: "username can not be null" },
         },
