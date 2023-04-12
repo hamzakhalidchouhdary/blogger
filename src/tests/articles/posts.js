@@ -7,6 +7,7 @@ const USER_ROLES = require("../../utils/constants/userRoles");
 const ArticleFixtures = require("../fixtures/article");
 const { expect } = require("chai");
 const ArticleModel = require("../../app/models").Article;
+const _ = require("lodash");
 
 chai.use(chaiHttp);
 chai.should();
@@ -20,7 +21,7 @@ describe("Article Posts", function () {
     };
   });
   describe("Admin Role", function () {
-    before(async function () {
+    beforeEach(async function () {
       this.user = await UserFixtures.createUser({ role: USER_ROLES.ADMIN });
       this.token = await UserFixtures.getUserToken(this.user.id);
     });
@@ -61,13 +62,27 @@ describe("Article Posts", function () {
       expect(articleCountBefore).to.equal(articleCountAfter + 1);
       resp.body.should.empty;
     });
-    it("should allow admin to fetch all post", async function () {
+    it("should return all admin's post", async function () {
+      const tempUser = await UserFixtures.createUser({});
+      const article1 = await ArticleFixtures.createArticle({}, this.user.id);
+      const article2 = await ArticleFixtures.createArticle({}, this.user.id);
+      const article3 = await ArticleFixtures.createArticle({}, this.user.id);
+      const article4 = await ArticleFixtures.createArticle({}, this.user.id);
+      await ArticleFixtures.createArticle({}, tempUser.id);
+
       const resp = await request(app)
-        .get("/api/v1/article")
+        .get("/api/v1/article/list")
         .set({ Authorization: `Bearer ${this.token}` })
         .send({});
       resp.status.should.equal(HTTP_STATUS.OK);
-      resp.body.should.empty;
+      resp.body.should.be.an("array");
+      resp.body.should.have.lengthOf(4);
+      expect(_.map(resp.body, "id")).to.have.members([
+        article1.id,
+        article2.id,
+        article3.id,
+        article4.id,
+      ]);
     });
     it("should allow admin to fetch post by id", async function () {
       const resp = await request(app)
@@ -79,7 +94,7 @@ describe("Article Posts", function () {
     });
   });
   describe("Manager Role", function () {
-    before(async function () {
+    beforeEach(async function () {
       this.user = await UserFixtures.createUser({ role: USER_ROLES.MANAGER });
       this.token = await UserFixtures.getUserToken(this.user.id);
     });
@@ -116,13 +131,27 @@ describe("Article Posts", function () {
       resp.status.should.equal(HTTP_STATUS.UNAUTHORIZED);
       resp.body.should.empty;
     });
-    it("should allow manager to fetch all post", async function () {
+    it("should return all manager's post", async function () {
+      const tempUser = await UserFixtures.createUser({});
+      const article1 = await ArticleFixtures.createArticle({}, this.user.id);
+      const article2 = await ArticleFixtures.createArticle({}, this.user.id);
+      const article3 = await ArticleFixtures.createArticle({}, this.user.id);
+      const article4 = await ArticleFixtures.createArticle({}, this.user.id);
+      await ArticleFixtures.createArticle({}, tempUser.id);
+
       const resp = await request(app)
-        .get("/api/v1/article")
+        .get("/api/v1/article/list")
         .set({ Authorization: `Bearer ${this.token}` })
         .send({});
       resp.status.should.equal(HTTP_STATUS.OK);
-      resp.body.should.empty;
+      resp.body.should.be.an("array");
+      resp.body.should.have.lengthOf(4);
+      expect(_.map(resp.body, "id")).to.have.members([
+        article1.id,
+        article2.id,
+        article3.id,
+        article4.id,
+      ]);
     });
     it("should allow manager to fetch post by id", async function () {
       const resp = await request(app)
@@ -162,13 +191,27 @@ describe("Article Posts", function () {
       resp.status.should.equal(HTTP_STATUS.UNAUTHORIZED);
       resp.body.should.empty;
     });
-    it("should allow reader to fetch all post", async function () {
+    it("should return all reader's post", async function () {
+      const tempUser = await UserFixtures.createUser({});
+      const article1 = await ArticleFixtures.createArticle({}, this.user.id);
+      const article2 = await ArticleFixtures.createArticle({}, this.user.id);
+      const article3 = await ArticleFixtures.createArticle({}, this.user.id);
+      const article4 = await ArticleFixtures.createArticle({}, this.user.id);
+      await ArticleFixtures.createArticle({}, tempUser.id);
+
       const resp = await request(app)
-        .get("/api/v1/article")
+        .get("/api/v1/article/list")
         .set({ Authorization: `Bearer ${this.token}` })
         .send({});
       resp.status.should.equal(HTTP_STATUS.OK);
-      resp.body.should.empty;
+      resp.body.should.be.an("array");
+      resp.body.should.have.lengthOf(4);
+      expect(_.map(resp.body, "id")).to.have.members([
+        article1.id,
+        article2.id,
+        article3.id,
+        article4.id,
+      ]);
     });
     it("should allow reader to fetch post by id", async function () {
       const resp = await request(app)
