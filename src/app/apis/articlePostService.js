@@ -42,10 +42,11 @@ const deletePost = async function (req, res) {
   }
 };
 
-const getPosts = function (req, res) {
+const getPosts = async function (req, res) {
   try {
     const { user } = req;
-    res.status(HTTP_STATUS.OK).json({});
+    const userArticles = await user.getAllArticles();
+    res.status(HTTP_STATUS.OK).json(userArticles);
     return;
   } catch (err) {
     ServiceResponse.error(res, err);
