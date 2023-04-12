@@ -79,6 +79,9 @@ function User(userDetails = {}) {
   this.viewArticleComments = async function (articleId) {
     return CommentModel.getAllByArticleId(articleId);
   };
+  this.getAllArticles = async function () {
+    return ArticleModel.findByAuthorId(this.id);
+  };
 }
 
 User.prototype = new Object();

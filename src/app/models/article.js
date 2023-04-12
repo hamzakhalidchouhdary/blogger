@@ -46,6 +46,13 @@ module.exports = (sequelize, DataTypes) => {
         where: { id },
       });
     }
+    static async findByAuthorId(authorId = null) {
+      if (!(_.isFinite(authorId) || authorId > 0))
+        throw Object({ message: ERROR_TEXT.INVALID_NUM });
+      return this.findAll({
+        where: { createdBy: authorId },
+      });
+    }
     static async remove(id = null) {
       if (!(_.isFinite(id) || id > 0))
         throw Object({ message: ERROR_TEXT.INVALID_NUM });
