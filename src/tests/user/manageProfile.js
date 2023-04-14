@@ -49,4 +49,80 @@ describe("Manage Profile", function () {
       resp.body.should.empty;
     });
   });
+  describe("Manager Role", function () {
+    beforeEach(async function () {
+      this.user = await UserFixture.createUser({role: USER_ROLES.MANAGER});
+      this.token = await generateJWT({ userId: this.user.id });
+    });
+    it("should allow to create profile", async function () {
+      const resp = await request(app)
+        .post("/api/v1/user/profile")
+        .set({ Authorization: `Bearer ${this.token}` })
+        .send({});
+      resp.status.should.equal(HTTP_STATUS.CREATED);
+      resp.body.should.empty;
+    });
+    it("should allow to update profile", async function () {
+      const resp = await request(app)
+        .put("/api/v1/user/profile")
+        .set({ Authorization: `Bearer ${this.token}` })
+        .send({});
+      resp.status.should.equal(HTTP_STATUS.OK);
+      resp.body.should.empty;
+    });
+    it("should allow to delete profile", async function () {
+      const resp = await request(app)
+        .delete("/api/v1/user/profile")
+        .set({ Authorization: `Bearer ${this.token}` })
+        .send({});
+      resp.status.should.equal(HTTP_STATUS.OK);
+      resp.body.should.empty;
+    });
+    it("should allow to get profile", async function () {
+      const resp = await request(app)
+        .get("/api/v1/user/profile")
+        .set({ Authorization: `Bearer ${this.token}` })
+        .send({});
+      resp.status.should.equal(HTTP_STATUS.OK);
+      resp.body.should.empty;
+    });
+  });
+  describe("Reader Role", function () {
+    beforeEach(async function () {
+      this.user = await UserFixture.createUser({role: USER_ROLES.READER});
+      this.token = await generateJWT({ userId: this.user.id });
+    });
+    it("should allow to create profile", async function () {
+      const resp = await request(app)
+        .post("/api/v1/user/profile")
+        .set({ Authorization: `Bearer ${this.token}` })
+        .send({});
+      resp.status.should.equal(HTTP_STATUS.CREATED);
+      resp.body.should.empty;
+    });
+    it("should allow to update profile", async function () {
+      const resp = await request(app)
+        .put("/api/v1/user/profile")
+        .set({ Authorization: `Bearer ${this.token}` })
+        .send({});
+      resp.status.should.equal(HTTP_STATUS.OK);
+      resp.body.should.empty;
+    });
+    it("should allow to delete profile", async function () {
+      const resp = await request(app)
+        .delete("/api/v1/user/profile")
+        .set({ Authorization: `Bearer ${this.token}` })
+        .send({});
+      resp.status.should.equal(HTTP_STATUS.OK);
+      resp.body.should.empty;
+    });
+    it("should allow to get profile", async function () {
+      const resp = await request(app)
+        .get("/api/v1/user/profile")
+        .set({ Authorization: `Bearer ${this.token}` })
+        .send({});
+      resp.status.should.equal(HTTP_STATUS.OK);
+      resp.body.should.empty;
+    });
+  });
 });
