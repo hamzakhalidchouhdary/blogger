@@ -101,7 +101,7 @@ describe("Manage Profile", function () {
   });
   describe("Reader Role", function () {
     beforeEach(async function () {
-      this.user = await UserFixture.createUser({role: USER_ROLES.READER});
+      this.user = await UserFixture.createUser({ role: USER_ROLES.READER });
       this.token = await generateJWT({ userId: this.user.id });
     });
     it("should allow to create profile", async function () {
@@ -116,9 +116,12 @@ describe("Manage Profile", function () {
       const resp = await request(app)
         .put("/api/v1/user/profile")
         .set({ Authorization: `Bearer ${this.token}` })
-        .send({});
+        .send(this.payload);
       resp.status.should.equal(HTTP_STATUS.OK);
-      resp.body.should.empty;
+      const updatedUser = await UserFixture.findUserById(this.user.id);
+      expect(updatedUser.firstName).to.equal(this.payload.firstName);
+      expect(updatedUser.lastName).to.equal(this.payload.lastName);
+      expect(updatedUser.role).to.equal(USER_ROLES.ADMIN);
     });
     it("should allow to delete profile", async function () {
       const resp = await request(app)
