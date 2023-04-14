@@ -11,9 +11,11 @@ const createProfile = function (req, res) {
   }
 };
 
-const updateProfile = function (req, res) {
+const updateProfile = async function (req, res) {
   try {
-    res.status(HTTP_STATUS.OK).end();
+    const { user, body: payload } = req;
+    const updatedProfile = await user.updateProfile(payload);
+    res.status(HTTP_STATUS.OK).json(updatedProfile);
     return;
   } catch (err) {
     ServiceResponse.error(res, err);

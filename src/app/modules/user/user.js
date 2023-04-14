@@ -1,6 +1,7 @@
 const HTTP_STATUS = require("../../../utils/constants/httpStatus");
 const ArticleModel = require("../../models").Article;
 const CommentModel = require("../../models").Comment;
+const UserModel = require("../../models").User;
 const _ = require("lodash");
 const ERROR_TEXT = require("../../../utils/constants/errorText");
 
@@ -34,6 +35,9 @@ function User(userDetails = {}) {
       message: "not authorized to create new users",
       status: HTTP_STATUS.UNAUTHORIZED,
     });
+  };
+  this.updateProfile = async function (updateProfile) {
+    return UserModel.modify(updateProfile, this.id);
   };
   this.createArticle = async function (articleDetails) {
     articleDetails.createdBy = articleDetails.updatedBy = this.id;
