@@ -5,6 +5,8 @@ const HTTP_STATUS = require("../../utils/constants/httpStatus");
 const UserFixture = require("../fixtures/user");
 const { generateJWT } = require("../../utils/common/auth");
 const USER_ROLES = require("../../utils/constants/userRoles");
+const { faker } = require("@faker-js/faker");
+const { expect } = chai;
 
 chai.use(chaiHttp);
 chai.should();
@@ -13,8 +15,12 @@ const request = chai.request;
 describe("Manage Profile", function () {
   describe("Admin Role", function () {
     beforeEach(async function () {
-      this.user = await UserFixture.createUser({role: USER_ROLES.ADMIN});
+      this.user = await UserFixture.createUser({ role: USER_ROLES.ADMIN });
       this.token = await generateJWT({ userId: this.user.id });
+      this.payload = {
+        firstName: faker.name.firstName(),
+        lastName: faker.name.lastName(),
+      };
     });
     it("should allow to create profile", async function () {
       const resp = await request(app)
@@ -28,9 +34,12 @@ describe("Manage Profile", function () {
       const resp = await request(app)
         .put("/api/v1/user/profile")
         .set({ Authorization: `Bearer ${this.token}` })
-        .send({});
+        .send(this.payload);
       resp.status.should.equal(HTTP_STATUS.OK);
-      resp.body.should.empty;
+      const updatedUser = await UserFixture.findUserById(this.user.id);
+      expect(updatedUser.firstName).to.equal(this.payload.firstName);
+      expect(updatedUser.lastName).to.equal(this.payload.lastName);
+      expect(updatedUser.role).to.equal(USER_ROLES.ADMIN);
     });
     it("should allow to delete profile", async function () {
       const resp = await request(app)
