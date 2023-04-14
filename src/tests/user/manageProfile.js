@@ -17,10 +17,6 @@ describe("Manage Profile", function () {
     beforeEach(async function () {
       this.user = await UserFixture.createUser({ role: USER_ROLES.ADMIN });
       this.token = await generateJWT({ userId: this.user.id });
-      this.payload = {
-        firstName: faker.name.firstName(),
-        lastName: faker.name.lastName(),
-      };
     });
     it("should allow to create profile", async function () {
       const resp = await request(app)
@@ -31,14 +27,18 @@ describe("Manage Profile", function () {
       resp.body.should.empty;
     });
     it("should allow to update profile", async function () {
+      const payload = {
+        firstName: faker.name.firstName(),
+        lastName: faker.name.lastName(),
+      };
       const resp = await request(app)
         .put("/api/v1/user/profile")
         .set({ Authorization: `Bearer ${this.token}` })
-        .send(this.payload);
+        .send(payload);
       resp.status.should.equal(HTTP_STATUS.OK);
       const updatedUser = await UserFixture.findUserById(this.user.id);
-      expect(updatedUser.firstName).to.equal(this.payload.firstName);
-      expect(updatedUser.lastName).to.equal(this.payload.lastName);
+      expect(updatedUser.firstName).to.equal(payload.firstName);
+      expect(updatedUser.lastName).to.equal(payload.lastName);
       expect(updatedUser.role).to.equal(USER_ROLES.ADMIN);
     });
     it("should allow to delete profile", async function () {
