@@ -37,6 +37,16 @@ describe("Article Posts", function () {
       newArticle.createdBy.should.equal(this.user.id);
       newArticle.updatedBy.should.equal(this.user.id);
     });
+    it("should not allow admin to create new post if body is empty", async function () {
+      const articleCountBefore = await ArticleFixtures.getArticleCount();
+      const resp = await request(app)
+        .post("/api/v1/article")
+        .set({ Authorization: `Bearer ${this.token}` })
+        .send({});
+      resp.status.should.equal(HTTP_STATUS.BAD_REQUEST);
+      const articleCountAfter = await ArticleFixtures.getArticleCount();
+      articleCountBefore.should.to.equal(articleCountAfter);
+    });
     it("should allow admin to edit a post", async function () {
       const newArticle = await ArticleFixtures.createArticle({}, this.user.id);
       const payload = { title: "update title" };
