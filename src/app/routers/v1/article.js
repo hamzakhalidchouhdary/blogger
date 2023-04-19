@@ -1,8 +1,9 @@
 const HTTP_STATUS = require("../../../utils/constants/httpStatus");
 const router = require("express").Router();
 const ArticlePostService = require("../../apis/articlePostService");
+const ArticleValidation = require("./middleware/validations/articles");
 
-router.post("/", ArticlePostService.createPost);
+router.post("/", ArticleValidation.newArticle, ArticlePostService.createPost);
 router.put("/:id", ArticlePostService.updatePost);
 router.get("/list", ArticlePostService.getPosts);
 router.get("/:id", ArticlePostService.getPost);
