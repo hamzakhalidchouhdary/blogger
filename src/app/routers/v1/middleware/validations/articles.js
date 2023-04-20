@@ -1,21 +1,6 @@
-const RouteValidator = require('express-route-validator')
 const { validationResult, ValidationChain, body } = require('express-validator');
 const serviceResponse = require('../../../../../utils/common/serviceResponse');
 const HTTP_STATUS = require('../../../../../utils/constants/httpStatus');
-
-const newArticle_ = RouteValidator.validate({
-  body: {
-    title: {isRequired: true, message: 'Article title is required'},
-    content: {isRequired: true, message: 'Article content is required'}
-  },
-  errorHandler: function(err, req, res, next) {
-    if(err) {
-      console.log(err.message);
-      return res.status(400).end(err);
-    }
-    next();
-  }
-});
 
 const newArticle = async function (req, res, next) {
   try {
