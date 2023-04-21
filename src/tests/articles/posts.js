@@ -14,7 +14,7 @@ chai.should();
 const request = chai.request;
 
 describe("Article Posts", function () {
-  before(function () {
+  beforeEach(function () {
     this.payload = {
       title: "test article",
       content: "this is test article",
@@ -181,7 +181,7 @@ describe("Article Posts", function () {
       const resp = await request(app)
         .post("/api/v1/article")
         .set({ Authorization: `Bearer ${this.token}` })
-        .send({});
+        .send(this.payload);
       resp.status.should.equal(HTTP_STATUS.UNAUTHORIZED);
       resp.body.should.empty;
     });
