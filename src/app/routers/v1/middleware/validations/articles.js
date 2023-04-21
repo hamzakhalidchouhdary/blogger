@@ -1,4 +1,4 @@
-const { validationResult, ValidationChain, body } = require('express-validator');
+const { validationResult, body } = require('express-validator');
 const serviceResponse = require('../../../../../utils/common/serviceResponse');
 const HTTP_STATUS = require('../../../../../utils/constants/httpStatus');
 
