@@ -9,12 +9,14 @@ const newArticle = async function (req, res, next) {
         .exists({ checkFalsy: true, checkNull: true })
         .withMessage("Article title is required")
         .trim()
+        .not()
         .isEmpty()
         .withMessage("Article title can not be empty"),
       body("content")
         .exists()
         .withMessage("Article content is required")
         .trim()
+        .not()
         .isEmpty()
         .withMessage("Article content can not be empty"),
     ];
