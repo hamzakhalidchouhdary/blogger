@@ -47,6 +47,28 @@ describe("Article Posts", function () {
       const articleCountAfter = await ArticleFixtures.getArticleCount();
       articleCountBefore.should.to.equal(articleCountAfter);
     });
+    it("should not allow admin to create new post if title is empty", async function () {
+      const articleCountBefore = await ArticleFixtures.getArticleCount();
+      this.payload.title = '';
+      const resp = await request(app)
+        .post("/api/v1/article")
+        .set({ Authorization: `Bearer ${this.token}` })
+        .send(this.payload);
+      resp.status.should.equal(HTTP_STATUS.BAD_REQUEST);
+      const articleCountAfter = await ArticleFixtures.getArticleCount();
+      articleCountBefore.should.to.equal(articleCountAfter);
+    });
+    it("should not allow admin to create new post if content is empty", async function () {
+      this.payload.content = '';
+      const articleCountBefore = await ArticleFixtures.getArticleCount();
+      const resp = await request(app)
+        .post("/api/v1/article")
+        .set({ Authorization: `Bearer ${this.token}` })
+        .send(this.payload);
+      resp.status.should.equal(HTTP_STATUS.BAD_REQUEST);
+      const articleCountAfter = await ArticleFixtures.getArticleCount();
+      articleCountBefore.should.to.equal(articleCountAfter);
+    });
     it("should allow admin to edit a post", async function () {
       const newArticle = await ArticleFixtures.createArticle({}, this.user.id);
       const payload = { title: "update title" };
