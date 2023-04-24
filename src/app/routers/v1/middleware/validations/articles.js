@@ -33,6 +33,36 @@ const newArticle = async function (req, res, next) {
   }
 };
 
+const updateArticle = async function (req, res, next) {
+  try {
+    const validationRules = [
+      body("title")
+        .optional()
+        .trim()
+        .not()
+        .isEmpty()
+        .withMessage("Article title can not be empty"),
+      body("content")
+        .optional()
+        .trim()
+        .not()
+        .isEmpty()
+        .withMessage("Article content can not be empty"),
+    ];
+    await Promise.all(validationRules.map((rule) => rule.run(req)));
+    const errors = validationResult(req);
+    if (errors.isEmpty()) return next();
+    throw errors.array();
+  } catch (err) {
+    serviceResponse.error(res, {
+      message: err,
+      status: HTTP_STATUS.BAD_REQUEST,
+    });
+    return;
+  }
+}
+
 module.exports = {
   newArticle,
+  updateArticle
 };
