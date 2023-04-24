@@ -82,6 +82,72 @@ describe("Article Posts", function () {
       );
       expect(updatedArticle.title).to.be.equal(payload.title);
     });
+    it.only("should not edit a post title if empty", async function () {
+      const newArticle = await ArticleFixtures.createArticle({}, this.user.id);
+      const payload = { title: "" };
+      const resp = await request(app)
+        .put(`/api/v1/article/${newArticle.id}`)
+        .set({ Authorization: `Bearer ${this.token}` })
+        .send(payload);
+      resp.status.should.equal(HTTP_STATUS.BAD_REQUEST);
+      const updatedArticle = await ArticleFixtures.findArticleById(
+        newArticle.id
+      );
+      expect(updatedArticle.title).to.be.equal(newArticle.title);
+    });
+    it.only("should not edit a post content if empty", async function () {
+      const newArticle = await ArticleFixtures.createArticle({}, this.user.id);
+      const payload = { content: "" };
+      const resp = await request(app)
+        .put(`/api/v1/article/${newArticle.id}`)
+        .set({ Authorization: `Bearer ${this.token}` })
+        .send(payload);
+      resp.status.should.equal(HTTP_STATUS.BAD_REQUEST);
+      const updatedArticle = await ArticleFixtures.findArticleById(
+        newArticle.id
+      );
+      expect(updatedArticle.content).to.be.equal(newArticle.content);
+    });
+    it.only("should not edit a post if payload empty", async function () {
+      const newArticle = await ArticleFixtures.createArticle({}, this.user.id);
+      const payload = {};
+      const resp = await request(app)
+        .put(`/api/v1/article/${newArticle.id}`)
+        .set({ Authorization: `Bearer ${this.token}` })
+        .send(payload);
+      resp.status.should.equal(HTTP_STATUS.BAD_REQUEST);
+      const updatedArticle = await ArticleFixtures.findArticleById(
+        newArticle.id
+      );
+      expect(updatedArticle.title).to.be.equal(newArticle.title);
+      expect(updatedArticle.content).to.be.equal(newArticle.content);
+    });
+    it.only("should not update a post title", async function () {
+      const newArticle = await ArticleFixtures.createArticle({}, this.user.id);
+      const payload = {title: "updated title"};
+      const resp = await request(app)
+        .put(`/api/v1/article/${newArticle.id}`)
+        .set({ Authorization: `Bearer ${this.token}` })
+        .send(payload);
+      resp.status.should.equal(HTTP_STATUS.OK);
+      const updatedArticle = await ArticleFixtures.findArticleById(
+        newArticle.id
+      );
+      expect(updatedArticle.title).to.be.equal(payload.title);
+    });
+    it.only("should not update a post content", async function () {
+      const newArticle = await ArticleFixtures.createArticle({}, this.user.id);
+      const payload = {content: "updated content"};
+      const resp = await request(app)
+        .put(`/api/v1/article/${newArticle.id}`)
+        .set({ Authorization: `Bearer ${this.token}` })
+        .send(payload);
+      resp.status.should.equal(HTTP_STATUS.OK);
+      const updatedArticle = await ArticleFixtures.findArticleById(
+        newArticle.id
+      );
+      expect(updatedArticle.content).to.be.equal(payload.content);
+    });
     it("should allow admin to delete a post", async function () {
       const newArticle = await ArticleFixtures.createArticle({}, this.user.id);
       const articleCountBefore = await ArticleFixtures.getArticleCount();
