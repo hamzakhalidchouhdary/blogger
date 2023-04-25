@@ -49,7 +49,7 @@ describe("Article Posts", function () {
     });
     it("should not allow admin to create new post if title is empty", async function () {
       const articleCountBefore = await ArticleFixtures.getArticleCount();
-      this.payload.title = '';
+      this.payload.title = "";
       const resp = await request(app)
         .post("/api/v1/article")
         .set({ Authorization: `Bearer ${this.token}` })
@@ -59,7 +59,7 @@ describe("Article Posts", function () {
       articleCountBefore.should.to.equal(articleCountAfter);
     });
     it("should not allow admin to create new post if content is empty", async function () {
-      this.payload.content = '';
+      this.payload.content = "";
       const articleCountBefore = await ArticleFixtures.getArticleCount();
       const resp = await request(app)
         .post("/api/v1/article")
@@ -124,7 +124,7 @@ describe("Article Posts", function () {
     });
     it.only("should not update a post title", async function () {
       const newArticle = await ArticleFixtures.createArticle({}, this.user.id);
-      const payload = {title: "updated title"};
+      const payload = { title: "updated title" };
       const resp = await request(app)
         .put(`/api/v1/article/${newArticle.id}`)
         .set({ Authorization: `Bearer ${this.token}` })
@@ -137,7 +137,7 @@ describe("Article Posts", function () {
     });
     it.only("should not update a post content", async function () {
       const newArticle = await ArticleFixtures.createArticle({}, this.user.id);
-      const payload = {content: "updated content"};
+      const payload = { content: "updated content" };
       const resp = await request(app)
         .put(`/api/v1/article/${newArticle.id}`)
         .set({ Authorization: `Bearer ${this.token}` })
