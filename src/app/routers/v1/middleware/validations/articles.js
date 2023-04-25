@@ -60,9 +60,9 @@ const updateArticle = async function (req, res, next) {
     });
     return;
   }
-}
+};
 
 module.exports = {
   newArticle,
-  updateArticle
+  updateArticle,
 };
