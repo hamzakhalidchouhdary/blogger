@@ -82,7 +82,7 @@ describe("Article Posts", function () {
       );
       expect(updatedArticle.title).to.be.equal(payload.title);
     });
-    it.only("should not edit a post title if empty", async function () {
+    it("should not edit a post title if empty", async function () {
       const newArticle = await ArticleFixtures.createArticle({}, this.user.id);
       const payload = { title: "" };
       const resp = await request(app)
@@ -95,7 +95,7 @@ describe("Article Posts", function () {
       );
       expect(updatedArticle.title).to.be.equal(newArticle.title);
     });
-    it.only("should not edit a post content if empty", async function () {
+    it("should not edit a post content if empty", async function () {
       const newArticle = await ArticleFixtures.createArticle({}, this.user.id);
       const payload = { content: "" };
       const resp = await request(app)
@@ -108,7 +108,7 @@ describe("Article Posts", function () {
       );
       expect(updatedArticle.content).to.be.equal(newArticle.content);
     });
-    it.only("should not edit a post if payload empty", async function () {
+    it("should not edit a post if payload empty", async function () {
       const newArticle = await ArticleFixtures.createArticle({}, this.user.id);
       const payload = {};
       const resp = await request(app)
@@ -122,7 +122,7 @@ describe("Article Posts", function () {
       expect(updatedArticle.title).to.be.equal(newArticle.title);
       expect(updatedArticle.content).to.be.equal(newArticle.content);
     });
-    it.only("should not update a post title", async function () {
+    it("should not update a post title", async function () {
       const newArticle = await ArticleFixtures.createArticle({}, this.user.id);
       const payload = { title: "updated title" };
       const resp = await request(app)
@@ -135,7 +135,7 @@ describe("Article Posts", function () {
       );
       expect(updatedArticle.title).to.be.equal(payload.title);
     });
-    it.only("should not update a post content", async function () {
+    it("should not update a post content", async function () {
       const newArticle = await ArticleFixtures.createArticle({}, this.user.id);
       const payload = { content: "updated content" };
       const resp = await request(app)
