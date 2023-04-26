@@ -6,7 +6,7 @@ const newArticle = async function (req, res, next) {
   try {
     const validationRules = [
       body("title")
-        .exists({ checkFalsy: true, checkNull: true })
+        .exists()
         .withMessage("Article title is required")
         .trim()
         .not()

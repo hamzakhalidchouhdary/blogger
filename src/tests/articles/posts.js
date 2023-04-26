@@ -45,6 +45,7 @@ describe("Article Posts", function () {
         .send({});
       resp.status.should.equal(HTTP_STATUS.BAD_REQUEST);
       const articleCountAfter = await ArticleFixtures.getArticleCount();
+      resp.body.should.to.have.lengthOf(4);
       articleCountBefore.should.to.equal(articleCountAfter);
     });
     it("should not allow admin to create new post if title is empty", async function () {
@@ -55,6 +56,7 @@ describe("Article Posts", function () {
         .set({ Authorization: `Bearer ${this.token}` })
         .send(this.payload);
       resp.status.should.equal(HTTP_STATUS.BAD_REQUEST);
+      resp.body.should.to.have.lengthOf(1);
       const articleCountAfter = await ArticleFixtures.getArticleCount();
       articleCountBefore.should.to.equal(articleCountAfter);
     });
@@ -66,6 +68,7 @@ describe("Article Posts", function () {
         .set({ Authorization: `Bearer ${this.token}` })
         .send(this.payload);
       resp.status.should.equal(HTTP_STATUS.BAD_REQUEST);
+      resp.body.should.to.have.lengthOf(1);
       const articleCountAfter = await ArticleFixtures.getArticleCount();
       articleCountBefore.should.to.equal(articleCountAfter);
     });
