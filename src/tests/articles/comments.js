@@ -40,6 +40,51 @@ describe("Article Comments", function () {
         articleCommentCountAfter - 1
       );
     });
+    it("should throw error if content is undefined", async function () {
+      const articleCommentCountBefore = await CommentFixtures.getCommentCount(
+        this.article.id
+      );
+      const resp = await request(app)
+        .post(`/api/v1/article/${this.article.id}/comment`)
+        .set({ Authorization: `Bearer ${this.token}` })
+        .send();
+      resp.status.should.equal(HTTP_STATUS.BAD_REQUEST);
+      const articleCommentCountAfter = await CommentFixtures.getCommentCount(
+        this.article.id
+      );
+      expect(articleCommentCountBefore).to.be.equal(articleCommentCountAfter);
+      resp.body.should.to.have.lengthOf(2);
+    });
+    it("should throw error if content is empty", async function () {
+      const articleCommentCountBefore = await CommentFixtures.getCommentCount(
+        this.article.id
+      );
+      const resp = await request(app)
+        .post(`/api/v1/article/${this.article.id}/comment`)
+        .set({ Authorization: `Bearer ${this.token}` })
+        .send({ content: "" });
+      resp.status.should.equal(HTTP_STATUS.BAD_REQUEST);
+      const articleCommentCountAfter = await CommentFixtures.getCommentCount(
+        this.article.id
+      );
+      expect(articleCommentCountBefore).to.be.equal(articleCommentCountAfter);
+      resp.body.should.to.have.lengthOf(1);
+    });
+    it("should throw error if content is null", async function () {
+      const articleCommentCountBefore = await CommentFixtures.getCommentCount(
+        this.article.id
+      );
+      const resp = await request(app)
+        .post(`/api/v1/article/${this.article.id}/comment`)
+        .set({ Authorization: `Bearer ${this.token}` })
+        .send({ content: null });
+      resp.status.should.equal(HTTP_STATUS.BAD_REQUEST);
+      const articleCommentCountAfter = await CommentFixtures.getCommentCount(
+        this.article.id
+      );
+      expect(articleCommentCountBefore).to.be.equal(articleCommentCountAfter);
+      resp.body.should.to.have.lengthOf(1);
+    });
     it("should allow admin to edit comments on article", async function () {
       const comment = await CommentFixtures.createComment(
         "",
