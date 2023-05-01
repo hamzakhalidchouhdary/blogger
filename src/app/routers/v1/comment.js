@@ -4,7 +4,7 @@ const ArticleCommentService = require("../../apis/articleCommentService");
 const CommentValidation = require("./middleware/validations/comments");
 
 router.post("/", CommentValidation.newComment, ArticleCommentService.createComment);
-router.put("/:id", ArticleCommentService.updateComment);
+router.put("/:id", CommentValidation.newComment, ArticleCommentService.updateComment);
 router.get("/", ArticleCommentService.getComment);
 router.get("/list", ArticleCommentService.getCommentList);
 router.delete("/:id", ArticleCommentService.deleteComment);
