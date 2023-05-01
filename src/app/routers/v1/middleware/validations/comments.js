@@ -2,7 +2,7 @@ const { body, validationResult } = require("express-validator");
 const serviceResponse = require("../../../../../utils/common/serviceResponse");
 const HTTP_STATUS = require("../../../../../utils/constants/httpStatus");
 
-const newComment = async function (req, res, next) {
+const validateComment = async function (req, res, next) {
   try {
     const validationRules = [
       body("content")
@@ -24,5 +24,5 @@ const newComment = async function (req, res, next) {
 };
 
 module.exports = {
-  newComment,
+  validateComment,
 };
