@@ -100,6 +100,51 @@ describe("Article Comments", function () {
       const updatedComment = await CommentFixtures.getCommentById(comment.id);
       expect(updatedComment.content).to.equal(payload.content);
     });
+    it("should not allow to edit comment if content is undefined", async function () {
+      const comment = await CommentFixtures.createComment(
+        "",
+        this.article.id,
+        this.user.id
+      );
+      const payload = { };
+      const resp = await request(app)
+        .put(`/api/v1/article/${this.article.id}/comment/${comment.id}`)
+        .set({ Authorization: `Bearer ${this.token}` })
+        .send(payload);
+      resp.status.should.equal(HTTP_STATUS.BAD_REQUEST);
+      const updatedComment = await CommentFixtures.getCommentById(comment.id);
+      expect(updatedComment.content).to.equal(comment.content);
+    });
+    it("should not allow to edit comment if content is empty", async function () {
+      const comment = await CommentFixtures.createComment(
+        "",
+        this.article.id,
+        this.user.id
+      );
+      const payload = { content: "" };
+      const resp = await request(app)
+        .put(`/api/v1/article/${this.article.id}/comment/${comment.id}`)
+        .set({ Authorization: `Bearer ${this.token}` })
+        .send(payload);
+      resp.status.should.equal(HTTP_STATUS.BAD_REQUEST);
+      const updatedComment = await CommentFixtures.getCommentById(comment.id);
+      expect(updatedComment.content).to.equal(comment.content);
+    });
+    it("should not allow to edit comment if content is null", async function () {
+      const comment = await CommentFixtures.createComment(
+        "",
+        this.article.id,
+        this.user.id
+      );
+      const payload = { content: null };
+      const resp = await request(app)
+        .put(`/api/v1/article/${this.article.id}/comment/${comment.id}`)
+        .set({ Authorization: `Bearer ${this.token}` })
+        .send(payload);
+      resp.status.should.equal(HTTP_STATUS.BAD_REQUEST);
+      const updatedComment = await CommentFixtures.getCommentById(comment.id);
+      expect(updatedComment.content).to.equal(comment.content);
+    });
     it("should not allow admin to edit other user`s comments on article", async function () {
       const tempUser = await UserFixtures.createUser();
       const comment = await CommentFixtures.createComment(
