@@ -112,6 +112,7 @@ describe("Article Comments", function () {
         .set({ Authorization: `Bearer ${this.token}` })
         .send(payload);
       resp.status.should.equal(HTTP_STATUS.BAD_REQUEST);
+      resp.body.should.have.lengthOf(2);
       const updatedComment = await CommentFixtures.getCommentById(comment.id);
       expect(updatedComment.content).to.equal(comment.content);
     });
@@ -127,6 +128,7 @@ describe("Article Comments", function () {
         .set({ Authorization: `Bearer ${this.token}` })
         .send(payload);
       resp.status.should.equal(HTTP_STATUS.BAD_REQUEST);
+      resp.body.should.have.lengthOf(1);
       const updatedComment = await CommentFixtures.getCommentById(comment.id);
       expect(updatedComment.content).to.equal(comment.content);
     });
@@ -142,6 +144,7 @@ describe("Article Comments", function () {
         .set({ Authorization: `Bearer ${this.token}` })
         .send(payload);
       resp.status.should.equal(HTTP_STATUS.BAD_REQUEST);
+      resp.body.should.have.lengthOf(1);
       const updatedComment = await CommentFixtures.getCommentById(comment.id);
       expect(updatedComment.content).to.equal(comment.content);
     });
