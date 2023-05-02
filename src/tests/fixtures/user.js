@@ -6,7 +6,7 @@ const UserModel = require("../../app/models").User;
 const getUserDetails = function (user = {}) {
   return {
     firstName: user.firstName || faker.name.firstName(),
-    lastName: user.lastName || faker.name.lastName(),
+    lastName: user.lastName || faker.name.firstName(),
     username: user.username || faker.internet.userName(),
     hashedPassword: user.hashedPassword || faker.internet.password(),
     role: user.role || "manager",
