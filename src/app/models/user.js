@@ -71,7 +71,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          isAlpha: { msg: "Must be alphabetic value" },
+          isAlpha: { msg: "first name must be alphabetic value" },
           notNull: { msg: "first name can not be null" },
         },
       },
@@ -79,7 +79,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          isAlpha: { msg: "Must be alphabetic value" },
+          isAlpha: { msg: "last name must be alphabetic value" },
           notNull: { msg: "last name can not be null" },
         },
       },
@@ -89,7 +89,7 @@ module.exports = (sequelize, DataTypes) => {
         unique: true,
         validate: {
           is: {
-            msg: "Must be alphabetic value",
+            msg: "username must be alphabetic value",
             args: [/^[a-z0-9_.-]+$/gim],
           },
           notNull: { msg: "username can not be null" },
