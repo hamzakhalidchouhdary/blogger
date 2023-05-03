@@ -13,7 +13,7 @@ chai.should();
 const request = chai.request;
 
 describe("Manage User", function () {
-  describe.only("Admin User Role", function () {
+  describe("Admin User Role", function () {
     before(async function () {
       this.user = await UserFixtures.createUser({ role: USER_ROLES.ADMIN });
       this.token = await generateJWT({ userId: this.user.id });
