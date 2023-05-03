@@ -18,7 +18,7 @@ describe("auth", function () {
       beforeEach(async function () {
         this.payload = {
           firstName: faker.name.firstName(),
-          lastName: faker.name.lastName(),
+          lastName: faker.name.firstName(),
           username: faker.internet.userName(),
           hashedPassword: faker.internet.password(),
         };

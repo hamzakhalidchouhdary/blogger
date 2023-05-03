@@ -29,7 +29,7 @@ describe("Manage Profile", function () {
     it("should allow to update profile", async function () {
       const payload = {
         firstName: faker.name.firstName(),
-        lastName: faker.name.lastName(),
+        lastName: faker.name.firstName(),
       };
       const resp = await request(app)
         .put("/api/v1/user/profile")
@@ -74,7 +74,7 @@ describe("Manage Profile", function () {
     it("should allow to update profile", async function () {
       const payload = {
         firstName: faker.name.firstName(),
-        lastName: faker.name.lastName(),
+        lastName: faker.name.firstName(),
       };
       const resp = await request(app)
         .put("/api/v1/user/profile")
@@ -119,7 +119,7 @@ describe("Manage Profile", function () {
     it("should allow to update profile", async function () {
       const payload = {
         firstName: faker.name.firstName(),
-        lastName: faker.name.lastName(),
+        lastName: faker.name.firstName(),
       };
       const resp = await request(app)
         .put("/api/v1/user/profile")
