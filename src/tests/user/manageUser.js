@@ -43,6 +43,54 @@ describe("Manage User", function () {
       newlyCreatedUser.lastName.should.equal(this.payload.lastName);
       newlyCreatedUser.role.should.equal(USER_ROLES.MANAGER);
     });
+    it("should not allow to create new user profile if firstName is undefined", async function () {
+      const userCountBefore = await UserFixtures.getUserCount();
+      delete this.payload.firstName;
+      const resp = await request(app)
+        .post("/api/v1/user/manage/new")
+        .set({ Authorization: `Bearer ${this.token}` })
+        .send(this.payload);
+      resp.status.should.equal(HTTP_STATUS.BAD_REQUEST);
+      resp.body.should.be.an("array").that.have.lengthOf(1);
+      const userCountAfter = await UserFixtures.getUserCount();
+      userCountBefore.should.equal(userCountAfter);
+    });
+    it("should not allow to create new user profile if lastName is undefined", async function () {
+      const userCountBefore = await UserFixtures.getUserCount();
+      delete this.payload.lastName;
+      const resp = await request(app)
+        .post("/api/v1/user/manage/new")
+        .set({ Authorization: `Bearer ${this.token}` })
+        .send(this.payload);
+      resp.status.should.equal(HTTP_STATUS.BAD_REQUEST);
+      resp.body.should.be.an("array").that.have.lengthOf(1);
+      const userCountAfter = await UserFixtures.getUserCount();
+      userCountBefore.should.equal(userCountAfter);
+    });
+    it("should not allow to create new user profile if password is undefined", async function () {
+      const userCountBefore = await UserFixtures.getUserCount();
+      delete this.payload.hashedPassword;
+      const resp = await request(app)
+        .post("/api/v1/user/manage/new")
+        .set({ Authorization: `Bearer ${this.token}` })
+        .send(this.payload);
+      resp.status.should.equal(HTTP_STATUS.BAD_REQUEST);
+      resp.body.should.be.an("array").that.have.lengthOf(1);
+      const userCountAfter = await UserFixtures.getUserCount();
+      userCountBefore.should.equal(userCountAfter);
+    });
+    it("should not allow to create new user profile if username is undefined", async function () {
+      const userCountBefore = await UserFixtures.getUserCount();
+      delete this.payload.username;
+      const resp = await request(app)
+        .post("/api/v1/user/manage/new")
+        .set({ Authorization: `Bearer ${this.token}` })
+        .send(this.payload);
+      resp.status.should.equal(HTTP_STATUS.BAD_REQUEST);
+      resp.body.should.be.an("array").that.have.lengthOf(1);
+      const userCountAfter = await UserFixtures.getUserCount();
+      userCountBefore.should.equal(userCountAfter);
+    });
     it("should not allow to create new user profile if firstName is empty", async function () {
       const userCountBefore = await UserFixtures.getUserCount();
       this.payload.firstName = "";
