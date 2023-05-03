@@ -50,8 +50,44 @@ describe("Manage User", function () {
         .post("/api/v1/user/manage/new")
         .set({ Authorization: `Bearer ${this.token}` })
         .send(this.payload);
-      resp.status.should.equal(HTTP_STATUS.INTERNAL_ERROR);
-      resp.body.should.be.an("object").that.is.empty;
+      resp.status.should.equal(HTTP_STATUS.BAD_REQUEST);
+      resp.body.should.be.an("array").that.have.lengthOf(1);
+      const userCountAfter = await UserFixtures.getUserCount();
+      userCountBefore.should.equal(userCountAfter);
+    });
+    it("should not allow to create new user profile if lastName is empty", async function () {
+      const userCountBefore = await UserFixtures.getUserCount();
+      this.payload.lastName = "";
+      const resp = await request(app)
+        .post("/api/v1/user/manage/new")
+        .set({ Authorization: `Bearer ${this.token}` })
+        .send(this.payload);
+      resp.status.should.equal(HTTP_STATUS.BAD_REQUEST);
+      resp.body.should.be.an("array").that.have.lengthOf(1);
+      const userCountAfter = await UserFixtures.getUserCount();
+      userCountBefore.should.equal(userCountAfter);
+    });
+    it("should not allow to create new user profile if password is empty", async function () {
+      const userCountBefore = await UserFixtures.getUserCount();
+      this.payload.hashedPassword = "";
+      const resp = await request(app)
+        .post("/api/v1/user/manage/new")
+        .set({ Authorization: `Bearer ${this.token}` })
+        .send(this.payload);
+      resp.status.should.equal(HTTP_STATUS.BAD_REQUEST);
+      resp.body.should.be.an("array").that.have.lengthOf(1);
+      const userCountAfter = await UserFixtures.getUserCount();
+      userCountBefore.should.equal(userCountAfter);
+    });
+    it("should not allow to create new user profile if username is empty", async function () {
+      const userCountBefore = await UserFixtures.getUserCount();
+      this.payload.username = "";
+      const resp = await request(app)
+        .post("/api/v1/user/manage/new")
+        .set({ Authorization: `Bearer ${this.token}` })
+        .send(this.payload);
+      resp.status.should.equal(HTTP_STATUS.BAD_REQUEST);
+      resp.body.should.be.an("array").that.have.lengthOf(1);
       const userCountAfter = await UserFixtures.getUserCount();
       userCountBefore.should.equal(userCountAfter);
     });
