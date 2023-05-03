@@ -13,7 +13,7 @@ chai.should();
 const request = chai.request;
 
 describe("Manage User", function () {
-  describe("Admin User Role", function () {
+  describe.only("Admin User Role", function () {
     before(async function () {
       this.user = await UserFixtures.createUser({ role: USER_ROLES.ADMIN });
       this.token = await generateJWT({ userId: this.user.id });
@@ -82,6 +82,54 @@ describe("Manage User", function () {
     it("should not allow to create new user profile if username is empty", async function () {
       const userCountBefore = await UserFixtures.getUserCount();
       this.payload.username = "";
+      const resp = await request(app)
+        .post("/api/v1/user/manage/new")
+        .set({ Authorization: `Bearer ${this.token}` })
+        .send(this.payload);
+      resp.status.should.equal(HTTP_STATUS.BAD_REQUEST);
+      resp.body.should.be.an("array").that.have.lengthOf(1);
+      const userCountAfter = await UserFixtures.getUserCount();
+      userCountBefore.should.equal(userCountAfter);
+    });
+    it("should not allow to create new user profile if firstName is null", async function () {
+      const userCountBefore = await UserFixtures.getUserCount();
+      this.payload.firstName = null;
+      const resp = await request(app)
+        .post("/api/v1/user/manage/new")
+        .set({ Authorization: `Bearer ${this.token}` })
+        .send(this.payload);
+      resp.status.should.equal(HTTP_STATUS.BAD_REQUEST);
+      resp.body.should.be.an("array").that.have.lengthOf(1);
+      const userCountAfter = await UserFixtures.getUserCount();
+      userCountBefore.should.equal(userCountAfter);
+    });
+    it("should not allow to create new user profile if lastName is null", async function () {
+      const userCountBefore = await UserFixtures.getUserCount();
+      this.payload.lastName = null;
+      const resp = await request(app)
+        .post("/api/v1/user/manage/new")
+        .set({ Authorization: `Bearer ${this.token}` })
+        .send(this.payload);
+      resp.status.should.equal(HTTP_STATUS.BAD_REQUEST);
+      resp.body.should.be.an("array").that.have.lengthOf(1);
+      const userCountAfter = await UserFixtures.getUserCount();
+      userCountBefore.should.equal(userCountAfter);
+    });
+    it("should not allow to create new user profile if password is null", async function () {
+      const userCountBefore = await UserFixtures.getUserCount();
+      this.payload.hashedPassword = null;
+      const resp = await request(app)
+        .post("/api/v1/user/manage/new")
+        .set({ Authorization: `Bearer ${this.token}` })
+        .send(this.payload);
+      resp.status.should.equal(HTTP_STATUS.BAD_REQUEST);
+      resp.body.should.be.an("array").that.have.lengthOf(1);
+      const userCountAfter = await UserFixtures.getUserCount();
+      userCountBefore.should.equal(userCountAfter);
+    });
+    it("should not allow to create new user profile if username is null", async function () {
+      const userCountBefore = await UserFixtures.getUserCount();
+      this.payload.username = null;
       const resp = await request(app)
         .post("/api/v1/user/manage/new")
         .set({ Authorization: `Bearer ${this.token}` })
