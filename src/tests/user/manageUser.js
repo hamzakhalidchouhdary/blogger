@@ -232,7 +232,12 @@ describe("Manage User", function () {
       const resp = await request(app)
         .post("/api/v1/user/manage/new")
         .set({ Authorization: `Bearer ${this.token}` })
-        .send({});
+        .send({
+          firstName: faker.name.firstName(),
+          lastName: faker.name.firstName(),
+          username: faker.internet.userName(),
+          hashedPassword: faker.internet.password(),
+        });
       resp.status.should.equal(HTTP_STATUS.UNAUTHORIZED);
       resp.body.should.empty;
     });
@@ -276,7 +281,12 @@ describe("Manage User", function () {
       const resp = await request(app)
         .post("/api/v1/user/manage/new")
         .set({ Authorization: `Bearer ${this.token}` })
-        .send({});
+        .send({
+          firstName: faker.name.firstName(),
+          lastName: faker.name.firstName(),
+          username: faker.internet.userName(),
+          hashedPassword: faker.internet.password(),
+        });
       resp.status.should.equal(HTTP_STATUS.UNAUTHORIZED);
       resp.body.should.empty;
     });
