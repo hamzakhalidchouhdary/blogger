@@ -5,7 +5,7 @@ const { evaluateValidationRules } = require("./");
 
 const newProfile = async function (req, res, next) {
   try {
-    const validationRule = [
+    const validationRules = [
       body("firstName")
         .notEmpty()
         .withMessage("First name can not be empty"),
@@ -15,7 +15,7 @@ const newProfile = async function (req, res, next) {
         .notEmpty()
         .withMessage("Password can not be empty"),
     ];
-    await evaluateValidationRules(validationRule, req);
+    await evaluateValidationRules(validationRules, req);
     return next();
   } catch (err) {
     serviceResponse.error(res, {
