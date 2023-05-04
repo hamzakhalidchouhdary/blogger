@@ -1,6 +1,7 @@
 const { body, validationResult } = require("express-validator");
 const serviceResponse = require("../../../../../utils/common/serviceResponse");
 const HTTP_STATUS = require("../../../../../utils/constants/httpStatus");
+const { evaluateValidationRules } = require("./");
 
 const validateComment = async function (req, res, next) {
   try {
@@ -11,10 +12,8 @@ const validateComment = async function (req, res, next) {
         .notEmpty()
         .withMessage("comment content can not empty"),
     ];
-    await Promise.all(validationRules.map(rule => rule.run(req)));
-    const errors = validationResult(req);
-    if (errors.isEmpty()) return next();
-    throw errors.array();
+    await evaluateValidationRules(validationRules, req);
+    return next();
   } catch (err) {
     serviceResponse.error(res, {
       message: err,

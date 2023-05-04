@@ -1,6 +1,7 @@
 const { validationResult, body } = require("express-validator");
 const serviceResponse = require("../../../../../utils/common/serviceResponse");
 const HTTP_STATUS = require("../../../../../utils/constants/httpStatus");
+const { evaluateValidationRules } = require("./");
 
 const newArticle = async function (req, res, next) {
   try {
@@ -20,10 +21,8 @@ const newArticle = async function (req, res, next) {
         .isEmpty()
         .withMessage("Article content can not be empty"),
     ];
-    await Promise.all(validationRules.map((rule) => rule.run(req)));
-    const errors = validationResult(req);
-    if (errors.isEmpty()) return next();
-    throw errors.array();
+    await evaluateValidationRules(validationRules, req);
+    return next();
   } catch (err) {
     serviceResponse.error(res, {
       message: err,
@@ -49,10 +48,8 @@ const updateArticle = async function (req, res, next) {
         .isEmpty()
         .withMessage("Article content can not be empty"),
     ];
-    await Promise.all(validationRules.map((rule) => rule.run(req)));
-    const errors = validationResult(req);
-    if (errors.isEmpty()) return next();
-    throw errors.array();
+    await evaluateValidationRules(validationRules, req);
+    return next();
   } catch (err) {
     serviceResponse.error(res, {
       message: err,
