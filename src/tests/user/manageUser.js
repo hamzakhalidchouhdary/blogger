@@ -228,7 +228,7 @@ describe("Manage User", function () {
       this.user = await UserFixtures.createUser({ role: USER_ROLES.MANAGER });
       this.token = await generateJWT({ userId: this.user.id });
     });
-    it("should allow to create new user profile", async function () {
+    it("should not allow to create new user profile", async function () {
       const resp = await request(app)
         .post("/api/v1/user/manage/new")
         .set({ Authorization: `Bearer ${this.token}` })
@@ -241,7 +241,7 @@ describe("Manage User", function () {
       resp.status.should.equal(HTTP_STATUS.UNAUTHORIZED);
       resp.body.should.empty;
     });
-    it("should allow to update user profile", async function () {
+    it("should not allow to update user profile", async function () {
       const resp = await request(app)
         .put("/api/v1/user/manage/1")
         .set({ Authorization: `Bearer ${this.token}` })
@@ -249,7 +249,7 @@ describe("Manage User", function () {
       resp.status.should.equal(HTTP_STATUS.UNAUTHORIZED);
       resp.body.should.empty;
     });
-    it("should allow to delete user profile", async function () {
+    it("should not allow to delete user profile", async function () {
       const user = await UserFixtures.createUser(this.payload);
       const userCountBefore = await UserFixtures.getUserCount();
       const resp = await request(app)
@@ -277,7 +277,7 @@ describe("Manage User", function () {
       this.user = await UserFixtures.createUser({ role: USER_ROLES.READER });
       this.token = await generateJWT({ userId: this.user.id });
     });
-    it("should allow to create new user profile", async function () {
+    it("should not allow to create new user profile", async function () {
       const resp = await request(app)
         .post("/api/v1/user/manage/new")
         .set({ Authorization: `Bearer ${this.token}` })
@@ -290,7 +290,7 @@ describe("Manage User", function () {
       resp.status.should.equal(HTTP_STATUS.UNAUTHORIZED);
       resp.body.should.empty;
     });
-    it("should allow to update user profile", async function () {
+    it("should not allow to update user profile", async function () {
       const resp = await request(app)
         .put("/api/v1/user/manage/1")
         .set({ Authorization: `Bearer ${this.token}` })
@@ -298,7 +298,7 @@ describe("Manage User", function () {
       resp.status.should.equal(HTTP_STATUS.UNAUTHORIZED);
       resp.body.should.empty;
     });
-    it("should allow to delete user profile", async function () {
+    it("should not allow to delete user profile", async function () {
       const user = await UserFixtures.createUser(this.payload);
       const userCountBefore = await UserFixtures.getUserCount();
       const resp = await request(app)
