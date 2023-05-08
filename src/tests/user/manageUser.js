@@ -200,6 +200,81 @@ describe("Manage User", function () {
       updatedUserDetails.lastName.should.equal(this.payload.lastName);
       updatedUserDetails.username.should.equal(this.payload.username);
     });
+    it("should allow admin to edit user profile - first name update ", async function () {
+      const newFirstName = faker.name.firstName();
+      const user = await UserFixtures.createUser(this.payload);
+      const resp = await request(app)
+        .put(`/api/v1/user/manage/${user.id}`)
+        .set({ Authorization: `Bearer ${this.token}` })
+        .send({ firstName: newFirstName });
+      resp.status.should.equal(HTTP_STATUS.OK);
+      const updatedUserDetails = await UserFixtures.findUserById(user.id);
+      updatedUserDetails.firstName.should.equal(newFirstName);
+    });
+    it("should allow admin to edit user profile - last name update ", async function () {
+      const newLastName = faker.name.firstName();
+      const user = await UserFixtures.createUser(this.payload);
+      const resp = await request(app)
+        .put(`/api/v1/user/manage/${user.id}`)
+        .set({ Authorization: `Bearer ${this.token}` })
+        .send({ lastName: newLastName });
+      resp.status.should.equal(HTTP_STATUS.OK);
+      const updatedUserDetails = await UserFixtures.findUserById(user.id);
+      updatedUserDetails.lastName.should.equal(newLastName);
+    });
+    it("should allow admin to edit user profile - username update ", async function () {
+      const newUserName = faker.internet.userName();
+      const user = await UserFixtures.createUser(this.payload);
+      const resp = await request(app)
+        .put(`/api/v1/user/manage/${user.id}`)
+        .set({ Authorization: `Bearer ${this.token}` })
+        .send({ username: newUserName });
+      resp.status.should.equal(HTTP_STATUS.OK);
+      const updatedUserDetails = await UserFixtures.findUserById(user.id);
+      updatedUserDetails.username.should.equal(newUserName);
+    });
+    it("should not allow admin to edit user profile - if first name is null", async function () {
+      const user = await UserFixtures.createUser(this.payload);
+      const resp = await request(app)
+        .put(`/api/v1/user/manage/${user.id}`)
+        .set({ Authorization: `Bearer ${this.token}` })
+        .send({ firstName: null });
+      resp.status.should.equal(HTTP_STATUS.BAD_REQUEST);
+      const updatedUserDetails = await UserFixtures.findUserById(user.id);
+      updatedUserDetails.firstName.should.equal(this.payload.firstName);
+    });
+    it("should not allow admin to edit user profile - if last name is null", async function () {
+      const user = await UserFixtures.createUser(this.payload);
+      const resp = await request(app)
+        .put(`/api/v1/user/manage/${user.id}`)
+        .set({ Authorization: `Bearer ${this.token}` })
+        .send({ lastName: null });
+      resp.status.should.equal(HTTP_STATUS.BAD_REQUEST);
+      const updatedUserDetails = await UserFixtures.findUserById(user.id);
+      updatedUserDetails.lastName.should.equal(this.payload.lastName);
+    });
+    it("should not allow admin to edit user profile - if username is null", async function () {
+      const user = await UserFixtures.createUser(this.payload);
+      const resp = await request(app)
+        .put(`/api/v1/user/manage/${user.id}`)
+        .set({ Authorization: `Bearer ${this.token}` })
+        .send({ username: null });
+      resp.status.should.equal(HTTP_STATUS.BAD_REQUEST);
+      const updatedUserDetails = await UserFixtures.findUserById(user.id);
+      updatedUserDetails.username.should.equal(this.payload.username);
+    });
+    it("should not update user profile if details are empty", async function () {
+      const user = await UserFixtures.createUser(this.payload);
+      const resp = await request(app)
+        .put(`/api/v1/user/manage/${user.id}`)
+        .set({ Authorization: `Bearer ${this.token}` })
+        .send({});
+      resp.status.should.equal(HTTP_STATUS.BAD_REQUEST);
+      const updatedUserDetails = await UserFixtures.findUserById(user.id);
+      updatedUserDetails.username.should.equal(this.payload.username);
+      updatedUserDetails.firstName.should.equal(this.payload.firstName);
+      updatedUserDetails.lastName.should.equal(this.payload.lastName);
+    });
     it("should allow to delete user profile", async function () {
       const user = await UserFixtures.createUser(this.payload);
       const userCountBefore = await UserFixtures.getUserCount();
