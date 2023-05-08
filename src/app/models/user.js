@@ -4,6 +4,7 @@ const { Model } = require("sequelize");
 const bcrypt = require("bcrypt");
 const { generateHashedPassword } = require("../../utils/common/auth");
 const ERROR_TEXT = require("../../utils/constants/errorText");
+const HTTP_STATUS = require("../../utils/constants/httpStatus");
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
@@ -22,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
     static async modify(userDetails = {}, userId = null) {
       if (!_.isObject(userDetails))
         throw Object({ message: ERROR_TEXT.NOT_OBJECT });
-      if (_.isEmpty(userDetails)) throw Object({ message: ERROR_TEXT.EMPTY });
+      if (_.isEmpty(userDetails)) throw Object({ message: ERROR_TEXT.EMPTY, status: HTTP_STATUS.BAD_REQUEST });
       if (!(_.isFinite(userId) || userId > 0))
         throw Object({ message: ERROR_TEXT.INVALID_NUM });
       return this.update(userDetails, {
