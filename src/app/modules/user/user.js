@@ -44,7 +44,7 @@ function User(userDetails = {}) {
     return ArticleModel.new(articleDetails);
   };
   this.updateArticle = function (articleDetails, articleId) {
-    if(!_.isEmpty(articleDetails)) articleDetails.updatedBy = this.id;
+    if (!_.isEmpty(articleDetails)) articleDetails.updatedBy = this.id;
     return ArticleModel.modify(articleDetails, articleId);
   };
   this.deleteArticle = function () {

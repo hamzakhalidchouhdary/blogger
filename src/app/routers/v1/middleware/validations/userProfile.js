@@ -6,9 +6,7 @@ const { evaluateValidationRules } = require("./");
 const newProfile = async function (req, res, next) {
   try {
     const validationRules = [
-      body("firstName")
-        .notEmpty()
-        .withMessage("First name can not be empty"),
+      body("firstName").notEmpty().withMessage("First name can not be empty"),
       body("lastName").notEmpty().withMessage("Last name can not be empty"),
       body("username").notEmpty().withMessage("username can not be empty"),
       body("hashedPassword")
@@ -32,8 +30,14 @@ const updateProfile = async function (req, res, next) {
         .optional()
         .notEmpty()
         .withMessage("First name can not be empty"),
-      body("lastName").optional().notEmpty().withMessage("Last name can not be empty"),
-      body("username").optional().notEmpty().withMessage("username can not be empty"),
+      body("lastName")
+        .optional()
+        .notEmpty()
+        .withMessage("Last name can not be empty"),
+      body("username")
+        .optional()
+        .notEmpty()
+        .withMessage("username can not be empty"),
       body("hashedPassword")
         .optional()
         .notEmpty()
@@ -51,5 +55,5 @@ const updateProfile = async function (req, res, next) {
 
 module.exports = {
   newProfile,
-  updateProfile
+  updateProfile,
 };

@@ -106,7 +106,7 @@ describe("Article Comments", function () {
         this.article.id,
         this.user.id
       );
-      const payload = { };
+      const payload = {};
       const resp = await request(app)
         .put(`/api/v1/article/${this.article.id}/comment/${comment.id}`)
         .set({ Authorization: `Bearer ${this.token}` })

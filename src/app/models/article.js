@@ -23,7 +23,10 @@ module.exports = (sequelize, DataTypes) => {
       if (!_.isObject(articleDetails))
         throw Object({ message: ERROR_TEXT.NOT_OBJECT });
       if (_.isEmpty(articleDetails))
-        throw Object({ message: ERROR_TEXT.EMPTY, status: HTTP_STATUS.BAD_REQUEST});
+        throw Object({
+          message: ERROR_TEXT.EMPTY,
+          status: HTTP_STATUS.BAD_REQUEST,
+        });
       if (!(_.isFinite(articleId) || articleId > 0))
         throw Object({ message: ERROR_TEXT.INVALID_NUM });
       return this.update(articleDetails, {
