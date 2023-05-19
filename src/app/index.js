@@ -5,6 +5,7 @@ const express = require("express");
 const router = require("./routers/index");
 
 const PORT = process.env.PORT;
+const ENV = process.env.NODE_ENV;
 
 const app = express();
 
@@ -17,7 +18,7 @@ const startServer = function () {
   });
 };
 
-if (cluster.isMaster) {
+if (cluster.isMaster && ENV != 'test') {
   for (let i = 0; i < CPUCount; i++) {
     cluster.fork();
   }
