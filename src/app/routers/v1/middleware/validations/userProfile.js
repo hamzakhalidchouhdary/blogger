@@ -16,10 +16,8 @@ const newProfile = async function (req, res, next) {
     await evaluateValidationRules(validationRules, req);
     return next();
   } catch (err) {
-    serviceResponse.error(res, {
-      message: err,
-      status: HTTP_STATUS.BAD_REQUEST,
-    });
+    res.statusCode = HTTP_STATUS.BAD_REQUEST;
+    return next(err);
   }
 };
 
@@ -46,10 +44,8 @@ const updateProfile = async function (req, res, next) {
     await evaluateValidationRules(validationRules, req);
     return next();
   } catch (err) {
-    serviceResponse.error(res, {
-      message: err,
-      status: HTTP_STATUS.BAD_REQUEST,
-    });
+    res.statusCode = HTTP_STATUS.BAD_REQUEST;
+    return next(err);
   }
 };
 

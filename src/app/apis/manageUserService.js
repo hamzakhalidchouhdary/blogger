@@ -1,19 +1,18 @@
 const ServiceResponse = require("../../utils/common/serviceResponse");
 const HTTP_STATUS = require("../../utils/constants/httpStatus");
 
-const createUserProfile = async function (req, res) {
+const createUserProfile = async function (req, res, next) {
   try {
     const { user, body: userDetails = {} } = req;
     const newUser = await user.createUser(userDetails);
     res.status(HTTP_STATUS.CREATED).json(newUser);
     return;
   } catch (err) {
-    ServiceResponse.error(res, err);
-    return;
+    return next(err);
   }
 };
 
-const updateUserProfile = async function (req, res) {
+const updateUserProfile = async function (req, res, next) {
   try {
     const {
       user,
@@ -24,12 +23,11 @@ const updateUserProfile = async function (req, res) {
     res.status(HTTP_STATUS.OK).json({ message: "user updated" });
     return;
   } catch (err) {
-    ServiceResponse.error(res, err);
-    return;
+    return next(err);
   }
 };
 
-const deleteUserProfile = async function (req, res) {
+const deleteUserProfile = async function (req, res, next) {
   try {
     const {
       user,
@@ -39,8 +37,7 @@ const deleteUserProfile = async function (req, res) {
     res.status(HTTP_STATUS.OK).end();
     return;
   } catch (err) {
-    ServiceResponse.error(res, err);
-    return;
+    return next(err);
   }
 };
 
@@ -49,8 +46,7 @@ const getUserProfile = function (req, res) {
     res.status(HTTP_STATUS.OK).end();
     return;
   } catch (err) {
-    ServiceResponse.error(res, err);
-    return;
+    return next(err);
   }
 };
 
