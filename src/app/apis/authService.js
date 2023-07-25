@@ -6,7 +6,7 @@ const {
 const ServiceResponse = require("../../utils/common/serviceResponse");
 const HTTP_STATUS = require("../../utils/constants/httpStatus");
 
-const signupNewUser = async function (req, res) {
+const signupNewUser = async function (req, res, next) {
   try {
     const { body: userDetails } = req;
     const newUser = await UserModel.new(userDetails);
@@ -14,11 +14,11 @@ const signupNewUser = async function (req, res) {
     res.status(HTTP_STATUS.CREATED).json({ token: jwToken });
     return;
   } catch (err) {
-    ServiceResponse.error(res, { msg: "" });
+    return next(err);
   }
 };
 
-const loginUser = async function (req, res) {
+const loginUser = async function (req, res, next) {
   try {
     const { username = null, password = null } = req.body;
     const user = await UserModel.findByUsername(username);
@@ -34,7 +34,7 @@ const loginUser = async function (req, res) {
     const token = await generateJWT({ userId: user.id });
     res.status(HTTP_STATUS.OK).json({ token });
   } catch (err) {
-    ServiceResponse.error(res, err);
+    return next(err);
   }
 };
 

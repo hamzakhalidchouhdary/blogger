@@ -20,7 +20,7 @@ const authorizeUser = async function (req, res, next) {
     req.user = await UserModule.getUser(userId);
     next();
   } catch (err) {
-    ServiceResponse.error(res, err);
+    return next(err);
   }
 };
 
