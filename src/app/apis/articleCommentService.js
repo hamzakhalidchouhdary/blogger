@@ -1,7 +1,7 @@
 const ServiceResponse = require("../../utils/common/serviceResponse");
 const HTTP_STATUS = require("../../utils/constants/httpStatus");
 
-const createComment = async function (req, res) {
+const createComment = async function (req, res, next) {
   try {
     const {
       user,
@@ -12,11 +12,11 @@ const createComment = async function (req, res) {
     res.status(HTTP_STATUS.CREATED).json({});
     return;
   } catch (err) {
-    ServiceResponse.error(res, err);
+    return next(err);
   }
 };
 
-const updateComment = async function (req, res) {
+const updateComment = async function (req, res, next) {
   try {
     const {
       user,
@@ -27,11 +27,11 @@ const updateComment = async function (req, res) {
     res.status(HTTP_STATUS.OK).json({});
     return;
   } catch (err) {
-    ServiceResponse.error(res, err);
+    return next(err);
   }
 };
 
-const deleteComment = async function (req, res) {
+const deleteComment = async function (req, res, next) {
   try {
     const {
       user,
@@ -41,21 +41,21 @@ const deleteComment = async function (req, res) {
     res.status(HTTP_STATUS.OK).json({});
     return;
   } catch (err) {
-    ServiceResponse.error(res, err);
+    return next(err);
   }
 };
 
-const getComment = function (req, res) {
+const getComment = function (req, res, next) {
   try {
     const { user } = req;
     res.status(HTTP_STATUS.OK).json({});
     return;
   } catch (err) {
-    ServiceResponse.error(res, err);
+    return next(err);
   }
 };
 
-const getCommentList = async function (req, res) {
+const getCommentList = async function (req, res, next) {
   try {
     const {
       user,
@@ -65,8 +65,7 @@ const getCommentList = async function (req, res) {
     res.status(HTTP_STATUS.OK).json(comments);
     return;
   } catch (err) {
-    console.log(err);
-    ServiceResponse.error(res, err);
+    return next(err);
   }
 };
 
