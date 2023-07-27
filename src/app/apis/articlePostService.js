@@ -1,19 +1,18 @@
 const ServiceResponse = require("../../utils/common/serviceResponse");
 const HTTP_STATUS = require("../../utils/constants/httpStatus");
 
-const createPost = async function (req, res) {
+const createPost = async function (req, res, next) {
   try {
     const { user, body: articleDetails } = req;
     const newArticle = await user.createArticle(articleDetails);
     res.status(HTTP_STATUS.CREATED).json(newArticle);
     return;
   } catch (err) {
-    console.log(err);
-    ServiceResponse.error(res, err);
+    return next(err);
   }
 };
 
-const updatePost = async function (req, res) {
+const updatePost = async function (req, res, next) {
   try {
     const {
       user,
@@ -24,11 +23,11 @@ const updatePost = async function (req, res) {
     res.status(HTTP_STATUS.OK).json({});
     return;
   } catch (err) {
-    ServiceResponse.error(res, err);
+    return next(err);
   }
 };
 
-const deletePost = async function (req, res) {
+const deletePost = async function (req, res, next) {
   try {
     const {
       user,
@@ -38,28 +37,28 @@ const deletePost = async function (req, res) {
     res.status(HTTP_STATUS.OK).json({});
     return;
   } catch (err) {
-    ServiceResponse.error(res, err);
+    return next(err);
   }
 };
 
-const getPosts = async function (req, res) {
+const getPosts = async function (req, res, next) {
   try {
     const { user } = req;
     const userArticles = await user.getAllArticles();
     res.status(HTTP_STATUS.OK).json(userArticles);
     return;
   } catch (err) {
-    ServiceResponse.error(res, err);
+    return next(err);
   }
 };
 
-const getPost = function (req, res) {
+const getPost = function (req, res, next) {
   try {
     const { user } = req;
     res.status(HTTP_STATUS.OK).json({});
     return;
   } catch (err) {
-    ServiceResponse.error(res, err);
+    return next(err);
   }
 };
 
