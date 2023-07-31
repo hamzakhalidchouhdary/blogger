@@ -1,7 +1,7 @@
 const HTTP_STATUS = require("../constants/httpStatus");
 const RESPONSE_TEXT = require("../constants/errorText");
 
-const errorResponseMW = function (err, req, res, next) {
+const errorResponse = function (err, req, res, next) {
   res.statusCode =
     res.statusCode === HTTP_STATUS.OK
       ? HTTP_STATUS.INTERNAL_ERROR
@@ -12,5 +12,5 @@ const errorResponseMW = function (err, req, res, next) {
 };
 
 module.exports = {
-  errorMW: errorResponseMW
+  error: errorResponse
 };
