@@ -8,11 +8,13 @@ const errorResponse = function (res, { message, status }) {
 };
 
 const errorResponseMW = function (err, req, res, next) {
-  const status = err.status || res.statusCode || HTTP_STATUS.INTERNAL_ERROR;
+  res.statusCode =
+    res.statusCode === HTTP_STATUS.OK
+      ? HTTP_STATUS.INTERNAL_ERROR
+      : res.statusCode;
+  const status = err.status || res.statusCode;
   const message = err.message || err || RESPONSE_TEXT.INTERNAL_ERROR;
-  return res
-    .status(status)
-    .send(message);
+  return res.status(status).send(message);
 };
 
 module.exports = {
