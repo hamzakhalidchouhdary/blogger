@@ -233,6 +233,15 @@ describe("Article Comments", function () {
       resp.body.should.be.an("array");
       expect(resp.body).to.have.lengthOf(4);
     });
+    it("should allow admin to view single comment", async function () {
+      const resp = await request(app)
+        .get(`/api/v1/article/${this.article.id}/comment/`)
+        .set({ Authorization: `Bearer ${this.token}` })
+        .send({});
+      resp.status.should.equal(HTTP_STATUS.OK);
+      resp.body.should.be.an("object");
+      expect(resp.body).to.be.empty;
+    });
   });
   describe("Manager Role", function () {
     before(async function () {
