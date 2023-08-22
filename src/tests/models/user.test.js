@@ -3,6 +3,7 @@ const { faker } = require("@faker-js/faker");
 const ERROR_TEXT = require("../../utils/constants/errorText");
 const UserFixtures = require("../fixtures/user");
 const UserModel = require("../../app/models").User;
+const _ = require('lodash');
 
 describe("User Model", function () {
   before(function () {
@@ -30,7 +31,7 @@ describe("User Model", function () {
     });
     it("should create new user", async function () {
       await UserModel.new(this.payload);
-      const newUser = await UserFixtures.getLatestCreatedUser();
+      const [newUser] = await UserFixtures.getLatestCreatedUser();
       expect(newUser.firstName).equal(this.payload.firstName);
       expect(newUser.lastName).equal(this.payload.lastName);
       expect(newUser.username).equal(this.payload.username);
@@ -129,17 +130,15 @@ describe("User Model", function () {
       }
     });
     it("should return latest user by default", async function () {
-      const user = await UserModel.findLatest();
+      const [user] = await UserModel.findLatest();
       expect(user).to.be.a("object");
       expect(user.id).to.equal(this.user2.id);
     });
-    it.skip("should return latest 2 user", async function () {
-      //TODO: need to fix model method
+    it("should return latest 2 user", async function () {
       const user = await UserModel.findLatest(2);
       console.log(user);
       expect(user).to.be.an("array").that.have.lengthOf(2);
-      expect(user[0].id).to.equal(this.user2.id);
-      expect(user[1].id).to.equal(this.user1.id);
+      expect(_.map(user, 'id')).to.have.members([this.user1.id, this.user2.id]);
     });
   });
   describe("findByUsername", function () {

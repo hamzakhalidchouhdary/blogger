@@ -37,7 +37,7 @@ describe("Manage User", function () {
       resp.body.firstName.should.equal(this.payload.firstName);
       resp.body.lastName.should.equal(this.payload.lastName);
       resp.body.role.should.equal(USER_ROLES.MANAGER);
-      const newlyCreatedUser = await UserFixtures.getLatestCreatedUser();
+      const [newlyCreatedUser] = await UserFixtures.getLatestCreatedUser();
       newlyCreatedUser.username.should.equal(this.payload.username);
       newlyCreatedUser.firstName.should.equal(this.payload.firstName);
       newlyCreatedUser.lastName.should.equal(this.payload.lastName);
