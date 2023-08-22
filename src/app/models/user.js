@@ -66,9 +66,6 @@ module.exports = (sequelize, DataTypes) => {
         where: { id },
       });
     }
-    instanceMethod() {
-      console.log("This Is Instance Method");
-    }
   }
   User.init(
     {
