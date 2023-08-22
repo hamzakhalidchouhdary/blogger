@@ -31,7 +31,7 @@ describe("Article Posts", function () {
         .set({ Authorization: `Bearer ${this.token}` })
         .send(this.payload);
       resp.status.should.equal(HTTP_STATUS.CREATED);
-      const newArticle = await ArticleModel.findLatest();
+      const [newArticle] = await ArticleModel.findLatest();
       newArticle.title.should.equal(this.payload.title);
       newArticle.content.should.equal(this.payload.content);
       newArticle.createdBy.should.equal(this.user.id);
@@ -205,7 +205,7 @@ describe("Article Posts", function () {
         .set({ Authorization: `Bearer ${this.token}` })
         .send(this.payload);
       resp.status.should.equal(HTTP_STATUS.CREATED);
-      const newArticle = await ArticleFixtures.getLatestCreatedArticle();
+      const [newArticle] = await ArticleFixtures.getLatestCreatedArticle();
       expect(newArticle.id).to.be.equal(resp.body.id);
       expect(newArticle.title).to.be.equal(this.payload.title);
       expect(newArticle.createdBy).to.be.equal(this.user.id);

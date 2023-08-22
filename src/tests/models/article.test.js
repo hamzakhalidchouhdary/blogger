@@ -40,7 +40,7 @@ describe("Article Model", function () {
         updatedBy: this.user.id,
       };
       await ArticleModel.new(payload);
-      const newArticle = await ArticleFixtures.getLatestCreatedArticle();
+      const [newArticle] = await ArticleFixtures.getLatestCreatedArticle();
       expect(newArticle.title).to.equal(payload.title);
       expect(newArticle.content).to.equal(payload.content);
       expect(newArticle.createdBy).to.equal(this.user.id);
@@ -150,15 +150,14 @@ describe("Article Model", function () {
       }
     });
     it("should return top first latest article", async function () {
-      const article = await ArticleModel.findLatest(1);
-      expect(article).to.be.a("object");
-      expect(article.id).to.be.equal(this.article2.id);
+      const articles = await ArticleModel.findLatest(1);
+      expect(articles).to.be.a("array").that.have.lengthOf(1);
+      expect(articles[0].id).to.be.equal(this.article2.id);
     });
-    it.skip("should return top 2 latest article", async function () {
-      // TODO: fix model method
-      const article = await ArticleModel.findLatest(1);
-      expect(article).to.be.a("object");
-      expect(article.id).to.be.equal(this.article2.id);
+    it("should return top 2 latest article", async function () {
+      const articles = await ArticleModel.findLatest(2);
+      expect(articles).to.be.a("array").that.have.lengthOf(2);
+      expect(_.map(articles, 'id')).to.be.have.members([this.article1.id, this.article2.id]);
     });
   });
   describe("findById", function () {

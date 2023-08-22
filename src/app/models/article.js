@@ -37,7 +37,7 @@ module.exports = (sequelize, DataTypes) => {
       if (!(_.isFinite(limit) || limit > 0))
         throw Object({ message: ERROR_TEXT.INVALID_NUM });
       if (!_.isObject(where)) throw Object({ message: ERROR_TEXT.NOT_OBJECT });
-      return this.findOne({
+      return this.findAll({
         limit,
         where,
         order: [["createdAt", "DESC"]],
