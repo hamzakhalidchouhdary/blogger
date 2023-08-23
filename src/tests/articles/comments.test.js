@@ -85,6 +85,21 @@ describe("Article Comments", function () {
       expect(articleCommentCountBefore).to.be.equal(articleCommentCountAfter);
       resp.body.should.to.have.lengthOf(1);
     });
+    it("should throw error if try to add comment on a article that not exist", async function () {
+      const articleCommentCountBefore = await CommentFixtures.getCommentCount(
+        this.article.id
+      );
+      const payload = { content: "abc" };
+      const resp = await request(app)
+        .post(`/api/v1/article/0/comment`)
+        .set({ Authorization: `Bearer ${this.token}` })
+        .send(payload);
+      resp.status.should.equal(HTTP_STATUS.INTERNAL_ERROR);
+      const articleCommentCountAfter = await CommentFixtures.getCommentCount(
+        this.article.id
+      );
+      expect(articleCommentCountBefore).to.be.equal(articleCommentCountAfter);
+    });
     it("should allow admin to edit comments on article", async function () {
       const comment = await CommentFixtures.createComment(
         "",
