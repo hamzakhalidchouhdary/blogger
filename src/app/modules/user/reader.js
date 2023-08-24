@@ -1,3 +1,4 @@
+const ERROR_TEXT = require("../../../utils/constants/errorText");
 const HTTP_STATUS = require("../../../utils/constants/httpStatus");
 const User = require("./user");
 
@@ -6,13 +7,13 @@ function Reader(userDetails) {
 
   this.createArticle = function () {
     throw Object({
-      message: "not authorized to create new users",
+      message: ERROR_TEXT.PERMISSIONS.CREATE.ARTICLE,
       status: HTTP_STATUS.UNAUTHORIZED,
     });
   };
   this.updateArticle = function () {
     throw Object({
-      message: "not authorized to create new users",
+      message: ERROR_TEXT.PERMISSIONS.UPDATE.ARTICLE,
       status: HTTP_STATUS.UNAUTHORIZED,
     });
   };

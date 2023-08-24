@@ -20,19 +20,19 @@ function User(userDetails = {}) {
   };
   this.createUser = function () {
     throw Object({
-      message: "not authorized to create new users",
+      message:ERROR_TEXT.PERMISSIONS.CREATE.USER,
       status: HTTP_STATUS.UNAUTHORIZED,
     });
   };
   this.updateUser = function () {
     throw Object({
-      message: "not authorized to create new users",
+      message: ERROR_TEXT.PERMISSIONS.UPDATE.USER,
       status: HTTP_STATUS.UNAUTHORIZED,
     });
   };
   this.deleteUser = function () {
     throw Object({
-      message: "not authorized to create new users",
+      message: ERROR_TEXT.PERMISSIONS.DELETE.USER,
       status: HTTP_STATUS.UNAUTHORIZED,
     });
   };
@@ -49,7 +49,7 @@ function User(userDetails = {}) {
   };
   this.deleteArticle = function () {
     throw Object({
-      message: "not authorized to create new users",
+      message: ERROR_TEXT.PERMISSIONS.DELETE.ARTICLE,
       status: HTTP_STATUS.UNAUTHORIZED,
     });
   };
