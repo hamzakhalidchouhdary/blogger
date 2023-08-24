@@ -4,6 +4,7 @@ const {
   compareHashedPassword,
 } = require("../../utils/common/auth");
 const ServiceResponse = require("../../utils/common/serviceResponse");
+const ERROR_TEXT = require("../../utils/constants/errorText");
 const HTTP_STATUS = require("../../utils/constants/httpStatus");
 
 const signupNewUser = async function (req, res, next) {
@@ -28,7 +29,7 @@ const loginUser = async function (req, res, next) {
       !(await compareHashedPassword(password, user.hashedPassword))
     )
       throw Object({
-        message: "username or password incorrect",
+        message: ERROR_TEXT.INVALID_CREDENTIALS,
         status: HTTP_STATUS.BAD_REQUEST,
       });
     const token = await generateJWT({ userId: user.id });

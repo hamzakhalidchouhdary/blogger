@@ -1,4 +1,5 @@
 const UserModel = require("../../models/index").User;
+const ERROR_TEXT = require("../../../utils/constants/errorText");
 const HTTP_STATUS = require("../../../utils/constants/httpStatus");
 const USER_ROLES = require("../../../utils/constants/userRoles");
 const Admin = require("./admin");
@@ -11,7 +12,7 @@ module.exports = {
     const userDetails = await UserModel.findById(userId);
     if (!userDetails)
       throw Object({
-        message: "user not found",
+        message: ERROR_TEXT.NO_USER,
         status: HTTP_STATUS.UNAUTHORIZED,
       });
     let user = {};
@@ -27,7 +28,7 @@ module.exports = {
         break;
       default:
         throw Object({
-          message: "user role not supported",
+          message: ERROR_TEXT.UNSUPPORTED_USER_ROLE,
           status: HTTP_STATUS.UNAUTHORIZED,
         });
     }
