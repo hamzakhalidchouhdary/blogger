@@ -136,7 +136,6 @@ describe("User Model", function () {
     });
     it("should return latest 2 user", async function () {
       const user = await UserModel.findLatest(2);
-      console.log(user);
       expect(user).to.be.an("array").that.have.lengthOf(2);
       expect(_.map(user, 'id')).to.have.members([this.user1.id, this.user2.id]);
     });
