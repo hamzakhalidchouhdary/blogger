@@ -274,6 +274,20 @@ describe("Article Comments", function () {
         resp.text.should.equal("Test error");
         sinon.restore();
       });
+      it("should send 500 error when no status code defined", async function () {
+        sinon
+          .stub(CommentModel, "getAllByArticleId")
+          .rejects({ message: "Test error" });
+  
+        const resp = await request(app)
+          .get(`/api/v1/article/${this.article.id}/comment/list`)
+          .set({ Authorization: `Bearer ${this.token}` })
+          .send({});
+  
+        resp.status.should.equal(HTTP_STATUS.INTERNAL_ERROR);
+        resp.text.should.equal("Test error");
+        sinon.restore();
+      });
     })
   });
   describe("Manager Role", function () {
