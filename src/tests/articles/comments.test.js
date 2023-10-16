@@ -272,8 +272,8 @@ describe("Article Comments", function () {
   
         resp.status.should.equal(HTTP_STATUS.BAD_REQUEST);
         resp.text.should.equal("Test error");
+        sinon.restore();
       });
-      sinon.restore();
     })
   });
   describe("Manager Role", function () {
