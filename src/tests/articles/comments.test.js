@@ -7,6 +7,8 @@ const ArticleFixtures = require("../fixtures/article");
 const CommentFixtures = require("../fixtures/comment");
 const USER_ROLES = require("../../utils/constants/userRoles");
 const { expect } = require("chai");
+const sinon = require("sinon");
+const CommentModel = require("../../app/models").Comment;
 
 chai.use(chaiHttp);
 chai.should();
@@ -257,6 +259,22 @@ describe("Article Comments", function () {
       resp.body.should.be.an("object");
       expect(resp.body).to.be.empty;
     });
+    describe('Assert Error Handling', function() {
+      it("should gracefully handling error when fetching comment list", async function () {
+        sinon
+          .stub(CommentModel, "getAllByArticleId")
+          .rejects({ status: HTTP_STATUS.BAD_REQUEST, message: "Test error" });
+  
+        const resp = await request(app)
+          .get(`/api/v1/article/${this.article.id}/comment/list`)
+          .set({ Authorization: `Bearer ${this.token}` })
+          .send({});
+  
+        resp.status.should.equal(HTTP_STATUS.BAD_REQUEST);
+        resp.text.should.equal("Test error");
+      });
+      sinon.restore();
+    })
   });
   describe("Manager Role", function () {
     before(async function () {
