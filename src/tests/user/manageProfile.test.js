@@ -7,8 +7,8 @@ const { generateJWT } = require("../../utils/common/auth");
 const USER_ROLES = require("../../utils/constants/userRoles");
 const { faker } = require("@faker-js/faker");
 const { expect } = chai;
-const sinon = require('sinon');
-const UserModel = require('../../app/models').User;
+const sinon = require("sinon");
+const UserModel = require("../../app/models").User;
 
 chai.use(chaiHttp);
 chai.should();
@@ -150,13 +150,15 @@ describe("Manage Profile", function () {
       resp.body.should.empty;
     });
   });
-  describe.only("Error Handling", function() {
+  describe("Error Handling", function () {
     beforeEach(async function () {
       this.user = await UserFixture.createUser({ role: USER_ROLES.ADMIN });
       this.token = await generateJWT({ userId: this.user.id });
     });
-    it('should handle 400 error while updating user profile', async function() {
-      sinon.stub(UserModel, 'modify').rejects({status: HTTP_STATUS.BAD_REQUEST, message: 'Test error'})
+    it("should handle 400 error while updating user profile", async function () {
+      sinon
+        .stub(UserModel, "modify")
+        .rejects({ status: HTTP_STATUS.BAD_REQUEST, message: "Test error" });
       const payload = {
         firstName: faker.name.firstName(),
         lastName: faker.name.firstName(),
@@ -166,11 +168,11 @@ describe("Manage Profile", function () {
         .set({ Authorization: `Bearer ${this.token}` })
         .send(payload);
       resp.status.should.equal(HTTP_STATUS.BAD_REQUEST);
-      resp.text.should.equal('Test error');
+      resp.text.should.equal("Test error");
       sinon.restore();
-    })
-    it('should handle 500 error while updating user profile', async function() {
-      sinon.stub(UserModel, 'modify').rejects({ message: 'Test error'})
+    });
+    it("should handle 500 error while updating user profile", async function () {
+      sinon.stub(UserModel, "modify").rejects({ message: "Test error" });
       const payload = {
         firstName: faker.name.firstName(),
         lastName: faker.name.firstName(),
@@ -180,8 +182,8 @@ describe("Manage Profile", function () {
         .set({ Authorization: `Bearer ${this.token}` })
         .send(payload);
       resp.status.should.equal(HTTP_STATUS.INTERNAL_ERROR);
-      resp.text.should.equal('Test error');
+      resp.text.should.equal("Test error");
       sinon.restore();
-    })
-  })
+    });
+  });
 });
