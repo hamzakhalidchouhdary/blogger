@@ -8,6 +8,7 @@ const ArticleFixtures = require("../fixtures/article");
 const { expect } = require("chai");
 const ArticleModel = require("../../app/models").Article;
 const _ = require("lodash");
+const sinon = require('sinon');
 
 chai.use(chaiHttp);
 chai.should();
@@ -322,5 +323,22 @@ describe("Article Posts", function () {
       resp.status.should.equal(HTTP_STATUS.OK);
       resp.body.should.empty;
     });
+  });
+  describe('Error Handling', function() {
+    beforeEach(async function() {
+      this.user = await UserFixtures.createUser({ role: USER_ROLES.ADMIN });
+      this.token = await UserFixtures.getUserToken(this.user.id);
+    });
+    it('should handle 400 error while fetching all posts', async function() {
+      sinon.stub(ArticleModel, 'findByAuthorId').rejects({status: HTTP_STATUS.BAD_REQUEST, message: 'Test error'});
+      const resp = await request(app)
+        .get("/api/v1/article/list")
+        .set({ Authorization: `Bearer ${this.token}` })
+        .send({});
+      console.log(resp.text);
+      resp.status.should.equal(HTTP_STATUS.BAD_REQUEST);
+      resp.text.should.equal('Test error');
+      sinon.restore();
+    })
   });
 });
