@@ -337,7 +337,6 @@ describe("Article Posts", function () {
         .get("/api/v1/article/list")
         .set({ Authorization: `Bearer ${this.token}` })
         .send({});
-      console.log(resp.text);
       resp.status.should.equal(HTTP_STATUS.BAD_REQUEST);
       resp.text.should.equal("Test error");
       sinon.restore();
