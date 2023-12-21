@@ -5,55 +5,76 @@ const UserModel = require("../../models").User;
 const _ = require("lodash");
 const ERROR_TEXT = require("../../../utils/constants/errorText");
 
-function User(userDetails = {}) {
-  Object.call(this, userDetails);
+type NumberOrNull = number | null
 
-  this.id = userDetails.id || null;
-  this.firstName = userDetails.firstName || "";
-  this.lastName = userDetails.lastName || "";
-  this.username = userDetails.username || "";
-  this.role = userDetails.role || "";
+interface UserDetails {
+  id: NumberOrNull,
+  firstName: string,
+  lastName: string,
+  username: string,
+  role: string
+}
 
-  const isCommentOwner = async (commentId) => {
+interface Error {
+  message: string,
+  status: number
+}
+
+class User implements UserDetails {
+  id: NumberOrNull;
+  firstName: string;
+  lastName: string;
+  username: string;
+  role: string;
+
+  constructor(userDetails: UserDetails) {    
+    this.id = userDetails.id || null;
+    this.firstName = userDetails.firstName || "";
+    this.lastName = userDetails.lastName || "";
+    this.username = userDetails.username || "";
+    this.role = userDetails.role || "";
+  }
+
+  const isCommentOwner = async (commentId: NumberOrNull) => {
     const commentDetails = await CommentModel.getById(commentId);
     return commentDetails.createdBy == this.id;
   };
-  this.createUser = function () {
+  createUser: Function = function () : Error {
     throw Object({
       message:ERROR_TEXT.PERMISSIONS.CREATE.USER,
       status: HTTP_STATUS.UNAUTHORIZED,
     });
   };
-  this.updateUser = function () {
+  updateUser: Function = function () : Error {
     throw Object({
       message: ERROR_TEXT.PERMISSIONS.UPDATE.USER,
       status: HTTP_STATUS.UNAUTHORIZED,
     });
   };
-  this.deleteUser = function () {
+  deleteUser: Function = function () : Error {
     throw Object({
       message: ERROR_TEXT.PERMISSIONS.DELETE.USER,
       status: HTTP_STATUS.UNAUTHORIZED,
     });
   };
-  this.updateProfile = async function (updateProfile) {
+  updateProfile: Function = async  (updateProfile: any) => {
     return UserModel.modify(updateProfile, this.id);
   };
-  this.createArticle = async function (articleDetails) {
+  createArticle: Function = async (articleDetails: any) => {
     articleDetails.createdBy = articleDetails.updatedBy = this.id;
     return ArticleModel.new(articleDetails);
   };
-  this.updateArticle = function (articleDetails, articleId) {
+  updateArticle: Function =  (articleDetails: any, articleId: number) => {
     if (!_.isEmpty(articleDetails)) articleDetails.updatedBy = this.id;
     return ArticleModel.modify(articleDetails, articleId);
   };
-  this.deleteArticle = function () {
+  deleteArticle: Function = function (): Error {
     throw Object({
       message: ERROR_TEXT.PERMISSIONS.DELETE.ARTICLE,
       status: HTTP_STATUS.UNAUTHORIZED,
     });
   };
-  this.createComment = async function (content = "", articleId = null) {
+  createComment: Function = async  (content: string = "", articleId: NumberOrNull = null) => {
     const commentObj = {
       content,
       articleId,
@@ -62,8 +83,8 @@ function User(userDetails = {}) {
     };
     return CommentModel.new(commentObj);
   };
-  this.updateComment = async function (content = "", commentId = null) {
-    if (!(await isCommentOwner(commentId)))
+  updateComment: Function = async  (content: string = "", commentId: NumberOrNull = null) => {
+    if (!(await this.isCommentOwner(commentId)))
       throw Object({
         message: ERROR_TEXT.NOT_A_OWNER,
         status: HTTP_STATUS.NOT_ALLOWED,
@@ -71,8 +92,8 @@ function User(userDetails = {}) {
 
     return CommentModel.modify(content, commentId, this.id);
   };
-  this.deleteComment = async function (commentId = null) {
-    if (!(await isCommentOwner(commentId)))
+  deleteComment = async  (commentId: NumberOrNull = null) => {
+    if (!(await this.isCommentOwner(commentId)))
       throw Object({
         message: ERROR_TEXT.NOT_A_OWNER,
         status: HTTP_STATUS.NOT_ALLOWED,
@@ -80,14 +101,12 @@ function User(userDetails = {}) {
 
     return CommentModel.remove(commentId, this.id);
   };
-  this.viewArticleComments = async function (articleId) {
+  viewArticleComments = async function (articleId: number) {
     return CommentModel.getAllByArticleId(articleId);
   };
-  this.getAllArticles = async function () {
+  getAllArticles = async  () => {
     return ArticleModel.findByAuthorId(this.id);
   };
 }
-
-User.prototype = new Object();
 
 module.exports = User;
